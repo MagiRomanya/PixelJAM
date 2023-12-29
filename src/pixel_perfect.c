@@ -8,10 +8,12 @@ int GetVirtualScreenWidth() { return VIRTUAL_SCREEN_WIDTH; }
 int GetVirtualScreenHeight() { return VIRTUAL_SCREEN_HEIGHT; }
 
 PixelPerfectData computePixelPerfectData(Vector2 cameraTarget) {
-    int screenWidth = GetScreenWidth();
-    int screenHeight = GetScreenHeight();
-    float vScreenWidth = VIRTUAL_SCREEN_WIDTH;
-    float vScreenHeight = VIRTUAL_SCREEN_HEIGHT;
+    const int screenWidth = GetScreenWidth();
+    const int screenHeight = GetScreenHeight();
+    const float vScreenWidth = VIRTUAL_SCREEN_WIDTH;
+    const float vScreenHeight = VIRTUAL_SCREEN_HEIGHT;
+    const float virtualRatio = (float)screenWidth / (float)vScreenWidth;
+
     PixelPerfectData data = {0};
 
     data.worldCamera.zoom = 1.0;
@@ -19,7 +21,6 @@ PixelPerfectData computePixelPerfectData(Vector2 cameraTarget) {
     data.worldCamera.target.y = (int)cameraTarget.y;
 
     data.screenSpaceCamera.zoom = 1.0;
-    float virtualRatio = (float)screenWidth / (float)vScreenWidth;
     data.screenSpaceCamera.target.x = (cameraTarget.x - ((int)cameraTarget.x))*virtualRatio;
     data.screenSpaceCamera.target.y = (cameraTarget.y - ((int)cameraTarget.y))*virtualRatio;
 
