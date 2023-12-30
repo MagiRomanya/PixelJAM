@@ -1,8 +1,14 @@
 #include "raylib.h"
 
+//-----------------------------------------------------------------------------------
+// Enum  for game screens 
+//-----------------------------------------------------------------------------------
+typedef enum GameSreen { OPENING = 0, TITLE, GAMEPLAY, ENDING } GameScreen;
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
+
+
 int main(void)
 {
     // Initialization
@@ -12,6 +18,9 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "PixelJAM 24");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
+    
+    GameScreen currentScreen = OPENING;
+    int frameCounter = 0;	    
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -21,7 +30,24 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
+       switch(currentScreen)
+       {
+           case OPENING:
+               frameCounter++; //count frames
+       	       if(frameCounter > 300 || IsKeyPressed(KEY_ENTER)){
+	           currentScreen = TITLE;
+	       }	
+ 	       break;
+
+	   case TITLE:
+	       if(IsKeyPressed(KEY_ENTER)){
+	           currentScreen = OPENING;
+	       }
+	   //TODO condition to jump to GAMEPLAY	
+               break;	       
+
+       }
+       	// TODO: Update your variables here
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -29,8 +55,21 @@ int main(void)
         BeginDrawing();
 
             ClearBackground(RAYWHITE);
+            switch(currentScreen)
+            {
+                case OPENING:
+                    DrawText("LA JAM OPENING! :)", 190, 200, 20, MAROON);
+ 	            break;
 
-            DrawText("LA JAM! :)", 190, 200, 20, MAROON);
+	        case TITLE:
+	            DrawText("LA JAM TITLE! :)", 190, 200, 20, MAROON);
+	   	    //TODO condition to jump to GAMEPLAY	
+                    break;
+       	        default:	       
+					DrawText("LA JAM! :)", 190, 200, 20, MAROON);
+            }
+
+            //DrawText("LA JAM! :)", 190, 200, 20, MAROON);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
