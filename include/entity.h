@@ -27,11 +27,11 @@ typedef struct {
 } Entity;
 
 
-typedef struct {
+struct EntityList{
     Entity* entities;
     size_t size;
     size_t capacity;
-} EntityList;
+};
 
 EntityList createEntityList();
 

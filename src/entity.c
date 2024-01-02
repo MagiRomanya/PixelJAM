@@ -12,7 +12,7 @@ EntityList createEntityList() {
 
 void addEntityToList(EntityList* e_list, Entity* e) {
     e_list->entities[sizeof(Entity)*e_list->size] = *e;
-    e_list->size += sizeof(Entity);
+    e_list->size += 1;
 }
 
 Entity* getEntityFromList(EntityList* e_list, size_t index) {

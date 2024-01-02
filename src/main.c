@@ -1,6 +1,8 @@
+#include "entity.h"
 #include "physics.h"
 #include "raylib.h"
 #include "pixel_perfect.h"
+#include "ultilities.h"
 #include <math.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -33,16 +35,25 @@ int main(void)
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     Texture2D tree = LoadTexture("assets/sprites/Tree001.png");
 
-    PhysicsState state = allocate_physics_state(3*2);
+    PhysicsState state = allocate_physics_state(2*2);
     state.x[0] = 100;
     state.x[1] = 100;
 
     state.x[2] = 300;
-    state.x[3] = 100;
+    state.x[3] = 50;
 
-    state.x[4] = 500;
-    state.x[5] = 100;
+    /* state.x[4] = 500; */
+    /* state.x[5] = 100; */
 
+    EntityList entity_list = createEntityList();
+    Entity entity;
+    entity.collision_mask = CABLE_COLLIDE;
+    Vector2 x1 = {50, 200};
+    Vector2 x2 = {700, 200};
+    entity.capsule_collider = (CapsuleCollider){x1, x2, 50};
+    addEntityToList(&entity_list, &entity);
+
+    bool pause = true;
     //--------------------------------------------------------------------------------------
     // Main game loop
     SetTargetFPS(120);
@@ -59,12 +70,27 @@ int main(void)
         //----------------------------------------------------------------------------------
         BeginDrawing();
         {
-            ClearBackground(WHITE);
-            solve_physics(&state);
+            if (IsKeyPressed(KEY_P)) {
+                pause = !pause;
+            }
+            if (pause) {
+                if (IsKeyPressed(KEY_N)) {
+                    ClearBackground(WHITE);
+                    solve_physics(&state, &entity_list);
+                }
+            }
+            else {
+                ClearBackground(WHITE);
+                solve_physics(&state, &entity_list);
+            }
             const Color colors[] = {BLUE, GREEN, RED};
             for (size_t i = 0; i < state.n_dof / 2; i++) {
                 Vector2 x = {state.x[2*i+0], state.x[2*i+1]};
                 DrawCircle(x.x, x.y, 10, colors[i]);
+            }
+            for (size_t i = 0; i < entity_list.size; i++) {
+                Entity* e = getEntityFromList(&entity_list, i);
+                renderCapsule(&e->capsule_collider);
             }
 
         }

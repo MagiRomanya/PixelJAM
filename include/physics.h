@@ -9,6 +9,8 @@
 #define GRAVITY 9.81f
 #define TIME_STEP 0.016f
 
+typedef struct EntityList EntityList;
+
 typedef struct {
     float* x;
     float* v;
@@ -33,12 +35,15 @@ void destroy_physics_state(PhysicsState* state);
 
 PhysicsState copy_physics_state(const PhysicsState* state);
 
-void solve_physics(PhysicsState* state);
+void solve_physics(PhysicsState* state, EntityList* elist);
 
 void set_array_to_zero(float* arr, size_t size);
 
 Vector2 Vector2MultiplyS(float scalar, Vector2 vec);
 
 void computePointCapsuleCollision(CapsuleCollider* c, Vector2 point, Collision* out);
+
+
+void cableEntityHandleCollisions(EntityList* entities, PhysicsState* state);
 
 #endif // PHYSICS_H_
