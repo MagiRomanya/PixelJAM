@@ -43,24 +43,24 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-       switch(currentScreen)
-       {
-           case OPENING:
-               frameCounter++; //count frames
-       	       if(frameCounter > 300 || IsKeyPressed(KEY_ENTER)){
-	           currentScreen = TITLE;
-	       }	
- 	       break;
+        switch(currentScreen)
+        {
+            case OPENING:
+                frameCounter++; //count frames
+                if(frameCounter > 300 || IsKeyPressed(KEY_ENTER)){
+                    currentScreen = TITLE;
+                }
+                break;
 
-	   case TITLE:
-	       if(IsKeyPressed(KEY_ENTER)){
-	           currentScreen = OPENING;
-	       }
-	   //TODO condition to jump to GAMEPLAY	
-               break;	       
+            case TITLE:
+                if(IsKeyPressed(KEY_ENTER)){
+                    currentScreen = OPENING;
+                }
+                //TODO condition to jump to GAMEPLAY
+                break;
 
-       }
-       	// TODO: Update your variables here
+        }
+        // TODO: Update your variables here
         //----------------------------------------------------------------------------------
         int screenWidth = GetScreenWidth();
         int screenHeight = GetScreenHeight();
