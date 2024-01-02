@@ -2,6 +2,7 @@
 #define ENTITY_H_
 
 #include "raylib.h"
+#include "physics.h"
 
 typedef enum {
 NO_COLLIDE,
@@ -21,7 +22,25 @@ typedef struct {
 
     // Physics
     COLLISION_MASK collision_mask;
+    CapsuleCollider capsule_collider;
 
-}Entity;
+} Entity;
+
+
+typedef struct {
+    Entity* entities;
+    size_t size;
+    size_t capacity;
+} EntityList;
+
+EntityList createEntityList();
+
+void addEntityToList(EntityList* e_list, Entity* e);
+
+Entity* getEntityFromList(EntityList* e_list, size_t index);
+
+void clearEntityList(EntityList* e_list);
+
+void destroyEntityList(EntityList* e_list);
 
 #endif // ENTITY_H_
