@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <threads.h>
 
 void set_array_to_zero(float* arr, size_t size) {
     for (size_t i = 0; i < size; i++)
@@ -137,7 +138,7 @@ Vector2 point_segment_closest_point(Vector2 point, Vector2 x1, Vector2 x2) {
 }
 
 
-void computeCapsuleCapsuleCollision(CapsuleCollider* c1, CapsuleCollider* c2, Collision*out) {
+void computeCapsuleCapsuleCollisionNaive(CapsuleCollider* c1, CapsuleCollider* c2, Collision*out) {
     // Compute distances to closest points on line segments
     Vector2 p1 = point_segment_closest_point(c1->x1, c2->x1, c2->x2);
     Vector2 p2 = point_segment_closest_point(c1->x2, c2->x1, c2->x2);
@@ -172,6 +173,7 @@ void computeCapsuleCapsuleCollision(CapsuleCollider* c1, CapsuleCollider* c2, Co
 
     out->signed_distance = distance - c1->radius - c2->radius;
     out->normal = normal;
+    out->point = C2;
 }
 
 #define COLLISIONS_CAPACITY (1e3*sizeof(Collision))
@@ -205,6 +207,87 @@ void destroyCollisionList(CollisionList* clist) {
     free(clist->collisions);
 }
 
+void computeCapsuleCapsuleCollision(CapsuleCollider* c1, CapsuleCollider* c2, Collision*out) {
+    Vector2 v1 = Vector2Subtract(c1->x2, c1->x1);
+    Vector2 v2 = Vector2Subtract(c2->x2, c2->x1);
+    Vector2 w = Vector2Subtract(c2->x1, c1->x1);
+    DrawLineV(c1->x2, c1->x1, BLACK);
+    DrawLineV(c2->x2, c2->x1, BLACK);
+    DrawLineV(c2->x1, c1->x1, BLACK);
+
+    float a = Vector2DotProduct(v1, v1);
+    float b = Vector2DotProduct(v1, v2);
+    float c = Vector2DotProduct(v2, v2);
+    float d = Vector2DotProduct(v1, w);
+    float e = Vector2DotProduct(v2, w);
+
+    float denom = b*b - c * a;
+    // printf("a = %f\n", a);
+    // printf("b = %f\n", b);
+    // printf("c = %f\n", c);
+    printf("denom = %f\n", denom);
+    float s, t;
+    if (fabs(denom) < 1e-3) {
+        printf("denom\n");
+        s = 0;
+        t = -d/b;
+    }
+    else {
+        s = (e * b - c * d) / denom;
+        t = (-d * b + a * e) / denom;
+    }
+
+    // Closest points
+    Vector2 C1;
+    Vector2 C2;
+    printf("s = %f, t = %f\n", s, t);
+    if ((s <= 1.0f && s >= 0.0f) && (t <= 1.0f && t >= 0.0f)) {
+        printf("hellow\n");
+        C1 = Vector2Add(c1->x1, Vector2MultiplyS(s, v1));
+        C2 = Vector2Add(c2->x1, Vector2MultiplyS(t, v2));
+        DrawCircleV(C1, 20, YELLOW);
+        DrawCircleV(C2, 20, YELLOW);
+    }
+    else {
+        printf("bye\n");
+        // Compute distances to closest points on line segments
+        Vector2 p1 = point_segment_closest_point(c1->x1, c2->x1, c2->x2);
+        Vector2 p2 = point_segment_closest_point(c1->x2, c2->x1, c2->x2);
+        Vector2 p3 = point_segment_closest_point(c2->x1, c1->x1, c1->x2);
+        Vector2 p4 = point_segment_closest_point(c2->x2, c1->x1, c1->x2);
+
+        float dist1 = Vector2DistanceSqr(p1, c1->x1);
+        float dist2 = Vector2DistanceSqr(p2, c1->x2);
+        float dist3 = Vector2DistanceSqr(p3, c2->x1);
+        float dist4 = Vector2DistanceSqr(p4, c2->x2);
+
+        // Find the pair with the smallest distance
+        if (dist1 <= dist2 && dist1 <= dist3 && dist1 <= dist4) {
+            C1 = p1;
+            C2 = c1->x1;
+        } else if (dist2 <= dist1 && dist2 <= dist3 && dist2 <= dist4) {
+            C1 = p2;
+            C2 = c1->x2;
+        } else if (dist3 <= dist1 && dist3 <= dist2 && dist3 <= dist4) {
+            C1 = p3;
+            C2 = c2->x1;
+        } else {
+            C1 = p4;
+            C2 = c2->x2;
+        }
+        DrawCircleV(C1, 20, GREEN);
+        DrawCircleV(C2, 20, GREEN);
+    }
+
+    float distance = Vector2Distance(C1, C2);
+    Vector2 dC = Vector2Subtract(C2, C1);
+    Vector2 normal = Vector2MultiplyS(1.0f / distance, dC);
+
+    out->signed_distance = distance - c1->radius - c2->radius;
+    out->normal = normal;
+    out->point = C2;
+}
+
 void cableEntityHandleCollisions(EntityList* entities, PhysicsState* state) {
     const size_t n_particles = state->n_dof/2;
 
@@ -217,102 +300,48 @@ void cableEntityHandleCollisions(EntityList* entities, PhysicsState* state) {
                 const float cable_link_radius = 10; // Cable thickness
                 CapsuleCollider cable_link_capsule={x1, x2, cable_link_radius};
                 Collision c;
-                computeCapsuleCapsuleCollision(&cable_link_capsule, &e->capsule_collider, &c);
+                computeCapsuleCapsuleCollisionNaive(&cable_link_capsule, &e->capsule_collider, &c);
                 if (c.signed_distance < 0) {
                     // printf("Collision\n");
-                    const float collision_stiffness = 10.0;
+                    const float collision_stiffness = 5.0;
+                    Vector2 x1 = {state->x[2*j+0], state->x[2*j+1]};
+                    Vector2 x2 = {state->x[2*j+2], state->x[2*j+3]};
+
                     Vector2 collision_force = Vector2MultiplyS(- collision_stiffness * c.signed_distance, c.normal);
-                    state->f[2*j+0] += collision_force.x;
-                    state->f[2*j+1] += collision_force.y;
-                    state->f[2*j+0+2] += collision_force.x;
-                    state->f[2*j+1+2] += collision_force.y;
+                    state->f[2*j+0]   += collision_force.x / 2;
+                    state->f[2*j+1]   += collision_force.y / 2;
+                    state->f[2*j+0+2] += collision_force.x / 2;
+                    state->f[2*j+1+2] += collision_force.y / 2;
+
+                    Vector2 center_of_mass = Vector2Add(x1, Vector2MultiplyS(0.5f, Vector2Subtract(x2, x1)));
+                    Vector2 r_point = Vector2Subtract(c.point, center_of_mass);
+                    float torque = r_point.x * collision_force.y - r_point.y * collision_force.x;
+                    Vector2 normal_to_rod = {-x2.y + x1.y, x2.x - x1.y};
+                    normal_to_rod = Vector2Normalize(normal_to_rod);
+                    Vector2 r1 = Vector2Subtract(x1, center_of_mass);
+                    Vector2 r2 = Vector2Subtract(x2, center_of_mass);
+                    Vector2 torque_force1 = Vector2MultiplyS(-torque / Vector2Length(r1), normal_to_rod);
+                    Vector2 torque_force2 = Vector2MultiplyS(torque / Vector2Length(r2), normal_to_rod);
+                    state->f[2*j+0]   += torque_force1.x;
+                    state->f[2*j+1]   += torque_force1.y;
+                    state->f[2*j+0+2] += torque_force2.x;
+                    state->f[2*j+1+2] += torque_force2.y;
+
+                    // Damping
+                    const float damping = 10;
+                    Vector2 v1 = {state->v[2*j+0], state->v[2*j+1]};
+                    Vector2 v2 = {state->v[2*j+2], state->v[2*j+3]};
+                    // Vector2 uut_dv1 = {normal_to_rod.x*normal_to_rod.x * v1.x + normal_to_rod.x*normal_to_rod.y * v1.y,
+                    //                    normal_to_rod.y*normal_to_rod.x * v1.x + normal_to_rod.y*normal_to_rod.y * v1.y};
+                    // Vector2 uut_dv2 = {normal_to_rod.x*normal_to_rod.x * v2.x + normal_to_rod.x*normal_to_rod.y * v2.y,
+                    //                    normal_to_rod.y*normal_to_rod.x * v2.x + normal_to_rod.y*normal_to_rod.y * v2.y};
+
+                    state->f[2*j+0]   += -damping * v1.x;
+                    state->f[2*j+1]   += -damping * v1.y;
+                    state->f[2*j+0+2] += -damping * v2.x;
+                    state->f[2*j+1+2] += -damping * v2.y;
                 }
             }
         }
     }
 }
-
-// void computeCapsuleCapsuleCollisionOld(CapsuleCollider* c1, CapsuleCollider* c2, Collision*out) {
-//     Vector2 v1 = Vector2Subtract(c1->x2, c1->x1);
-//     Vector2 v2 = Vector2Subtract(c2->x2, c2->x1);
-//     Vector2 w = Vector2Subtract(c2->x1, c1->x1);
-//     DrawLineV(c1->x2, c1->x1, BLACK);
-//     DrawLineV(c2->x2, c2->x1, BLACK);
-//     DrawLineV(c2->x1, c1->x1, BLACK);
-
-//     float a = Vector2DotProduct(v1, v1);
-//     float b = Vector2DotProduct(v1, v2);
-//     float c = Vector2DotProduct(v2, v2);
-//     float d = Vector2DotProduct(v1, w);
-//     float e = Vector2DotProduct(v2, w);
-
-//     float denom = b*b - c * a;
-//     printf("a = %f\n", a);
-//     printf("b = %f\n", b);
-//     printf("c = %f\n", c);
-//     /* printf("a = %f", a); */
-//     /* printf("a = %f", a); */
-//     printf("denom = %f\n", denom);
-//     float s, t;
-//     if (fabs(denom) < 1e-3) {
-//         printf("Hellow\n");
-//         s = 0;
-//         t = -d/b;
-//     }
-//     else {
-//         s = (e * b - c * d) / denom;
-//         t = (-d * b + a * e) / denom;
-//     }
-
-//     // Closest points
-//     Vector2 C1;
-//     Vector2 C2;
-//     printf("s = %f, t = %f\n", s, t);
-//     if ((s <= 1.0f && s >= 0.0f) && (t <= 1.0f && t >= 0.0f)) {
-//         C1 = Vector2Add(c1->x1, Vector2MultiplyS(s, v1));
-//         C2 = Vector2Add(c2->x1, Vector2MultiplyS(t, v2));
-//         DrawCircleV(C1, 20, YELLOW);
-//         DrawCircleV(C2, 20, YELLOW);
-//     }
-//     else {
-//         printf("bye\n");
-//         // Compute distances to closest points on line segments
-//         Vector2 p1 = point_segment_closest_point(c1->x1, c2->x1, c2->x2);
-//         Vector2 p2 = point_segment_closest_point(c1->x2, c2->x1, c2->x2);
-//         Vector2 p3 = point_segment_closest_point(c2->x1, c1->x1, c1->x2);
-//         Vector2 p4 = point_segment_closest_point(c2->x2, c1->x1, c1->x2);
-
-//         float dist1 = Vector2DistanceSqr(p1, c1->x1);
-//         float dist2 = Vector2DistanceSqr(p2, c1->x2);
-//         float dist3 = Vector2DistanceSqr(p3, c2->x1);
-//         float dist4 = Vector2DistanceSqr(p4, c2->x2);
-
-//         // Find the pair with the smallest distance
-//         if (dist1 <= dist2 && dist1 <= dist3 && dist1 <= dist4) {
-//             C1 = p1;
-//             C2 = c1->x1;
-//         }
-//         else if (dist2 <= dist1 && dist2 <= dist3 && dist2 <= dist4) {
-//             C1 = p2;
-//             C2 = c1->x2;
-//         }
-//         else if (dist3 <= dist1 && dist3 <= dist2 && dist3 <= dist4) {
-//             C1 = p3;
-//             C2 = c2->x1;
-//         }
-//         else {
-//             C1 = p4;
-//             C2 = c2->x2;
-//         }
-//         DrawCircleV(C1, 20, GREEN);
-//         DrawCircleV(C2, 20, GREEN);
-//     }
-
-
-//     float distance = Vector2Distance(C1, C2);
-//     Vector2 dC = Vector2Subtract(C1, C2);
-//     Vector2 normal = Vector2MultiplyS(1.0f/distance, dC);
-
-//     out->signed_distance = distance - c1->radius - c2->radius;
-//     out->normal = normal;
-// }

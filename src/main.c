@@ -35,15 +35,18 @@ int main(void)
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     Texture2D tree = LoadTexture("assets/sprites/Tree001.png");
 
-    PhysicsState state = allocate_physics_state(2*2);
+    PhysicsState state = allocate_physics_state(4*2);
     state.x[0] = 100;
     state.x[1] = 100;
 
     state.x[2] = 300;
     state.x[3] = 50;
 
-    /* state.x[4] = 500; */
-    /* state.x[5] = 100; */
+    state.x[4] = 500;
+    state.x[5] = 100;
+
+    state.x[6] = 700;
+    state.x[7] = 100;
 
     EntityList entity_list = createEntityList();
     Entity entity;
@@ -83,14 +86,14 @@ int main(void)
                 ClearBackground(WHITE);
                 solve_physics(&state, &entity_list);
             }
-            const Color colors[] = {BLUE, GREEN, RED};
-            for (size_t i = 0; i < state.n_dof / 2; i++) {
-                Vector2 x = {state.x[2*i+0], state.x[2*i+1]};
-                DrawCircle(x.x, x.y, 10, colors[i]);
-            }
             for (size_t i = 0; i < entity_list.size; i++) {
                 Entity* e = getEntityFromList(&entity_list, i);
                 renderCapsule(&e->capsule_collider);
+            }
+            const Color colors[] = {BLUE, GREEN, RED, YELLOW, MAROON};
+            for (size_t i = 0; i < state.n_dof / 2; i++) {
+                Vector2 x = {state.x[2*i+0], state.x[2*i+1]};
+                DrawCircle(x.x, x.y, 10, colors[i]);
             }
 
         }

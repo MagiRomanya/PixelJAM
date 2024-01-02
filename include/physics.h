@@ -27,6 +27,7 @@ typedef struct {
 typedef struct {
     Vector2 normal;
     float signed_distance;
+    Vector2 point;
 } Collision;
 
 PhysicsState allocate_physics_state(size_t n_dof);
