@@ -2,6 +2,7 @@
 #define ENTITY_H_
 
 #include "raylib.h"
+#include "raymath.h"
 #include "physics.h"
 
 typedef enum {
@@ -25,7 +26,6 @@ typedef struct {
     CapsuleCollider capsule_collider;
 
 } Entity;
-
 
 struct EntityList{
     Entity* entities;

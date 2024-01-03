@@ -35,19 +35,6 @@ int main(void)
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     Texture2D tree = LoadTexture("assets/sprites/Tree001.png");
 
-    PhysicsState state = allocate_physics_state(4*2);
-    state.x[0] = 100;
-    state.x[1] = 100;
-
-    state.x[2] = 300;
-    state.x[3] = 50;
-
-    state.x[4] = 500;
-    state.x[5] = 100;
-
-    state.x[6] = 700;
-    state.x[7] = 100;
-
     EntityList entity_list = createEntityList();
     Entity entity;
     entity.collision_mask = CABLE_COLLIDE;
@@ -56,7 +43,21 @@ int main(void)
     entity.capsule_collider = (CapsuleCollider){x1, x2, 50};
     addEntityToList(&entity_list, &entity);
 
-    bool pause = true;
+    Player player = {0};
+    player.position = (Vector2){100, 100};
+    {
+        Vector2 x1 = {0, 30};
+        Vector2 x2 = {0, 0};
+        player.base_capsule_collider = (CapsuleCollider){x1, x2, 20};
+    }
+    player.mass = 10.0f;
+
+    RenderTexture2D WorldRenderTexture = LoadRenderTexture(getVirtualScreenWidth(), getVirtualScreenHeight());
+
+    // Camera target position
+    float cameraX = 0;
+    float cameraY = 0;
+
     //--------------------------------------------------------------------------------------
     // Main game loop
     SetTargetFPS(120);
@@ -69,33 +70,42 @@ int main(void)
         int screenWidth = GetScreenWidth();
         int screenHeight = GetScreenHeight();
 
+        playerFrameReset(&player);
+
+        if (IsKeyDown(KEY_D)) {
+            player.input_vector.x += 1;
+        }
+        if (IsKeyDown(KEY_A)) {
+            player.input_vector.x += -1;
+        }
+        if (IsKeyDown(KEY_SPACE)) {
+            player.input_vector.y -= 10;
+        }
+
         // Draw
         //----------------------------------------------------------------------------------
+        PixelPerfectData pp_data = computePixelPerfectData((Vector2){cameraX, cameraY});
+
+        BeginTextureMode(WorldRenderTexture);
+        {
+
+            ClearBackground(RAYWHITE);
+            BeginMode2D(pp_data.worldCamera);
+            {
+                DrawCircle(0.5*getVirtualScreenWidth(), getVirtualScreenHeight()/2, 10, RED);
+                DrawTexture(tree, 0.5*getVirtualScreenWidth(), getVirtualScreenHeight()/2, WHITE);
+            }
+            EndMode2D();
+        }
+        EndTextureMode();
         BeginDrawing();
         {
-            if (IsKeyPressed(KEY_P)) {
-                pause = !pause;
+            ClearBackground(WHITE);
+            BeginMode2D(pp_data.screenSpaceCamera);
+            {
+                DrawTexturePro(WorldRenderTexture.texture, pp_data.worldRec, pp_data.screenSpaceRec, (Vector2){0}, 0.0f, WHITE);
             }
-            if (pause) {
-                if (IsKeyPressed(KEY_N)) {
-                    ClearBackground(WHITE);
-                    solve_physics(&state, &entity_list);
-                }
-            }
-            else {
-                ClearBackground(WHITE);
-                solve_physics(&state, &entity_list);
-            }
-            for (size_t i = 0; i < entity_list.size; i++) {
-                Entity* e = getEntityFromList(&entity_list, i);
-                renderCapsule(&e->capsule_collider);
-            }
-            const Color colors[] = {BLUE, GREEN, RED, YELLOW, MAROON};
-            for (size_t i = 0; i < state.n_dof / 2; i++) {
-                Vector2 x = {state.x[2*i+0], state.x[2*i+1]};
-                DrawCircle(x.x, x.y, 10, colors[i]);
-            }
-
+            EndMode2D();
         }
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -103,7 +113,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-
+    UnloadRenderTexture(WorldRenderTexture);
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 

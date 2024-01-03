@@ -2,6 +2,7 @@
 #define PHYSICS_H_
 
 #include "raylib.h"
+#include "raymath.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,13 +11,7 @@
 #define TIME_STEP 0.016f
 
 typedef struct EntityList EntityList;
-
-typedef struct {
-    float* x;
-    float* v;
-    float* f;
-    size_t n_dof;
-} PhysicsState;
+typedef struct Player Player;
 
 typedef struct {
     Vector2 x1;
@@ -30,13 +25,31 @@ typedef struct {
     Vector2 point;
 } Collision;
 
-PhysicsState allocate_physics_state(size_t n_dof);
+struct Player{
+    Vector2 position;
+    Vector2 velocity;
 
-void destroy_physics_state(PhysicsState* state);
+    // Input
+    Vector2 input_vector;
 
-PhysicsState copy_physics_state(const PhysicsState* state);
+    // Physics
+    bool grounded;
+    float mass;
+    CapsuleCollider base_capsule_collider;
+};
 
-void solve_physics(PhysicsState* state, EntityList* elist);
+static inline void playerFrameReset(Player* player) {
+    player->input_vector = (Vector2){0};
+}
+
+static inline CapsuleCollider playerComputeCollider(const Player* player) {
+    const Vector2 x1 = Vector2Add(player->base_capsule_collider.x1, player->position);
+    const Vector2 x2 = Vector2Add(player->base_capsule_collider.x2, player->position);
+    CapsuleCollider c = {x1, x2, player->base_capsule_collider.radius};
+    return c;
+}
+
+void updatePlayerMovement(Player* player);
 
 void set_array_to_zero(float* arr, size_t size);
 
@@ -44,7 +57,5 @@ Vector2 Vector2MultiplyS(float scalar, Vector2 vec);
 
 void computePointCapsuleCollision(CapsuleCollider* c, Vector2 point, Collision* out);
 
-
-void cableEntityHandleCollisions(EntityList* entities, PhysicsState* state);
 
 #endif // PHYSICS_H_

@@ -3,9 +3,9 @@
 #define VIRTUAL_SCREEN_WIDTH 160
 #define VIRTUAL_SCREEN_HEIGHT 90
 
-int GetVirtualScreenWidth() { return VIRTUAL_SCREEN_WIDTH; }
+int getVirtualScreenWidth() { return VIRTUAL_SCREEN_WIDTH; }
 
-int GetVirtualScreenHeight() { return VIRTUAL_SCREEN_HEIGHT; }
+int getVirtualScreenHeight() { return VIRTUAL_SCREEN_HEIGHT; }
 
 PixelPerfectData computePixelPerfectData(Vector2 cameraTarget) {
     const int screenWidth = GetScreenWidth();

@@ -3,9 +3,9 @@
 
 #include "raylib.h"
 
-int GetVirtualScreenWidth();
+int getVirtualScreenWidth();
 
-int GetVirtualScreenHeight();
+int getVirtualScreenHeight();
 
 typedef struct {
     Camera2D worldCamera;
