@@ -21,25 +21,10 @@ int main(void)
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     
     GameColliderList collider_list = createGameColliderList();
-    /* GameCollider c1 = {0}; */
-    /* c1.collision_mask = PLAYER_CABLE_COLLIDE; */
-    /* c1.friction_damping = 1.0f; */
-    /* Vector2 x1 = {-100, 150}; */
-    /* Vector2 x2 = {100, 150}; */
-    /* c1.capsule_collider = (CapsuleCollider){x1, x2, 20}; */
-    /* addGameColliderToList(&collider_list, &c1); */
-
-    /* GameCollider c2 = {0}; */
-    /* c2.collision_mask = PLAYER_CABLE_COLLIDE; */
-    /* c2.friction_damping = 1.0f; */
-    /* x1 = (Vector2){150, 100}; */
-    /* x2 = (Vector2){200, 100}; */
-    /* c2.capsule_collider = (CapsuleCollider){x1, x2, 20}; */
-    /* addGameColliderToList(&collider_list, &c2); */
 
     Player player = createPlayer();
 
-    Cable cable = createCable((Vector2){0,100}, 10, 100);
+    Cable cable = createCable((Vector2){0,100}, 10, 1000);
 
     RenderTexture2D WorldRenderTexture = LoadRenderTexture(getVirtualScreenWidth(), getVirtualScreenHeight());
 
@@ -81,7 +66,7 @@ int main(void)
                 player.input_vector.y -= 60;
             }
             if (IsKeyPressed(KEY_F)) {
-                PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, player.position);
+                PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, player.position);
                 switch (result) {
                     case ANCHOR_SUCCESS:
                         break;
@@ -115,7 +100,7 @@ int main(void)
             ClearBackground(RAYWHITE);
             BeginMode2D(pp_data.worldCamera);
             {
-                updatePlayerMovement(&player, &collider_list);
+                updatePlayerMovement(&player, &cable, &collider_list);
                 renderTileMap(&tileMap);
                 // renderCollisionCapsules(&collider_list);
                 // printf("Player position = {%f, %f}\n", player.position.x, player.position.y);

@@ -1,5 +1,6 @@
 #include "cable.h"
 #include "entity.h"
+#include "physics.h"
 #include "raylib.h"
 #include "raymath.h"
 #include <stddef.h>
@@ -32,13 +33,26 @@ float computeCableLength(Cable* cable) {
     return length;
 };
 
-PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, Vector2 position) {
+PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vector2 position) {
     if (cable->nAnchors >= cable->nMaxAnchors) return ANCHOR_NOT_ENOUGH_ANCHORS;
 
     Anchor* lastAnchor = cableGetLastAnchor(cable);
     float cableLength = computeCableLength(cable);
     float newFragmentLength = Vector2Distance(position, lastAnchor->position);
     if (cableLength + newFragmentLength >= cable->maxLength) return ANCHOR_NOT_ENOUGH_LENGTH;
+
+    // New cable segment
+    Vector2 v1 = lastAnchor->position;
+    Vector2 v2 = position;
+    bool collide = false;
+    for (size_t i = 0; i < c_list->size; i++) {
+        GameCollider* collider = getGameColliderFromList(c_list, i);
+        if (do_segments_intersect(v1, v2, collider->capsule_collider.x1, collider->capsule_collider.x2)) {
+            collide = true;
+            break;
+        }
+    }
+    if (collide) return ANCHOR_OBSTRUDED_PATH;
 
     cable->anchors[cable->nAnchors] = (Anchor){position};
     cable->nAnchors++;

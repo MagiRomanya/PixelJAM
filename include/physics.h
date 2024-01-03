@@ -12,6 +12,7 @@
 
 typedef struct GameColliderList GameColliderList;
 typedef struct Player Player;
+typedef struct Cable Cable;
 
 typedef struct {
     Vector2 x1;
@@ -30,7 +31,7 @@ typedef struct {
     float signed_distance;
 } Collision;
 
-void updatePlayerMovement(Player* player, GameColliderList* clist);
+void updatePlayerMovement(Player* player, Cable* cable, GameColliderList* clist);
 
 void set_array_to_zero(float* arr, size_t size);
 

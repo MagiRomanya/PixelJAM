@@ -9,12 +9,12 @@ typedef struct {
     Vector2 position;
 } Anchor;
 
-typedef struct {
+struct Cable{
     float maxLength;
     size_t nMaxAnchors;
     size_t nAnchors;
     Anchor* anchors;
-} Cable;
+};
 
 typedef enum {
 ANCHOR_SUCCESS,
@@ -31,7 +31,7 @@ void destroyCable(Cable* cable);
 
 float computeCableLength(Cable* cable);
 
-PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, Vector2 position);
+PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vector2 position);
 
 void drawCable(Cable* cable, Player* player);
 

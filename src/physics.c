@@ -1,4 +1,5 @@
 #include "physics.h"
+#include "cable.h"
 #include "entity.h"
 #include "raylib.h"
 #include "raymath.h"
@@ -140,13 +141,22 @@ void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
 }
 
 
-void updatePlayerMovement(Player* player, GameColliderList* clist) {
+void updatePlayerMovement(Player* player, Cable* cable, GameColliderList* clist) {
     const float inputMultiplyer = 100.0f;
     player->force = Vector2MultiplyS(inputMultiplyer, player->input_vector); // input
     player->force.y += player->mass * GRAVITY;
     if (!player->grounded) {
         const float airDamping = 1.f;
         player->force = Vector2Add(player->force, Vector2MultiplyS(-airDamping, player->velocity));
+    }
+    float cable_length = computeCableLength(cable);
+    float last_anchor_player_length = Vector2Distance(cableGetLastAnchor(cable)->position, player->position);
+    float total_cable_length = cable_length + last_anchor_player_length;
+    if (total_cable_length >= cable->maxLength) {
+        const float cableSpringStiffness = 1.0f;
+        Vector2 dx = Vector2Subtract(player->position, cableGetLastAnchor(cable)->position);
+        Vector2 cableSpringForce = Vector2MultiplyS(-cableSpringStiffness, dx);
+        player->force = Vector2Add(player->force, cableSpringForce);
     }
     computePlayerWorldCollisions(player, clist);
 
