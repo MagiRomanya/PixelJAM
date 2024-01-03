@@ -33,24 +33,16 @@ int main(void)
     int frameCounter = 0;
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    Texture2D tree = LoadTexture("assets/sprites/Tree001.png");
 
     EntityList entity_list = createEntityList();
     Entity entity;
-    entity.collision_mask = CABLE_COLLIDE;
-    Vector2 x1 = {50, 200};
-    Vector2 x2 = {700, 200};
+    entity.collision_mask = PLAYER_CABLE_COLLIDE;
+    Vector2 x1 = {50, 150};
+    Vector2 x2 = {100, 150};
     entity.capsule_collider = (CapsuleCollider){x1, x2, 50};
     addEntityToList(&entity_list, &entity);
 
-    Player player = {0};
-    player.position = (Vector2){100, 100};
-    {
-        Vector2 x1 = {0, 30};
-        Vector2 x2 = {0, 0};
-        player.base_capsule_collider = (CapsuleCollider){x1, x2, 20};
-    }
-    player.mass = 10.0f;
+    Player player = createPlayer();
 
     RenderTexture2D WorldRenderTexture = LoadRenderTexture(getVirtualScreenWidth(), getVirtualScreenHeight());
 
@@ -60,7 +52,7 @@ int main(void)
 
     //--------------------------------------------------------------------------------------
     // Main game loop
-    SetTargetFPS(120);
+    SetTargetFPS(150);
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -92,8 +84,12 @@ int main(void)
             ClearBackground(RAYWHITE);
             BeginMode2D(pp_data.worldCamera);
             {
-                DrawCircle(0.5*getVirtualScreenWidth(), getVirtualScreenHeight()/2, 10, RED);
-                DrawTexture(tree, 0.5*getVirtualScreenWidth(), getVirtualScreenHeight()/2, WHITE);
+                updatePlayerMovement(&player, &entity_list);
+                DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
+
+                renderCapsule(entity.capsule_collider);
+                renderCapsule(playerComputeCollider(&player));
+                /* printf("Player position = {%f, %f}\n", player.position.x, player.position.y); */
             }
             EndMode2D();
         }
@@ -114,6 +110,7 @@ int main(void)
     // De-Initialization
     //--------------------------------------------------------------------------------------
     UnloadRenderTexture(WorldRenderTexture);
+    destroyPlayer(&player);
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 

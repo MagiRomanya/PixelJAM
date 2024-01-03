@@ -1,7 +1,7 @@
 #include "pixel_perfect.h"
 
-#define VIRTUAL_SCREEN_WIDTH 160
-#define VIRTUAL_SCREEN_HEIGHT 90
+#define VIRTUAL_SCREEN_WIDTH 160*2
+#define VIRTUAL_SCREEN_HEIGHT 90*2
 
 int getVirtualScreenWidth() { return VIRTUAL_SCREEN_WIDTH; }
 
