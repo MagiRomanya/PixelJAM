@@ -61,9 +61,31 @@ Player createPlayer();
 void destroyPlayer(Player* player);
 
 typedef struct {
+<<<<<<< HEAD
     Texture2D sprite;
     Vector2 position;
 } GameTile ;
 
+=======
+    int SpireID;
+    Vector2 Position;
+} Tile;
+
+typedef struct {
+    Tile *tiles;
+    size_t size;
+    size_t capacity;
+} TileMap;
+
+TileMap createTileMap();
+
+void addTileToMap(TileMap* t_map, int sprite_id, int tile_x, int tile_y);
+
+Tile* getTileFromMap(TileMap* t_map, size_t index);
+
+void clearTileMap(TileMap* t_map);
+
+void destroyGameTileMap(TileMap* t_map);
+>>>>>>> MapLoader
 
 #endif // ENTITY_H_

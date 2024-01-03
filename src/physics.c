@@ -123,7 +123,6 @@ void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
                 const float verticallity_threshold = 0.85f;
                 player->grounded = (verticallity_threshold < normal_aligned_to_vertical);
                 if (!player->grounded) player->canDoubleJump = false;
-                /* printf("Alinged %f\n", normal_aligned_to_vertical); */
                 // printf("Collision point = {%f, %f}\n", collision.normal.x, collision.normal.y);
 
                 // collision response
@@ -155,4 +154,12 @@ void updatePlayerMovement(Player* player, GameColliderList* clist) {
     player->velocity = Vector2Add(player->velocity, Vector2MultiplyS(TIME_STEP / player->mass, player->force));
     player->position = Vector2Add(player->position, Vector2MultiplyS(TIME_STEP, player->velocity));
 
+}
+
+CapsuleCollider createCapsule(int x1, int x2, int y, float r) {
+    CapsuleCollider c;
+    c.x1 = (Vector2){x1, y};
+    c.x2 = (Vector2){x2, y};
+    c.radius = r;
+    return c;
 }
