@@ -71,10 +71,10 @@ int main(void)
                     case ANCHOR_SUCCESS:
                         break;
                     case ANCHOR_NOT_ENOUGH_ANCHORS:
-                        addMessageToBeRendered(&rmessage, "Not enough available anchors!", 5);
+                        addMessageToBeRendered(&rmessage, "Ran out of staples!", 5);
                         break;
                     case ANCHOR_NOT_ENOUGH_LENGTH:
-                        addMessageToBeRendered(&rmessage, "Not enough cable length!", 5);
+                        addMessageToBeRendered(&rmessage, "Ran out of cable! :(", 5);
                         break;
                     case ANCHOR_OBSTRUDED_PATH:
                         addMessageToBeRendered(&rmessage, "Something is obstructing the path!", 5);
