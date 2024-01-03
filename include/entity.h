@@ -59,6 +59,8 @@ CapsuleCollider playerComputeCollider(const Player* player);
 
 Player createPlayer();
 
+void playerJump(Player* player);
+
 Vector2 computePlayerHandPosition(Player* player);
 
 void destroyPlayer(Player* player);

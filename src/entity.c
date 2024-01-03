@@ -83,6 +83,11 @@ Vector2 computePlayerHandPosition(Player* player) {
     return Vector2Add(handPosition, player->position);
 };
 
+void playerJump(Player* player) {
+    player->velocity.y = 0;
+    player->input_vector.y -= 100.0f;
+}
+
 void destroyPlayer(Player* player) {
     UnloadTexture(player->sprite);
 }

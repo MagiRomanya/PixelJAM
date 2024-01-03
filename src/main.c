@@ -55,15 +55,15 @@ int main(void)
         playerFrameReset(&player);
 
         if (IsKeyDown(KEY_D)) {
-            player.input_vector.x += 1;
+            player.input_vector.x += 2;
         }
         if (IsKeyDown(KEY_A)) {
-            player.input_vector.x += -1;
+            player.input_vector.x += -2;
         }
         if (player.grounded) {
             player.canDoubleJump = true;
             if (IsKeyPressed(KEY_SPACE)) {
-                player.input_vector.y -= 60;
+                playerJump(&player);
             }
             if (IsKeyPressed(KEY_F)) {
                 if (!tryRemoveLastAnchor(&cable, player.position)) {
@@ -86,7 +86,7 @@ int main(void)
         }
         else if (player.canDoubleJump) {
             if (IsKeyPressed(KEY_SPACE)) {
-                player.input_vector.y -= 60;
+                playerJump(&player);
                 player.canDoubleJump = false;
             }
         }

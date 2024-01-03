@@ -8,6 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define GRAVITY 200.0f
+#define TIME_STEP 0.016f
+
+
 void set_array_to_zero(float* arr, size_t size) {
     for (size_t i = 0; i < size; i++)
         arr[i] = 0;
@@ -109,7 +113,7 @@ void destroyCollisionList(CollisionList* clist) {
 }
 
 void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
-    const float collisionStiffness = 100.0;
+    const float collisionStiffness = 300.0;
     player->grounded = false;
     for (size_t i = 0; i < clist->size; i++) {
         const GameCollider* gameCollider = getGameColliderFromList(clist, i);
@@ -130,7 +134,7 @@ void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
                 player->force = Vector2Add(player->force, Vector2MultiplyS(-collisionStiffness * collision.signed_distance, collision.normal));
 
                 // Damping
-                const float collisionBounceDamping = 20.0;
+                const float collisionBounceDamping = 30.0;
                 Vector2 uut_v = {collision.normal.x*collision.normal.x * player->velocity.x + collision.normal.x*collision.normal.y * player->velocity.y,
                                  collision.normal.y*collision.normal.x * player->velocity.x + collision.normal.y*collision.normal.y * player->velocity.y};
                 player->force = Vector2Add(player->force, Vector2MultiplyS(-collisionBounceDamping, uut_v));
@@ -146,8 +150,8 @@ void updatePlayerMovement(Player* player, Cable* cable, GameColliderList* clist)
     player->force = Vector2MultiplyS(inputMultiplyer, player->input_vector); // input
     player->force.y += player->mass * GRAVITY;
     if (!player->grounded) {
-        const float airDamping = 1.f;
-        player->force = Vector2Add(player->force, Vector2MultiplyS(-airDamping, player->velocity));
+        const float airDamping = 3.f;
+        player->force.x += -airDamping * player->velocity.x;
     }
     Vector2 handPosition = computePlayerHandPosition(player);
     float cable_length = computeCableLength(cable);

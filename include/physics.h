@@ -7,9 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define GRAVITY 70.0f
-#define TIME_STEP 0.016f
-
 typedef struct GameColliderList GameColliderList;
 typedef struct Player Player;
 typedef struct Cable Cable;
