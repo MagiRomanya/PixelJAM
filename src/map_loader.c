@@ -25,9 +25,11 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
                 // if (pixel.g) sprite_id += 256 + pixel.g;
                 addTileToMap(tiles, pixel.b, i*16, j*16);
 
+                printf("%i\n", pixel.r);
                 if (pixel.r && startNewCollider) {
-                    x1 = i*16;
-                    y = j;
+                    printf("hello %i\n", pixel.r);
+                    x1 = i*16 + 8;
+                    y = j*16 + 8;
                     startNewCollider = false;
                 } else if (!pixel.r && !startNewCollider) {
                     x2 = (i-1)*16;
@@ -40,16 +42,16 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
                     startNewCollider = true;
                 }
             }
-            if (!startNewCollider) {
-                x2 = map_width * 16;
-                CapsuleCollider collider = createCapsule(x1, x2, y, capsuleRadius);
-                GameCollider gameCollider = {0};
-                gameCollider.capsule_collider = collider;
-                gameCollider.collision_mask = PLAYER_CABLE_COLLIDE;
-                gameCollider.friction_damping = 1.0f;
-                addGameColliderToList(colliders, &gameCollider);
-                startNewCollider = true;
-            }
+        }
+        if (!startNewCollider) {
+            x2 = map_width * 16 - 8;
+            CapsuleCollider collider = createCapsule(x1, x2, y, capsuleRadius);
+            GameCollider gameCollider = {0};
+            gameCollider.capsule_collider = collider;
+            gameCollider.collision_mask = PLAYER_CABLE_COLLIDE;
+            gameCollider.friction_damping = 1.0f;
+            addGameColliderToList(colliders, &gameCollider);
+            startNewCollider = true;
         }
     }
     if (!playerInitialPositionFound) {
