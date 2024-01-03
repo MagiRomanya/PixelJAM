@@ -6,7 +6,6 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 void set_array_to_zero(float* arr, size_t size) {
     for (size_t i = 0; i < size; i++)
@@ -108,15 +107,15 @@ void destroyCollisionList(CollisionList* clist) {
     free(clist->collisions);
 }
 
-void computePlayerWorldCollisions(Player* player, EntityList* elist) {
+void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
     const float collisionStiffness = 40.0;
     player->grounded = false;
-    for (size_t i = 0; i < elist->size; i++) {
-        const Entity* e = getEntityFromList(elist, i);
-        if (e->collision_mask == PLAYER_COLLIDE || e->collision_mask == PLAYER_CABLE_COLLIDE) {
+    for (size_t i = 0; i < clist->size; i++) {
+        const GameCollider* gameCollider = getGameColliderFromList(clist, i);
+        if (gameCollider->collision_mask == PLAYER_COLLIDE || gameCollider->collision_mask == PLAYER_CABLE_COLLIDE) {
             Collision collision;
             CapsuleCollider playerCollider = playerComputeCollider(player);
-            computeCapsuleCapsuleCollisionNaive(&e->capsule_collider, &playerCollider, &collision);
+            computeCapsuleCapsuleCollisionNaive(&gameCollider->capsule_collider, &playerCollider, &collision);
 
             if (collision.signed_distance < 0) {
                 // Check if grounded
@@ -135,14 +134,14 @@ void computePlayerWorldCollisions(Player* player, EntityList* elist) {
                 Vector2 uut_v = {collision.normal.x*collision.normal.x * player->velocity.x + collision.normal.x*collision.normal.y * player->velocity.y,
                                  collision.normal.y*collision.normal.x * player->velocity.x + collision.normal.y*collision.normal.y * player->velocity.y};
                 player->force = Vector2Add(player->force, Vector2MultiplyS(-collisionBounceDamping, uut_v));
-                player->force = Vector2Add(player->force, Vector2MultiplyS(-e->friction_damping, Vector2Subtract(player->velocity, uut_v)));
+                player->force = Vector2Add(player->force, Vector2MultiplyS(-gameCollider->friction_damping, Vector2Subtract(player->velocity, uut_v)));
             }
         }
     }
 }
 
 
-void updatePlayerMovement(Player* player, EntityList* elist) {
+void updatePlayerMovement(Player* player, GameColliderList* clist) {
     const float inputMultiplyer = 100.0f;
     player->force = Vector2MultiplyS(inputMultiplyer, player->input_vector); // input
     player->force.y += player->mass * GRAVITY;
@@ -150,7 +149,7 @@ void updatePlayerMovement(Player* player, EntityList* elist) {
         const float airDamping = 1.f;
         player->force = Vector2Add(player->force, Vector2MultiplyS(-airDamping, player->velocity));
     }
-    computePlayerWorldCollisions(player, elist);
+    computePlayerWorldCollisions(player, clist);
 
     // Integration
     player->velocity = Vector2Add(player->velocity, Vector2MultiplyS(TIME_STEP / player->mass, player->force));
