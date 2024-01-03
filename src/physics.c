@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <threads.h>
 
 void set_array_to_zero(float* arr, size_t size) {
     for (size_t i = 0; i < size; i++)
@@ -125,7 +124,7 @@ void computePlayerWorldCollisions(Player* player, EntityList* elist) {
                 const float verticallity_threshold = 0.85f;
                 player->grounded = (verticallity_threshold < normal_aligned_to_vertical);
                 if (!player->grounded) player->canDoubleJump = false;
-                printf("Alinged %f\n", normal_aligned_to_vertical);
+                // printf("Alinged %f\n", normal_aligned_to_vertical);
                 // printf("Collision point = {%f, %f}\n", collision.normal.x, collision.normal.y);
 
                 // collision response

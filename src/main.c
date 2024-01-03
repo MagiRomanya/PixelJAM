@@ -51,6 +51,21 @@ int main(void)
     float cameraX = 0;
     float cameraY = 0;
 
+    Image image = LoadImage("assets/maps/map-test.png");
+    Color *pixels = LoadImageColors(image);
+    int iwidth = image.width;
+    int iheight = image.height;
+
+    // Read color value from each pixel
+    for (int y = 0; y < iheight; y++) {
+        for (int x = 0; x < iwidth; x++) {
+            Color pixel = pixels[y * iwidth + x];
+            printf("Pixel at (%d, %d) - R:%d G:%d B:%d A:%d\n", x, y, pixel.r, pixel.g, pixel.b, pixel.a);
+        }
+    }
+
+    UnloadImage(image); 
+
     //--------------------------------------------------------------------------------------
     // Main game loop
     SetTargetFPS(150);
