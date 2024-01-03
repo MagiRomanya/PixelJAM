@@ -36,7 +36,8 @@ Player createPlayer() {
     const float playerWidth = 32;
     const float playerHeight = 32;
     const float capsuleRadius = 10;
-    Vector2 x1 = {playerWidth/2, capsuleRadius};
+    const float padding = 10;
+    Vector2 x1 = {playerWidth/2, capsuleRadius + padding};
     Vector2 x2 = {playerWidth/2, playerHeight - capsuleRadius};
     player.base_capsule_collider = (CapsuleCollider){x1,x2, capsuleRadius};
     return player;

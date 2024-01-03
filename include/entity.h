@@ -23,7 +23,7 @@ typedef struct {
 
     // Physics
     COLLISION_MASK collision_mask;
-    float collision_damping;
+    float friction_damping;
     CapsuleCollider capsule_collider;
 
 } Entity;
@@ -54,6 +54,7 @@ struct Player {
 
     // Input
     Vector2 input_vector;
+    bool canDoubleJump;
 
     // Physics
     bool grounded;

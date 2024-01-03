@@ -35,11 +35,12 @@ int main(void)
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
     EntityList entity_list = createEntityList();
-    Entity entity;
+    Entity entity = {0};
     entity.collision_mask = PLAYER_CABLE_COLLIDE;
-    Vector2 x1 = {50, 150};
+    entity.friction_damping = 1.0f;
+    Vector2 x1 = {-100, 150};
     Vector2 x2 = {100, 150};
-    entity.capsule_collider = (CapsuleCollider){x1, x2, 50};
+    entity.capsule_collider = (CapsuleCollider){x1, x2, 20};
     addEntityToList(&entity_list, &entity);
 
     Player player = createPlayer();
@@ -70,13 +71,23 @@ int main(void)
         if (IsKeyDown(KEY_A)) {
             player.input_vector.x += -1;
         }
-        if (IsKeyDown(KEY_SPACE)) {
-            player.input_vector.y -= 10;
+        if (player.grounded) {
+            player.canDoubleJump = true;
+            if (IsKeyPressed(KEY_SPACE)) {
+                player.input_vector.y -= 60;
+            }
+        }
+        else if (player.canDoubleJump) {
+            if (IsKeyPressed(KEY_SPACE)) {
+                player.input_vector.y -= 60;
+                player.canDoubleJump = false;
+            }
         }
 
         // Draw
         //----------------------------------------------------------------------------------
-        PixelPerfectData pp_data = computePixelPerfectData((Vector2){cameraX, cameraY});
+        Vector2 cameraPosition = Vector2Add(player.position, (Vector2){-getVirtualScreenWidth()/2.0 + 16,-0.5*getVirtualScreenHeight()});
+        PixelPerfectData pp_data = computePixelPerfectData(cameraPosition);
 
         BeginTextureMode(WorldRenderTexture);
         {
@@ -88,7 +99,7 @@ int main(void)
                 DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
 
                 renderCapsule(entity.capsule_collider);
-                renderCapsule(playerComputeCollider(&player));
+                /* renderCapsule(playerComputeCollider(&player)); */
                 /* printf("Player position = {%f, %f}\n", player.position.x, player.position.y); */
             }
             EndMode2D();

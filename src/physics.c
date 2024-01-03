@@ -58,23 +58,18 @@ void computeCapsuleCapsuleCollisionNaive(const CapsuleCollider* c1, const Capsul
     Vector2 C1;
     Vector2 C2;
     if (dist1 <= dist2 && dist1 <= dist3 && dist1 <= dist4) {
-        printf("a\n");
         C2 = p1;
         C1 = c1->x1;
     } else if (dist2 <= dist1 && dist2 <= dist3 && dist2 <= dist4) {
-        printf("b\n");
         C2 = p2;
         C1 = c1->x2;
     } else if (dist3 <= dist1 && dist3 <= dist2 && dist3 <= dist4) {
-        printf("c\n");
         C1 = p3;
         C2 = c2->x1;
     } else {
-        printf("d\n");
         C1 = p4;
         C2 = c2->x2;
     }
-    DrawCircleV(C2, 20, BLUE);
     float distance = Vector2Distance(C1, C2);
     Vector2 dC = Vector2Subtract(C2, C1);
     Vector2 normal = Vector2MultiplyS(1.0f / distance, dC);
@@ -115,7 +110,8 @@ void destroyCollisionList(CollisionList* clist) {
 }
 
 void computePlayerWorldCollisions(Player* player, EntityList* elist) {
-    const float collisionStiffness = 20.0;
+    const float collisionStiffness = 40.0;
+    player->grounded = false;
     for (size_t i = 0; i < elist->size; i++) {
         const Entity* e = getEntityFromList(elist, i);
         if (e->collision_mask == PLAYER_COLLIDE || e->collision_mask == PLAYER_CABLE_COLLIDE) {
@@ -124,8 +120,13 @@ void computePlayerWorldCollisions(Player* player, EntityList* elist) {
             computeCapsuleCapsuleCollisionNaive(&e->capsule_collider, &playerCollider, &collision);
 
             if (collision.signed_distance < 0) {
-
-                printf("Collision point = {%f, %f}\n", collision.normal.x, collision.normal.y);
+                // Check if grounded
+                const float normal_aligned_to_vertical = Vector2DotProduct(collision.normal, (Vector2){0.0,-1.0});
+                const float verticallity_threshold = 0.85f;
+                player->grounded = (verticallity_threshold < normal_aligned_to_vertical);
+                if (!player->grounded) player->canDoubleJump = false;
+                printf("Alinged %f\n", normal_aligned_to_vertical);
+                // printf("Collision point = {%f, %f}\n", collision.normal.x, collision.normal.y);
 
                 // collision response
                 player->force = Vector2Add(player->force, Vector2MultiplyS(-collisionStiffness * collision.signed_distance, collision.normal));
@@ -135,6 +136,7 @@ void computePlayerWorldCollisions(Player* player, EntityList* elist) {
                 Vector2 uut_v = {collision.normal.x*collision.normal.x * player->velocity.x + collision.normal.x*collision.normal.y * player->velocity.y,
                                  collision.normal.y*collision.normal.x * player->velocity.x + collision.normal.y*collision.normal.y * player->velocity.y};
                 player->force = Vector2Add(player->force, Vector2MultiplyS(-collisionBounceDamping, uut_v));
+                player->force = Vector2Add(player->force, Vector2MultiplyS(-e->friction_damping, Vector2Subtract(player->velocity, uut_v)));
             }
         }
     }
@@ -145,6 +147,10 @@ void updatePlayerMovement(Player* player, EntityList* elist) {
     const float inputMultiplyer = 100.0f;
     player->force = Vector2MultiplyS(inputMultiplyer, player->input_vector); // input
     player->force.y += player->mass * GRAVITY;
+    if (!player->grounded) {
+        const float airDamping = 1.f;
+        player->force = Vector2Add(player->force, Vector2MultiplyS(-airDamping, player->velocity));
+    }
     computePlayerWorldCollisions(player, elist);
 
     // Integration

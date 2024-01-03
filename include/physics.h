@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define GRAVITY 9.81f
+#define GRAVITY 70.0f
 #define TIME_STEP 0.016f
 
 typedef struct EntityList EntityList;
