@@ -66,7 +66,8 @@ int main(void)
                 player.input_vector.y -= 60;
             }
             if (IsKeyPressed(KEY_F)) {
-                PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, player.position);
+                if (!tryRemoveLastAnchor(&cable, player.position)) {
+                PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, computePlayerHandPosition(&player));
                 switch (result) {
                     case ANCHOR_SUCCESS:
                         break;
@@ -79,6 +80,7 @@ int main(void)
                     case ANCHOR_OBSTRUDED_PATH:
                         addMessageToBeRendered(&rmessage, "Something is obstructing the path!", 5);
                         break;
+                }
                 }
             }
         }
@@ -106,7 +108,6 @@ int main(void)
                 // printf("Player position = {%f, %f}\n", player.position.x, player.position.y);
                 drawCable(&cable, &player);
                 DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
-
             }
             EndMode2D();
         }

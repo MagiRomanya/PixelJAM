@@ -1,6 +1,7 @@
 #include "entity.h"
 #include "physics.h"
 #include "raylib.h"
+#include "raymath.h"
 #include "sprite_manager.h"
 #include <stddef.h>
 #include <stdio.h>
@@ -60,7 +61,7 @@ void destroyGameTileMap(TileMap* t_map) {
 Player createPlayer() {
     Player player = {0};
     player.sprite = LoadTexture("assets/sprites/Tree001.png");
-
+    player.facing_direction = 1.0f;
     player.mass = 1.0f;
 
     const float playerWidth = 32;
@@ -73,12 +74,22 @@ Player createPlayer() {
     return player;
 }
 
+Vector2 computePlayerHandPosition(Player* player) {
+    if (player->facing_direction > 0) {
+        const Vector2 handPosition = {32,16};
+        return Vector2Add(handPosition, player->position);
+    }
+    const Vector2 handPosition = {0,16};
+    return Vector2Add(handPosition, player->position);
+};
+
 void destroyPlayer(Player* player) {
     UnloadTexture(player->sprite);
 }
 
 void playerFrameReset(Player* player) {
     player->input_vector = (Vector2){0};
+    if (player->velocity.x != 0) player->facing_direction = player->velocity.x;
 }
 
 CapsuleCollider playerComputeCollider(const Player* player) {

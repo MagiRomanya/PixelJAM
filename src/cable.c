@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#define ANCHOR_REMOVE_DISTANCE 10.0f
+#define ANCHOR_REMOVE_DISTANCE 20.0f
 
 Cable createCable(Vector2 initialAnchor, size_t maxAnchors, float maxLength) {
     Cable cable = {0};
@@ -87,5 +87,5 @@ void drawCable(Cable* cable, Player* player) {
         DrawLineV(a1.position, a2.position, cableColor);
     }
     // Last cable
-    DrawLineV(cableGetLastAnchor(cable)->position, player->position, cableColor);
+    DrawLineV(cableGetLastAnchor(cable)->position, computePlayerHandPosition(player), cableColor);
 };

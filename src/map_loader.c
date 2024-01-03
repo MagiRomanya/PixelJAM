@@ -43,7 +43,7 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
                 GameCollider gameCollider = {0};
                 gameCollider.capsule_collider = collider;
                 gameCollider.collision_mask = PLAYER_CABLE_COLLIDE;
-                gameCollider.friction_damping = 5.0f;
+                gameCollider.friction_damping = 4.0f;
                 addGameColliderToList(colliders, &gameCollider);
                 startNewCollider = true;
             }
@@ -54,7 +54,7 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
             GameCollider gameCollider = {0};
             gameCollider.capsule_collider = collider;
             gameCollider.collision_mask = PLAYER_CABLE_COLLIDE;
-            gameCollider.friction_damping = 5.0f;
+            gameCollider.friction_damping = 4.0f;
             addGameColliderToList(colliders, &gameCollider);
             startNewCollider = true;
         }

@@ -149,12 +149,13 @@ void updatePlayerMovement(Player* player, Cable* cable, GameColliderList* clist)
         const float airDamping = 1.f;
         player->force = Vector2Add(player->force, Vector2MultiplyS(-airDamping, player->velocity));
     }
+    Vector2 handPosition = computePlayerHandPosition(player);
     float cable_length = computeCableLength(cable);
-    float last_anchor_player_length = Vector2Distance(cableGetLastAnchor(cable)->position, player->position);
+    float last_anchor_player_length = Vector2Distance(cableGetLastAnchor(cable)->position, handPosition);
     float total_cable_length = cable_length + last_anchor_player_length;
     if (total_cable_length >= cable->maxLength) {
         const float cableSpringStiffness = 1.0f;
-        Vector2 dx = Vector2Subtract(player->position, cableGetLastAnchor(cable)->position);
+        Vector2 dx = Vector2Subtract(handPosition, cableGetLastAnchor(cable)->position);
         Vector2 cableSpringForce = Vector2MultiplyS(-cableSpringStiffness, dx);
         player->force = Vector2Add(player->force, cableSpringForce);
     }

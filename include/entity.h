@@ -44,6 +44,7 @@ struct Player {
 
     // Input
     Vector2 input_vector;
+    float facing_direction;
     bool canDoubleJump;
 
     // Physics
@@ -57,6 +58,8 @@ void playerFrameReset(Player* player);
 CapsuleCollider playerComputeCollider(const Player* player);
 
 Player createPlayer();
+
+Vector2 computePlayerHandPosition(Player* player);
 
 void destroyPlayer(Player* player);
 
