@@ -2,29 +2,29 @@
 #include "physics.h"
 #include "raylib.h"
 
-#define ENTITY_LIST_CAPACITY 1e3*sizeof(Entity)
+#define GAME_COLLIDER_LIST_CAPACITY 1e3*sizeof(GameCollider)
 
-EntityList createEntityList() {
-    EntityList e_list;
-    e_list.size = 0;
-    e_list.capacity = ENTITY_LIST_CAPACITY;
-    e_list.entities = malloc(e_list.capacity);
-    return e_list;
+GameColliderList createGameColliderList() {
+    GameColliderList c_list;
+    c_list.size = 0;
+    c_list.capacity = GAME_COLLIDER_LIST_CAPACITY;
+    c_list.colliders = malloc(c_list.capacity);
+    return c_list;
 }
 
-void addEntityToList(EntityList* e_list, Entity* e) {
-    e_list->entities[sizeof(Entity)*e_list->size] = *e;
-    e_list->size += 1;
+void addGameColliderToList(GameColliderList* c_list, GameCollider* e) {
+    c_list->colliders[sizeof(GameCollider)*c_list->size] = *e;
+    c_list->size += 1;
 }
 
-Entity* getEntityFromList(EntityList* e_list, size_t index) {
-    return &e_list->entities[sizeof(Entity) * index];
+GameCollider* getGameColliderFromList(GameColliderList* c_list, size_t index) {
+    return &c_list->colliders[sizeof(GameCollider) * index];
 }
 
-void clearEntityList(EntityList* e_list) { e_list->size = 0; }
+void clearGameColliderList(GameColliderList* c_list) { c_list->size = 0; }
 
-void destroyEntityList(EntityList* e_list) {
-    free(e_list->entities);
+void destroyGameColliderList(GameColliderList* c_list) {
+    free(c_list->colliders);
 }
 
 Player createPlayer() {

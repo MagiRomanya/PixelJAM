@@ -34,14 +34,14 @@ int main(void)
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
-    EntityList entity_list = createEntityList();
-    Entity entity = {0};
+    GameColliderList collider_list = createGameColliderList();
+    GameCollider entity = {0};
     entity.collision_mask = PLAYER_CABLE_COLLIDE;
     entity.friction_damping = 1.0f;
     Vector2 x1 = {-100, 150};
     Vector2 x2 = {100, 150};
     entity.capsule_collider = (CapsuleCollider){x1, x2, 20};
-    addEntityToList(&entity_list, &entity);
+    addGameColliderToList(&collider_list, &entity);
 
     Player player = createPlayer();
 
@@ -95,7 +95,7 @@ int main(void)
             ClearBackground(RAYWHITE);
             BeginMode2D(pp_data.worldCamera);
             {
-                updatePlayerMovement(&player, &entity_list);
+                updatePlayerMovement(&player, &collider_list);
                 DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
 
                 renderCapsule(entity.capsule_collider);

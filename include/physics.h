@@ -10,7 +10,7 @@
 #define GRAVITY 70.0f
 #define TIME_STEP 0.016f
 
-typedef struct EntityList EntityList;
+typedef struct GameColliderList GameColliderList;
 typedef struct Player Player;
 
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
     float signed_distance;
 } Collision;
 
-void updatePlayerMovement(Player* player, EntityList* elist);
+void updatePlayerMovement(Player* player, GameColliderList* clist);
 
 void set_array_to_zero(float* arr, size_t size);
 

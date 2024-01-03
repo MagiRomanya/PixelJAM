@@ -13,36 +13,26 @@ PLAYER_CABLE_COLLIDE,
 } COLLISION_MASK ;
 
 typedef struct {
-    // General Stuff
-    Vector2 postion;
-
-    // Render
-    Texture2D sprite;
-    Rectangle rect_source;
-    Rectangle rect_dest;
-
-    // Physics
     COLLISION_MASK collision_mask;
     float friction_damping;
     CapsuleCollider capsule_collider;
+} GameCollider;
 
-} Entity;
-
-struct EntityList{
-    Entity* entities;
+struct GameColliderList{
+    GameCollider* colliders;
     size_t size;
     size_t capacity;
 };
 
-EntityList createEntityList();
+GameColliderList createGameColliderList();
 
-void addEntityToList(EntityList* e_list, Entity* e);
+void addGameColliderToList(GameColliderList* c_list, GameCollider* c);
 
-Entity* getEntityFromList(EntityList* e_list, size_t index);
+GameCollider* getGameColliderFromList(GameColliderList* c_list, size_t index);
 
-void clearEntityList(EntityList* e_list);
+void clearGameColliderList(GameColliderList* c_list);
 
-void destroyEntityList(EntityList* e_list);
+void destroyGameColliderList(GameColliderList* c_list);
 
 struct Player {
     Vector2 position;
