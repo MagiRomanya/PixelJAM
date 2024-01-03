@@ -8,4 +8,6 @@
 #include "entity.h"
 #include "cable.h"
 
+void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable *cable, Player *player);
+
 #endif // MAP_LOADER_H
