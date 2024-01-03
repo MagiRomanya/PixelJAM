@@ -38,5 +38,6 @@ Vector2 Vector2MultiplyS(float scalar, Vector2 vec);
 
 void computePointCapsuleCollision(CapsuleCollider* c, Vector2 point, Collision* out);
 
+CapsuleCollider createCapsule(int x1, int x2, int y, float r);
 
 #endif // PHYSICS_H_
