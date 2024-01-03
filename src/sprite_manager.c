@@ -15,6 +15,8 @@ void initializeSprites() {
     spriteContainer.sprites[0] = LoadTexture("assets/sprites/tile-test.png");
 }
 
+size_t getMaxSprites() {return N_SPRITES; }
+
 void unloadSprites() {
     UnloadTexture(spriteContainer.sprites[0]);
 }

@@ -108,7 +108,7 @@ void destroyCollisionList(CollisionList* clist) {
 }
 
 void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
-    const float collisionStiffness = 40.0;
+    const float collisionStiffness = 100.0;
     player->grounded = false;
     for (size_t i = 0; i < clist->size; i++) {
         const GameCollider* gameCollider = getGameColliderFromList(clist, i);
@@ -129,7 +129,7 @@ void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
                 player->force = Vector2Add(player->force, Vector2MultiplyS(-collisionStiffness * collision.signed_distance, collision.normal));
 
                 // Damping
-                const float collisionBounceDamping = 10.0;
+                const float collisionBounceDamping = 20.0;
                 Vector2 uut_v = {collision.normal.x*collision.normal.x * player->velocity.x + collision.normal.x*collision.normal.y * player->velocity.y,
                                  collision.normal.y*collision.normal.x * player->velocity.x + collision.normal.y*collision.normal.y * player->velocity.y};
                 player->force = Vector2Add(player->force, Vector2MultiplyS(-collisionBounceDamping, uut_v));

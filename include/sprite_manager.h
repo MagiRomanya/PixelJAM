@@ -10,4 +10,6 @@ void unloadSprites();
 
 Texture2D getSpriteFromID(size_t SpriteID);
 
+size_t getMaxSprites();
+
 #endif // SPRITE_MANAGER_H_

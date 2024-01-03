@@ -39,6 +39,7 @@ TileMap createTileMap() {
 }
 
 void addTileToMap(TileMap* t_map, int sprite_id, int tile_x, int tile_y) {
+    if (sprite_id > getMaxSprites()) return;
     Tile t;
     t.SpriteID = sprite_id;
     t.Position = (Vector2){tile_x, tile_y};

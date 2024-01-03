@@ -117,12 +117,8 @@ int main(void)
             {
                 updatePlayerMovement(&player, &collider_list);
                 renderTileMap(&tileMap);
-                for (size_t i = 0; i < collider_list.size; i++) {
-                    GameCollider* c = getGameColliderFromList(&collider_list, i);
-                    /* renderCapsule(c->capsule_collider); */
-                }
-                /* renderCapsule(playerComputeCollider(&player)); */
-                /* printf("Player position = {%f, %f}\n", player.position.x, player.position.y); */
+                // renderCollisionCapsules(&collider_list);
+                // printf("Player position = {%f, %f}\n", player.position.x, player.position.y);
                 drawCable(&cable, &player);
                 DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
 

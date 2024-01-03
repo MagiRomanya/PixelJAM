@@ -2,6 +2,7 @@
 #define ULTILITIES_H_
 
 #include "physics.h"
+#include "entity.h"
 #include "raylib.h"
 #include <stddef.h>
 #include <stdio.h>
@@ -55,6 +56,13 @@ static inline void showTitleScreen() {
         EndDrawing();
     }
     UnloadTexture(titleScreen);
+}
+
+static inline void renderCollisionCapsules(GameColliderList* c_list) {
+    for (size_t i = 0; i < c_list->size; i++) {
+        GameCollider *c = getGameColliderFromList(c_list, i);
+        renderCapsule(c->capsule_collider);
+    }
 }
 
 #endif // ULTILITIES_H_
