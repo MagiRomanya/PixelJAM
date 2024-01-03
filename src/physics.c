@@ -163,3 +163,16 @@ CapsuleCollider createCapsule(int x1, int x2, int y, float r) {
     c.radius = r;
     return c;
 }
+
+bool do_segments_intersect(Vector2 p1, Vector2 p2, Vector2 q1, Vector2 q2) {
+    int o1 = ((p2.y - p1.y) * (q1.x - p2.x)) + ((p1.x - p2.x) * (q1.y - p2.y));
+    int o2 = ((p2.y - p1.y) * (q2.x - p2.x)) + ((p1.x - p2.x) * (q2.y - p2.y));
+    int o3 = ((q2.y - q1.y) * (p1.x - q2.x)) + ((q1.x - q2.x) * (p1.y - q2.y));
+    int o4 = ((q2.y - q1.y) * (p2.x - q2.x)) + ((q1.x - q2.x) * (p2.y - q2.y));
+
+    if ((o1 * o2 < 0) && (o3 * o4 < 0)) {
+        return true;
+    }
+
+    return false;
+}
