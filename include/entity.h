@@ -61,7 +61,7 @@ Player createPlayer();
 void destroyPlayer(Player* player);
 
 typedef struct {
-    int SpireID;
+    int SpriteID;
     Vector2 Position;
 } Tile;
 
@@ -80,5 +80,7 @@ Tile* getTileFromMap(TileMap* t_map, size_t index);
 void clearTileMap(TileMap* t_map);
 
 void destroyGameTileMap(TileMap* t_map);
+
+void renderTileMap(TileMap* t_map);
 
 #endif // ENTITY_H_

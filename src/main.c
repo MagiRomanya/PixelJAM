@@ -8,18 +8,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#define VIRTUAL_SCREEN_WIDTH 160
-#define VIRTUAL_SCREEN_HEIGHT 90
-
-//-----------------------------------------------------------------------------------
-// Enum  for game screens 
-//-----------------------------------------------------------------------------------
-typedef enum GameSreen { OPENING = 0, TITLE, GAMEPLAY, ENDING } GameScreen;
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
-
-
 int main(void)
 {
     // Initialization
@@ -30,10 +18,7 @@ int main(void)
     InitWindow(initialScreenWidth, initialScreenHeight, "PixelJAM 24");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     
-    GameScreen currentScreen = OPENING;
-    int frameCounter = 0;
-
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    SetTargetFPS(120);
 
     GameColliderList collider_list = createGameColliderList();
     GameCollider c1 = {0};
@@ -63,7 +48,6 @@ int main(void)
     //--------------------------------------------------------------------------------------
     // Main game loop
     /* showTitleScreen(); */
-    SetTargetFPS(150);
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update

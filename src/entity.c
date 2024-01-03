@@ -1,6 +1,8 @@
 #include "entity.h"
 #include "physics.h"
 #include "raylib.h"
+#include "sprite_manager.h"
+#include <stddef.h>
 
 #define GAME_COLLIDER_LIST_CAPACITY 1e3*sizeof(GameCollider)
 
@@ -37,7 +39,7 @@ TileMap createTileMap() {
 
 void addTileToMap(TileMap* t_map, int sprite_id, int tile_x, int tile_y) {
     Tile t;
-    t.SpireID = sprite_id;
+    t.SpriteID = sprite_id;
     t.Position = (Vector2){tile_x, tile_y};
     t_map->tiles[sizeof(Tile)*t_map->size] = t;
     t_map->size += 1;
@@ -82,4 +84,12 @@ CapsuleCollider playerComputeCollider(const Player* player) {
     const Vector2 x2 = Vector2Add(player->base_capsule_collider.x2, player->position);
     CapsuleCollider c = {x1, x2, player->base_capsule_collider.radius};
     return c;
+}
+
+void renderTileMap(TileMap* t_map) {
+    for (size_t i = 0; i < t_map->size; i++) {
+        Tile* tile = getTileFromMap(t_map, i);
+        Texture2D texture = getSpriteFromID(tile->SpriteID);
+        DrawTexture(texture, tile->Position.x, tile->Position.y, WHITE);
+    }
 }
