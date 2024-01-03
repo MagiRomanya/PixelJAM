@@ -159,8 +159,8 @@ void updatePlayerMovement(Player* player, GameColliderList* clist) {
 
 CapsuleCollider createCapsule(int x1, int x2, int y, float r) {
     CapsuleCollider c;
-    c.x1 = (Vector2){x1, y}
-    c.x2 = (Vector2){x2, y}
-    c.radius = r
+    c.x1 = (Vector2){x1, y};
+    c.x2 = (Vector2){x2, y};
+    c.radius = r;
     return c;
 }
