@@ -52,20 +52,18 @@ struct Player {
     CapsuleCollider base_capsule_collider;
 };
 
-static inline void playerFrameReset(Player* player) {
-    player->input_vector = (Vector2){0};
-}
+void playerFrameReset(Player* player);
 
-static inline CapsuleCollider playerComputeCollider(const Player* player) {
-    const Vector2 x1 = Vector2Add(player->base_capsule_collider.x1, player->position);
-    const Vector2 x2 = Vector2Add(player->base_capsule_collider.x2, player->position);
-    CapsuleCollider c = {x1, x2, player->base_capsule_collider.radius};
-    return c;
-}
+CapsuleCollider playerComputeCollider(const Player* player);
 
 Player createPlayer();
 
 void destroyPlayer(Player* player);
+
+typedef struct {
+    Texture2D sprite;
+    Vector2 position;
+} GameTile ;
 
 
 #endif // ENTITY_H_

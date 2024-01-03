@@ -46,3 +46,14 @@ Player createPlayer() {
 void destroyPlayer(Player* player) {
     UnloadTexture(player->sprite);
 }
+
+void playerFrameReset(Player* player) {
+    player->input_vector = (Vector2){0};
+}
+
+CapsuleCollider playerComputeCollider(const Player* player) {
+    const Vector2 x1 = Vector2Add(player->base_capsule_collider.x1, player->position);
+    const Vector2 x2 = Vector2Add(player->base_capsule_collider.x2, player->position);
+    CapsuleCollider c = {x1, x2, player->base_capsule_collider.radius};
+    return c;
+}

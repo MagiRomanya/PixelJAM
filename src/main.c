@@ -1,3 +1,4 @@
+#include "cable.h"
 #include "entity.h"
 #include "physics.h"
 #include "raylib.h"
@@ -45,6 +46,8 @@ int main(void)
 
     Player player = createPlayer();
 
+    Cable cable = createCable((Vector2){0,100}, 10, 100);
+
     RenderTexture2D WorldRenderTexture = LoadRenderTexture(getVirtualScreenWidth(), getVirtualScreenHeight());
 
     // Camera target position
@@ -76,6 +79,22 @@ int main(void)
             if (IsKeyPressed(KEY_SPACE)) {
                 player.input_vector.y -= 60;
             }
+            if (IsKeyPressed(KEY_F)) {
+                PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, player.position);
+                switch (result) {
+                    case ANCHOR_SUCCESS:
+                        break;
+                    case ANCHOR_NOT_ENOUGH_ANCHORS:
+                        printf("Not enough achors!\n");
+                        break;
+                    case ANCHOR_NOT_ENOUGH_LENGTH:
+                        printf("Not enough cable length!\n");
+                        break;
+                    case ANCHOR_OBSTRUDED_PATH:
+                        printf("Not enough cable length!\n");
+                        break;
+                }
+            }
         }
         else if (player.canDoubleJump) {
             if (IsKeyPressed(KEY_SPACE)) {
@@ -101,6 +120,21 @@ int main(void)
                 renderCapsule(entity.capsule_collider);
                 /* renderCapsule(playerComputeCollider(&player)); */
                 /* printf("Player position = {%f, %f}\n", player.position.x, player.position.y); */
+
+                // Draw anchors
+                for (size_t i = 0; i < cable.nAnchors; i++) {
+                    Anchor a = cable.anchors[i];
+                    const int half_width = 5;
+                    DrawRectangle(a.position.x-half_width, a.position.y-half_width, 2*half_width, 2*half_width, GRAY);
+                }
+                // Draw cables
+                for (size_t i = 0; i < cable.nAnchors-1; i++) {
+                    Anchor a1 = cable.anchors[i];
+                    Anchor a2 = cable.anchors[i+1];
+                    DrawLineV(a1.position, a2.position, BLACK);
+                }
+                // Last cable
+                DrawLineV(cableGetLastAnchor(&cable)->position, player.position, BLACK);
             }
             EndMode2D();
         }
