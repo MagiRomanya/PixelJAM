@@ -36,13 +36,21 @@ int main(void)
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
     GameColliderList collider_list = createGameColliderList();
-    GameCollider entity = {0};
-    entity.collision_mask = PLAYER_CABLE_COLLIDE;
-    entity.friction_damping = 1.0f;
+    GameCollider c1 = {0};
+    c1.collision_mask = PLAYER_CABLE_COLLIDE;
+    c1.friction_damping = 1.0f;
     Vector2 x1 = {-100, 150};
     Vector2 x2 = {100, 150};
-    entity.capsule_collider = (CapsuleCollider){x1, x2, 20};
-    addGameColliderToList(&collider_list, &entity);
+    c1.capsule_collider = (CapsuleCollider){x1, x2, 20};
+    addGameColliderToList(&collider_list, &c1);
+
+    GameCollider c2 = {0};
+    c2.collision_mask = PLAYER_CABLE_COLLIDE;
+    c2.friction_damping = 1.0f;
+     x1 = (Vector2){150, 100};
+     x2 = (Vector2){200, 100};
+    c2.capsule_collider = (CapsuleCollider){x1, x2, 20};
+    addGameColliderToList(&collider_list, &c2);
 
     Player player = createPlayer();
 
@@ -52,12 +60,9 @@ int main(void)
 
     RenderMessage rmessage = {0};
 
-    // Camera target position
-    float cameraX = 0;
-    float cameraY = 0;
-
     //--------------------------------------------------------------------------------------
     // Main game loop
+    /* showTitleScreen(); */
     SetTargetFPS(150);
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
@@ -119,7 +124,8 @@ int main(void)
                 updatePlayerMovement(&player, &collider_list);
                 DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
 
-                renderCapsule(entity.capsule_collider);
+                renderCapsule(c1.capsule_collider);
+                renderCapsule(c2.capsule_collider);
                 /* renderCapsule(playerComputeCollider(&player)); */
                 /* printf("Player position = {%f, %f}\n", player.position.x, player.position.y); */
                 drawCable(&cable, &player);

@@ -4,6 +4,7 @@
 #include "physics.h"
 #include "raylib.h"
 #include <stddef.h>
+#include <stdio.h>
 
 static inline void renderCapsule(CapsuleCollider collider) {
     const float radius = collider.radius;
@@ -30,6 +31,30 @@ static inline void drawMessage(RenderMessage* message, Vector2 position) {
     if (message->ticks > message->lifetime) return;
     const float MESSAGE_FONT_SIZE = GetScreenWidth()* 0.01;
     DrawText(message->message, position.x, position.y, MESSAGE_FONT_SIZE, RED);
+}
+
+static inline void showTitleScreen() {
+    const float title_screen_duration = 2.0f;
+    size_t frameNumber = 0;
+    // Title screen
+    Texture2D titleScreen = LoadTexture("assets/sprites/titlescreen.png");
+    SetTargetFPS(60);
+    while (!WindowShouldClose()) {
+        frameNumber++;
+        float titleTime = frameNumber*GetFrameTime();
+        if (title_screen_duration < titleTime) break;
+        BeginDrawing();
+        {
+            ClearBackground(BLACK);
+            Rectangle source = {0, 0, 1920, 1080};
+            Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+            const float effect = titleTime / title_screen_duration;
+            Color color = {255.0, 255.0, 255.0, 255.0*effect};
+            DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
+        }
+        EndDrawing();
+    }
+    UnloadTexture(titleScreen);
 }
 
 #endif // ULTILITIES_H_
