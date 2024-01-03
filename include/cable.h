@@ -1,6 +1,7 @@
 #ifndef CABLE_H_
 #define CABLE_H_
 
+#include "entity.h"
 #include "raylib.h"
 #include <stddef.h>
 
@@ -31,5 +32,7 @@ void destroyCable(Cable* cable);
 float computeCableLength(Cable* cable);
 
 PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, Vector2 position);
+
+void drawCable(Cable* cable, Player* player);
 
 #endif // CABLE_H_

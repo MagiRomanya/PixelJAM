@@ -50,6 +50,8 @@ int main(void)
 
     RenderTexture2D WorldRenderTexture = LoadRenderTexture(getVirtualScreenWidth(), getVirtualScreenHeight());
 
+    RenderMessage rmessage = {0};
+
     // Camera target position
     float cameraX = 0;
     float cameraY = 0;
@@ -85,13 +87,13 @@ int main(void)
                     case ANCHOR_SUCCESS:
                         break;
                     case ANCHOR_NOT_ENOUGH_ANCHORS:
-                        printf("Not enough achors!\n");
+                        addMessageToBeRendered(&rmessage, "Not enough available anchors!", 5);
                         break;
                     case ANCHOR_NOT_ENOUGH_LENGTH:
-                        printf("Not enough cable length!\n");
+                        addMessageToBeRendered(&rmessage, "Not enough cable length!", 5);
                         break;
                     case ANCHOR_OBSTRUDED_PATH:
-                        printf("Not enough cable length!\n");
+                        addMessageToBeRendered(&rmessage, "Something is obstructing the path!", 5);
                         break;
                 }
             }
@@ -120,21 +122,8 @@ int main(void)
                 renderCapsule(entity.capsule_collider);
                 /* renderCapsule(playerComputeCollider(&player)); */
                 /* printf("Player position = {%f, %f}\n", player.position.x, player.position.y); */
+                drawCable(&cable, &player);
 
-                // Draw anchors
-                for (size_t i = 0; i < cable.nAnchors; i++) {
-                    Anchor a = cable.anchors[i];
-                    const int half_width = 5;
-                    DrawRectangle(a.position.x-half_width, a.position.y-half_width, 2*half_width, 2*half_width, GRAY);
-                }
-                // Draw cables
-                for (size_t i = 0; i < cable.nAnchors-1; i++) {
-                    Anchor a1 = cable.anchors[i];
-                    Anchor a2 = cable.anchors[i+1];
-                    DrawLineV(a1.position, a2.position, BLACK);
-                }
-                // Last cable
-                DrawLineV(cableGetLastAnchor(&cable)->position, player.position, BLACK);
             }
             EndMode2D();
         }
@@ -147,6 +136,7 @@ int main(void)
                 DrawTexturePro(WorldRenderTexture.texture, pp_data.worldRec, pp_data.screenSpaceRec, (Vector2){0}, 0.0f, WHITE);
             }
             EndMode2D();
+            drawMessage(&rmessage, (Vector2){screenWidth*0.5, 0.45*screenHeight});
         }
         EndDrawing();
         //----------------------------------------------------------------------------------

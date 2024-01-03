@@ -1,4 +1,5 @@
 #include "cable.h"
+#include "entity.h"
 #include "raylib.h"
 #include "raymath.h"
 #include <stddef.h>
@@ -55,3 +56,22 @@ bool tryRemoveLastAnchor(Cable* cable, Vector2 position) {
 void destroyCable(Cable* cable) {
     free(cable->anchors);
 }
+
+void drawCable(Cable* cable, Player* player) {
+    const Color cableColor = BLACK;
+    const Color anchorColor = GRAY;
+    // Draw anchors
+    for (size_t i = 0; i < cable->nAnchors; i++) {
+        Anchor a = cable->anchors[i];
+        const int half_width = 5;
+        DrawRectangle(a.position.x-half_width, a.position.y-half_width, 2*half_width, 2*half_width, anchorColor);
+    }
+    // Draw cables
+    for (size_t i = 0; i < cable->nAnchors-1; i++) {
+        Anchor a1 = cable->anchors[i];
+        Anchor a2 = cable->anchors[i+1];
+        DrawLineV(a1.position, a2.position, cableColor);
+    }
+    // Last cable
+    DrawLineV(cableGetLastAnchor(cable)->position, player->position, cableColor);
+};
