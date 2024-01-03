@@ -11,7 +11,7 @@ typedef struct {
 
 static SpriteContainer spriteContainer;
 
-void initializeSpriteContainer() {
+void initializeSprites() {
     spriteContainer.sprites[0] = LoadTexture("assets/sprites/Tree001.png");
 }
 
