@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#define ANCHOR_REMOVE_DISTANCE 20.0f
+#define ANCHOR_REMOVE_DISTANCE 40.0f
 
 Cable createCable(Vector2 initialAnchor, size_t maxAnchors, float maxLength) {
     Cable cable = {0};
@@ -33,6 +33,18 @@ float computeCableLength(Cable* cable) {
     return length;
 };
 
+bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_list) {
+    bool collide = false;
+    for (size_t i = 0; i < c_list->size; i++) {
+        GameCollider* collider = getGameColliderFromList(c_list, i);
+        if (do_segments_intersect(x1, x2, collider->capsule_collider.x1, collider->capsule_collider.x2)) {
+            collide = true;
+            break;
+        }
+    }
+    return collide;
+}
+
 PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vector2 position) {
     if (cable->nAnchors >= cable->nMaxAnchors) return ANCHOR_NOT_ENOUGH_ANCHORS;
 
@@ -42,16 +54,7 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vec
     if (cableLength + newFragmentLength >= cable->maxLength) return ANCHOR_NOT_ENOUGH_LENGTH;
 
     // New cable segment
-    Vector2 v1 = lastAnchor->position;
-    Vector2 v2 = position;
-    bool collide = false;
-    for (size_t i = 0; i < c_list->size; i++) {
-        GameCollider* collider = getGameColliderFromList(c_list, i);
-        if (do_segments_intersect(v1, v2, collider->capsule_collider.x1, collider->capsule_collider.x2)) {
-            collide = true;
-            break;
-        }
-    }
+    bool collide = computeLastSegmentIntersection(lastAnchor->position, position, c_list);
     if (collide) return ANCHOR_OBSTRUDED_PATH;
 
     cable->anchors[cable->nAnchors] = (Anchor){position};
@@ -71,9 +74,9 @@ void destroyCable(Cable* cable) {
     free(cable->anchors);
 }
 
-void drawCable(Cable* cable, Player* player) {
-    const Color cableColor = BLACK;
-    const Color anchorColor = GRAY;
+void drawCable(Cable* cable, Player* player, GameColliderList* c_list) {
+    Color cableColor = BLACK;
+    Color anchorColor = GRAY;
     // Draw anchors
     for (size_t i = 0; i < cable->nAnchors; i++) {
         Anchor a = cable->anchors[i];
@@ -86,6 +89,9 @@ void drawCable(Cable* cable, Player* player) {
         Anchor a2 = cable->anchors[i+1];
         DrawLineV(a1.position, a2.position, cableColor);
     }
-    // Last cable
-    DrawLineV(cableGetLastAnchor(cable)->position, computePlayerHandPosition(player), cableColor);
+    // Last cable (red if not)
+    Vector2 lastAnchorPos = cableGetLastAnchor(cable)->position;
+    bool collided = computeLastSegmentIntersection(computePlayerHandPosition(player), lastAnchorPos, c_list);
+    if (collided) cableColor = RED;
+    DrawLineV(lastAnchorPos, computePlayerHandPosition(player), cableColor);
 };

@@ -3,6 +3,7 @@
 #include "physics.h"
 #include "raylib.h"
 #include "pixel_perfect.h"
+#include "raymath.h"
 #include "sprite_manager.h"
 #include "ultilities.h"
 #include "map_loader.h"
@@ -65,8 +66,7 @@ int main(void)
             if (IsKeyPressed(KEY_SPACE)) {
                 playerJump(&player);
             }
-            if (IsKeyPressed(KEY_F)) {
-                if (!tryRemoveLastAnchor(&cable, player.position)) {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, computePlayerHandPosition(&player));
                 switch (result) {
                     case ANCHOR_SUCCESS:
@@ -81,7 +81,9 @@ int main(void)
                         addMessageToBeRendered(&rmessage, "Something is obstructing the path!", 5);
                         break;
                 }
-                }
+            }
+            if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
+                tryRemoveLastAnchor(&cable, Vector2Add(player.position, (Vector2){16,16}));
             }
         }
         else if (player.canDoubleJump) {
@@ -106,8 +108,9 @@ int main(void)
                 renderTileMap(&tileMap);
                 // renderCollisionCapsules(&collider_list);
                 // printf("Player position = {%f, %f}\n", player.position.x, player.position.y);
-                drawCable(&cable, &player);
+                drawCable(&cable, &player, &collider_list);
                 DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
+                DrawCircleV(computePlayerHandPosition(&player), 5, GREEN);
             }
             EndMode2D();
         }
@@ -130,6 +133,10 @@ int main(void)
     //--------------------------------------------------------------------------------------
     UnloadRenderTexture(WorldRenderTexture);
     destroyPlayer(&player);
+    destroyCable(&cable);
+    destroyGameColliderList(&collider_list);
+    destroyGameTileMap(&tileMap);
+    unloadSprites();
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 

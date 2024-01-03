@@ -33,7 +33,7 @@ float computeCableLength(Cable* cable);
 
 PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vector2 position);
 
-void drawCable(Cable* cable, Player* player);
+void drawCable(Cable* cable, Player* player, GameColliderList* c_list);
 
 bool tryRemoveLastAnchor(Cable* cable, Vector2 position);
 
