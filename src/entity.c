@@ -39,7 +39,7 @@ void addTileToMap(TileMap* t_map, int sprite_id, int tile_x, int tile_y) {
     Tile t;
     t.SpireID = sprite_id;
     t.Position = (Vector2){tile_x, tile_y};
-    t_map->tiles[sizeof(Tile)*t_map->size] = *t;
+    t_map->tiles[sizeof(Tile)*t_map->size] = t;
     t_map->size += 1;
 }
 

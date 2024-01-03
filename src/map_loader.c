@@ -19,7 +19,7 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
             if (pixel.a != 0) {
                 // int sprite_id = pixel.b;
                 // if (pixel.g) sprite_id += 256 + pixel.g;
-                addTileToMap(t_map, pixel.b, i*16, j*16);
+                addTileToMap(&t_map, pixel.b, i*16, j*16);
 
                 if (pixel.r && startNewCollider) {
                     x1 = i*16;
