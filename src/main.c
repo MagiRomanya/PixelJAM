@@ -3,7 +3,9 @@
 #include "physics.h"
 #include "raylib.h"
 #include "pixel_perfect.h"
+#include "sprite_manager.h"
 #include "ultilities.h"
+#include "map_loader.h"
 #include <math.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -18,24 +20,22 @@ int main(void)
     InitWindow(initialScreenWidth, initialScreenHeight, "PixelJAM 24");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     
-    SetTargetFPS(120);
-
     GameColliderList collider_list = createGameColliderList();
-    GameCollider c1 = {0};
-    c1.collision_mask = PLAYER_CABLE_COLLIDE;
-    c1.friction_damping = 1.0f;
-    Vector2 x1 = {-100, 150};
-    Vector2 x2 = {100, 150};
-    c1.capsule_collider = (CapsuleCollider){x1, x2, 20};
-    addGameColliderToList(&collider_list, &c1);
+    /* GameCollider c1 = {0}; */
+    /* c1.collision_mask = PLAYER_CABLE_COLLIDE; */
+    /* c1.friction_damping = 1.0f; */
+    /* Vector2 x1 = {-100, 150}; */
+    /* Vector2 x2 = {100, 150}; */
+    /* c1.capsule_collider = (CapsuleCollider){x1, x2, 20}; */
+    /* addGameColliderToList(&collider_list, &c1); */
 
-    GameCollider c2 = {0};
-    c2.collision_mask = PLAYER_CABLE_COLLIDE;
-    c2.friction_damping = 1.0f;
-     x1 = (Vector2){150, 100};
-     x2 = (Vector2){200, 100};
-    c2.capsule_collider = (CapsuleCollider){x1, x2, 20};
-    addGameColliderToList(&collider_list, &c2);
+    /* GameCollider c2 = {0}; */
+    /* c2.collision_mask = PLAYER_CABLE_COLLIDE; */
+    /* c2.friction_damping = 1.0f; */
+    /* x1 = (Vector2){150, 100}; */
+    /* x2 = (Vector2){200, 100}; */
+    /* c2.capsule_collider = (CapsuleCollider){x1, x2, 20}; */
+    /* addGameColliderToList(&collider_list, &c2); */
 
     Player player = createPlayer();
 
@@ -45,9 +45,19 @@ int main(void)
 
     RenderMessage rmessage = {0};
 
+    TileMap tileMap = createTileMap();
+
+    initializeSprites();
+    loadMap("assets/maps/map-test.png", &tileMap, &collider_list, &cable, &player);
+    printf("N colliders = %zu\n", collider_list.size);
+    printf("N tiles = %zu\n", tileMap.size);
+
     //--------------------------------------------------------------------------------------
     // Main game loop
     /* showTitleScreen(); */
+
+    SetTargetFPS(120);
+
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -106,13 +116,15 @@ int main(void)
             BeginMode2D(pp_data.worldCamera);
             {
                 updatePlayerMovement(&player, &collider_list);
-                DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
-
-                renderCapsule(c1.capsule_collider);
-                renderCapsule(c2.capsule_collider);
+                renderTileMap(&tileMap);
+                for (size_t i = 0; i < collider_list.size; i++) {
+                    GameCollider* c = getGameColliderFromList(&collider_list, i);
+                    renderCapsule(c->capsule_collider);
+                }
                 /* renderCapsule(playerComputeCollider(&player)); */
                 /* printf("Player position = {%f, %f}\n", player.position.x, player.position.y); */
                 drawCable(&cable, &player);
+                DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
 
             }
             EndMode2D();

@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include "sprite_manager.h"
 #include <stddef.h>
+#include <stdio.h>
 
 #define GAME_COLLIDER_LIST_CAPACITY 1e3*sizeof(GameCollider)
 
