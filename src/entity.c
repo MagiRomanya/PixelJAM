@@ -27,6 +27,32 @@ void destroyGameColliderList(GameColliderList* c_list) {
     free(c_list->colliders);
 }
 
+TileMap createTileMap() {
+    TileMap t_map;
+    t_map.size = 0;
+    t_map.capacity = GAME_COLLIDER_LIST_CAPACITY;
+    t_map.tiles = malloc(t_map.capacity);
+    return t_map;
+}
+
+void addTileToMap(TileMap* t_map, int sprite_id, int tile_x, int tile_y) {
+    Tile t;
+    t.SpireID = sprite_id;
+    t.Position = (Vector2){tile_x, tile_y};
+    t_map->tiles[sizeof(tile)*t_map->size] = *t;
+    t_map->size += 1;
+}
+
+Tile* getTileFromMap(TileMap* t_map, size_t index) {
+    return &t_map->tiles[sizeof(Tile) * index];
+}
+
+void clearTileMap(TileMap* t_map) { t_map->size = 0; }
+
+void destroyGameTileMap(TileMap* t_map) {
+    free(t_map->tiles);
+}
+
 Player createPlayer() {
     Player player = {0};
     player.sprite = LoadTexture("assets/sprites/Tree001.png");
