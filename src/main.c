@@ -54,7 +54,7 @@ int main(void)
 
     //--------------------------------------------------------------------------------------
     // Main game loop
-    /* showTitleScreen(); */
+    showTitleScreen();
 
     SetTargetFPS(120);
 
@@ -119,7 +119,7 @@ int main(void)
                 renderTileMap(&tileMap);
                 for (size_t i = 0; i < collider_list.size; i++) {
                     GameCollider* c = getGameColliderFromList(&collider_list, i);
-                    renderCapsule(c->capsule_collider);
+                    /* renderCapsule(c->capsule_collider); */
                 }
                 /* renderCapsule(playerComputeCollider(&player)); */
                 /* printf("Player position = {%f, %f}\n", player.position.x, player.position.y); */

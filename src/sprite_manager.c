@@ -12,7 +12,7 @@ typedef struct {
 static SpriteContainer spriteContainer;
 
 void initializeSprites() {
-    spriteContainer.sprites[0] = LoadTexture("assets/sprites/Tree001.png");
+    spriteContainer.sprites[0] = LoadTexture("assets/sprites/tile-test.png");
 }
 
 void unloadSprites() {
