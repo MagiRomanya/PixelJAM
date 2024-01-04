@@ -14,12 +14,17 @@
 #define SPRITE_KITCHEN_TILE_4_ID 4
 #define SPRITE_TOOL_ID 67
 
-void initializeSprites();
+#define SOUND_TRACK_STAPLE_ID 0
+#define SOUND_TRACK_INTRO_EFFECT_ID 1
 
-void unloadSprites();
+void initializeAssets();
+
+void destroyAssets();
 
 Texture2D getSpriteFromID(size_t SpriteID);
+Sound getSoundTrackFromID(size_t MusicID);
 
 size_t getMaxSprites();
+size_t getMaxMusicTracks();
 
 #endif // SPRITE_MANAGER_H_

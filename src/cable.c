@@ -67,6 +67,7 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vec
 
     cable->anchors[cable->nAnchors] = (Anchor){position};
     cable->nAnchors++;
+    PlaySound(getSoundTrackFromID(SOUND_TRACK_STAPLE_ID));
     return ANCHOR_SUCCESS;
 }
 

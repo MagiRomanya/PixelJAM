@@ -47,6 +47,7 @@ static inline void showTitleScreen() {
     // Title screen
     Texture2D titleScreen = LoadTexture("assets/sprites/titlescreen.png");
     SetTargetFPS(60);
+    PlaySound(getSoundTrackFromID(SOUND_TRACK_INTRO_EFFECT_ID));
     while (!WindowShouldClose()) {
         frameNumber++;
         float titleTime = frameNumber*GetFrameTime();

@@ -20,6 +20,7 @@ int main(void)
 
     InitWindow(initialScreenWidth, initialScreenHeight, "PixelJAM 24");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
+    InitAudioDevice();
     
     GameColliderList collider_list = createGameColliderList();
 
@@ -33,15 +34,15 @@ int main(void)
 
     TileMap tileMap = createTileMap();
 
-    initializeSprites();
+    initializeAssets();
     loadMap("assets/maps/map-test2.png", &tileMap, &collider_list, &cable, &player);
     printf("N colliders = %zu\n", collider_list.size);
     printf("N tiles = %zu\n", tileMap.size);
 
     //--------------------------------------------------------------------------------------
     // Main game loop
-    /* showTitleScreen(); */
-    /* showMenuScreen(); */
+    showTitleScreen();
+    showMenuScreen();
     SetTargetFPS(120);
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -138,7 +139,8 @@ int main(void)
     destroyCable(&cable);
     destroyGameColliderList(&collider_list);
     destroyGameTileMap(&tileMap);
-    unloadSprites();
+    destroyAssets();
+    CloseAudioDevice();
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 

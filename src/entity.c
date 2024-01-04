@@ -90,7 +90,6 @@ Vector2 computePlayerHandPosition(Player* player) {
 };
 
 void playerJump(Player* player) {
-    printf("Player jump!\n");
     player->velocity.y = 0;
     player->input_vector.y -= 100.0f;
 }
