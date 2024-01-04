@@ -29,7 +29,9 @@ void initializeAssets() {
 
     // Music
     assetsContainer.tracks[SOUND_TRACK_STAPLE_ID] = LoadSound("assets/sound/staple.mp3");
+    assetsContainer.tracks[SOUND_TRACK_STAPLE_REMOVE_ID] = LoadSound("assets/sound/staple-remove.mp3");
     assetsContainer.tracks[SOUND_TRACK_INTRO_EFFECT_ID] = LoadSound("assets/sound/intro-effect.mp3");
+    assetsContainer.tracks[SOUND_TRACK_JUMP_EFFECT_ID] = LoadSound("assets/sound/jump-effect.mp3");
 }
 
 void destroyAssets() {
@@ -47,7 +49,9 @@ void destroyAssets() {
 
     // Sounds and music
     UnloadSound(assetsContainer.tracks[SOUND_TRACK_STAPLE_ID]);
+    UnloadSound(assetsContainer.tracks[SOUND_TRACK_STAPLE_REMOVE_ID]);
     UnloadSound(assetsContainer.tracks[SOUND_TRACK_INTRO_EFFECT_ID]);
+    UnloadSound(assetsContainer.tracks[SOUND_TRACK_JUMP_EFFECT_ID]);
 }
 
 Texture2D getSpriteFromID(size_t SpriteID) {

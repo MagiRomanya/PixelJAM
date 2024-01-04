@@ -76,6 +76,7 @@ bool tryRemoveLastAnchor(Cable* cable, Vector2 position) {
     Anchor* anchor = cableGetLastAnchor(cable);
     if (Vector2Distance(position, anchor->position) > ANCHOR_REMOVE_DISTANCE) return false; // To far away
     cable->nAnchors--;
+    PlaySound(getSoundTrackFromID(SOUND_TRACK_STAPLE_REMOVE_ID));
     return true;
 }
 
