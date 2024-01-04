@@ -81,37 +81,6 @@ void computeCapsuleCapsuleCollisionNaive(const CapsuleCollider* c1, const Capsul
     out->normal = normal;
 }
 
-#define COLLISIONS_CAPACITY (1e3*sizeof(Collision))
-
-typedef struct {
-    Collision* collisions;
-    size_t size;
-    size_t capacity;
-} CollisionList;
-
-CollisionList createCollisionsList() {
-    CollisionList clist;
-    clist.size = 0;
-    clist.capacity = COLLISIONS_CAPACITY;
-    clist.collisions = malloc(clist.capacity);
-    return clist;
-}
-
-void addCollisionToList(CollisionList* clist, Collision* c) {
-    clist->collisions[sizeof(Collision)*clist->size] = *c;
-    clist->size += sizeof(Collision);
-}
-
-Collision getCollisionFromList(CollisionList* clist, size_t index) {
-    return clist->collisions[sizeof(Collision) * index];
-}
-
-void clearCollisionList(CollisionList* clist) { clist->size = 0; }
-
-void destroyCollisionList(CollisionList* clist) {
-    free(clist->collisions);
-}
-
 void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
     const float collisionStiffness = 300.0;
     player->grounded = false;
