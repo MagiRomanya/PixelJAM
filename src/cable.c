@@ -13,7 +13,7 @@ Cable createCable(Vector2 initialAnchor, size_t maxAnchors, float maxLength) {
     cable.maxLength = maxLength;
     cable.nMaxAnchors = maxAnchors;
     cable.nAnchors = 1;
-    cable.anchors = malloc(sizeof(maxAnchors));
+    cable.anchors = malloc(sizeof(Anchor) * maxAnchors);
     cable.anchors[0] = (Anchor){initialAnchor};
     return cable;
 }
