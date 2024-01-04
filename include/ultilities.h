@@ -153,4 +153,15 @@ static inline void renderCableLengthUI(Cable* cable, Player* player) {
     DrawTexturePro(getSpriteFromID(SPRITE_CABLE_LENGTH_ID), sourceRec, destRec, (Vector2){-8*virtualRatio,-8*virtualRatio}, 0, WHITE);
 }
 
+static inline void renderAnchorsLeftUI(Cable* cable) {
+    const float oWidth = 16.0f;
+    Rectangle sourceRec = {0.0f, 0.0f, oWidth, oWidth};
+    const float virtualRatio = getVirtualRatio();
+    const float width = oWidth*virtualRatio;
+    Rectangle destRec = {0, 0, width, width};
+    Vector2 origin = {-(16.0 + 32.0)*virtualRatio, -width};
+    DrawTexturePro(getSpriteFromID(SPRITE_ANCHOR_ID), sourceRec, destRec, origin, 0, GRAY);
+    DrawText(TextFormat("%i", cable->nMaxAnchors - cable->nAnchors), -origin.x + virtualRatio*4, -origin.y, width, GOLD);
+}
+
 #endif // ULTILITIES_H_

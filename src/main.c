@@ -42,8 +42,8 @@ int main(void)
 
     //--------------------------------------------------------------------------------------
     // Main game loop
-    showTitleScreen();
-    showMenuScreen();
+    /* showTitleScreen(); */
+    /* showMenuScreen(); */
     SetTargetFPS(120);
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -128,6 +128,7 @@ int main(void)
             EndMode2D();
             drawMessage(&rmessage, (Vector2){screenWidth*0.5, 0.45*screenHeight});
             renderCableLengthUI(&cable, &player);
+            renderAnchorsLeftUI(&cable);
         }
         EndDrawing();
         //----------------------------------------------------------------------------------
