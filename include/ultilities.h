@@ -43,6 +43,7 @@ static inline void drawMessage(RenderMessage* message, Vector2 position) {
 
 static inline void showTitleScreen() {
     const float title_screen_duration = 2.0f;
+    const int MaxFrames = 2 * 60;
     size_t frameNumber = 0;
     // Title screen
     Texture2D titleScreen = LoadTexture("assets/sprites/titlescreen.png");
@@ -51,7 +52,8 @@ static inline void showTitleScreen() {
     while (!WindowShouldClose()) {
         frameNumber++;
         float titleTime = frameNumber*GetFrameTime();
-        if (title_screen_duration < titleTime) break;
+        if (frameNumber == MaxFrames / 4) PlaySound(getSoundTrackFromID(SOUND_TRACK_PTERODACTYL_ID));
+        if (MaxFrames < frameNumber) break;
         BeginDrawing();
         {
             ClearBackground(BLACK);

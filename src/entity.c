@@ -80,12 +80,12 @@ Player createPlayer() {
 }
 
 Vector2 computePlayerHandPosition(Player* player) {
-    const int diff = 5;
+    const int handBodyDistance = 5;
     if (player->facing_direction > 0) {
-        const Vector2 handPosition = {32-diff,16};
+        const Vector2 handPosition = {32-handBodyDistance,16};
         return Vector2Add(handPosition, player->position);
     }
-    const Vector2 handPosition = {diff,16};
+    const Vector2 handPosition = {handBodyDistance,16};
     return Vector2Add(handPosition, player->position);
 };
 
