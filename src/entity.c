@@ -80,11 +80,12 @@ Player createPlayer() {
 }
 
 Vector2 computePlayerHandPosition(Player* player) {
+    const int diff = 5;
     if (player->facing_direction > 0) {
-        const Vector2 handPosition = {32,16};
+        const Vector2 handPosition = {32-diff,16};
         return Vector2Add(handPosition, player->position);
     }
-    const Vector2 handPosition = {0,16};
+    const Vector2 handPosition = {diff,16};
     return Vector2Add(handPosition, player->position);
 };
 
@@ -95,7 +96,12 @@ void playerJump(Player* player) {
 }
 
 void renderPlayer(Player* player) {
-    DrawCircleV(computePlayerHandPosition(player), 5, GREEN);
+    // DrawCircleV(computePlayerHandPosition(player), 5, GREEN);
+    Vector2 handPosition = computePlayerHandPosition(player);
+    Texture2D toolSprite = getSpriteFromID(SPRITE_TOOL_ID);
+    handPosition.x -= toolSprite.width/2.0f;
+    handPosition.y -= toolSprite.height/2.0f;
+    DrawTextureV(toolSprite, handPosition, WHITE);
     const float velThreshold = 2.0f;
     if (fabsf(player->velocity.x) < velThreshold) {
         // IDLE

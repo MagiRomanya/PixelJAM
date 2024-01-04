@@ -66,31 +66,32 @@ int main(void)
             if (IsKeyPressed(KEY_SPACE)) {
                 playerJump(&player);
             }
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, computePlayerHandPosition(&player));
-                switch (result) {
-                    case ANCHOR_SUCCESS:
-                        break;
-                    case ANCHOR_NOT_ENOUGH_ANCHORS:
-                        addMessageToBeRendered(&rmessage, "Ran out of staples!", 5);
-                        break;
-                    case ANCHOR_NOT_ENOUGH_LENGTH:
-                        addMessageToBeRendered(&rmessage, "Ran out of cable! :(", 5);
-                        break;
-                    case ANCHOR_OBSTRUDED_PATH:
-                        addMessageToBeRendered(&rmessage, "Something is obstructing the path!", 5);
-                        break;
-                }
-            }
-            if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
-                tryRemoveLastAnchor(&cable, Vector2Add(player.position, (Vector2){16,16}));
-            }
         }
         else if (player.canDoubleJump) {
             if (IsKeyPressed(KEY_SPACE)) {
                 playerJump(&player);
                 player.canDoubleJump = false;
             }
+        }
+
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, computePlayerHandPosition(&player));
+            switch (result) {
+                case ANCHOR_SUCCESS:
+                    break;
+                case ANCHOR_NOT_ENOUGH_ANCHORS:
+                    addMessageToBeRendered(&rmessage, "Ran out of staples!", 5);
+                    break;
+                case ANCHOR_NOT_ENOUGH_LENGTH:
+                    addMessageToBeRendered(&rmessage, "Ran out of cable! :(", 5);
+                    break;
+                case ANCHOR_OBSTRUDED_PATH:
+                    addMessageToBeRendered(&rmessage, "Something is obstructing the path!", 5);
+                    break;
+            }
+        }
+        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
+            tryRemoveLastAnchor(&cable, Vector2Add(player.position, (Vector2){16,16}));
         }
 
         // Draw

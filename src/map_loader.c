@@ -1,6 +1,7 @@
 #include "map_loader.h"
 #include "entity.h"
 #include "raylib.h"
+#include "sprite_manager.h"
 #include <stdio.h>
 
 void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable *cable, Player *player) {
@@ -28,7 +29,7 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
                     cable->anchors[0].position = (Vector2){i*16, j*16};
                     player->position = (Vector2){i*16, j*16 - 16};
                 }
-                addTileToMap(tiles, pixel.b, i*16, j*16);
+                addTileToMap(tiles, SPRITE_KITCHEN_TILE_1_ID, i*16, j*16);
             }
 
             // Create colliders

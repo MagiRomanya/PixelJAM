@@ -45,7 +45,7 @@ bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_
         Vector2 x3 = Vector2Add(padding, collider->capsule_collider.x1);
         Vector2 x4 = Vector2Subtract(collider->capsule_collider.x2, padding);
         if (do_segments_intersect(x1, x2, x3, x4)) {
-            DrawLineV(x3, x4, BLUE);
+            /* DrawLineV(x3, x4, BLUE); */
             collide = true;
             break;
         }

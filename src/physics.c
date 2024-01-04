@@ -118,7 +118,7 @@ void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
 void updatePlayerHatPhysics(Player* player) {
     Vector2 force = {0.0f};
     const float hatMass = 1;
-    const float hatStiffness = 100.f;
+    const float hatStiffness = 200.f;
     const float hatDamping = 10.f;
     const float hatUpwardGravity = 10.f;
 
