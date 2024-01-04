@@ -58,6 +58,72 @@ static inline void showTitleScreen() {
     UnloadTexture(titleScreen);
 }
 
+static inline void showMenuScreen() {
+    //const float title_screen_duration = 2.0f;
+    size_t frameNumber = 0;
+    // Menu scree
+    //size_t centerx = GetScreenWidth()/2.0;     NOT
+    //size_t centery = GetScreenHeigth()/2.0;    HERE
+    Color buttonColPlay = GRAY;
+    Color buttonColCtrl = GRAY;
+    Color buttonColQuit = GRAY;
+
+    size_t buttonHeight = 50;
+    size_t buttonWidth = 200;
+    //Texture2D menuScreen = LoadTexture("assets/sprites/titlescreen.png");
+    //InitWindow(1000,500, "ButtonExample");
+    SetTargetFPS(60);
+    while (!WindowShouldClose()) {
+            ClearBackground(BLACK);
+            Rectangle source = {0, 0, 1920, 1080};
+            Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+           // Rectangle buttonPlay = {centerx - buttonWidth/2.0, centerx - buttonWidth/2.0};
+            
+	    size_t centerx = GetScreenWidth()/2.0;
+            size_t centery = GetScreenHeight()/2.0;
+            Rectangle buttonPlay = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 - 2.0*buttonHeight, buttonWidth, buttonHeight};
+            Rectangle buttonCtrl = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
+            Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
+ 
+
+            if(IsKeyPressed(KEY_ENTER)) break;
+
+	    if(CheckCollisionPointRec(GetMousePosition(), buttonPlay))
+	  	    buttonColPlay = RED;
+	    else 
+		    buttonColPlay = GRAY; 
+	    if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl))
+	  	    buttonColCtrl = RED;
+	    else
+		    buttonColCtrl = GRAY;
+            if(CheckCollisionPointRec(GetMousePosition(), buttonQuit))
+	  	    buttonColQuit = RED;
+	    else 
+		    buttonColQuit = GRAY; 
+        //if (title_screen_duration < titleTime) break;
+        BeginDrawing();
+        {
+	    
+    	   
+  //const float effect = titleTime / title_screen_duration;
+            //Color color = {255.0, 255.0, 255.0, 255.0*effect};
+            //DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
+	    DrawRectangleRec(buttonPlay, buttonColPlay);
+	    DrawText("Play Game", buttonPlay.x + MeasureText("Play Game", 20)/2.0, buttonPlay.y + (buttonHeight-20)/2.0, 20, WHITE);
+            DrawRectangleRec(buttonCtrl, buttonColCtrl);
+	    DrawText("Controls", buttonCtrl.x +  MeasureText("Controls", 20)/2.0, buttonCtrl.y + (buttonHeight-20)/2.0, 20, WHITE);
+ 	    DrawRectangleRec(buttonQuit, buttonColQuit);
+	    DrawText("Quit Game", buttonQuit.x + MeasureText("Quit Game", 20)/2.0, buttonQuit.y + (buttonHeight-20)/2.0, 20, WHITE);
+
+	
+
+        }
+        EndDrawing();
+    }
+    //UnloadTexture(titleScreen);
+}
+
+
 static inline void renderCollisionCapsules(GameColliderList* c_list) {
     for (size_t i = 0; i < c_list->size; i++) {
         GameCollider *c = getGameColliderFromList(c_list, i);
