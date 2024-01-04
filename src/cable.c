@@ -5,6 +5,7 @@
 #include "raymath.h"
 #include "sprite_manager.h"
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #define ANCHOR_REMOVE_DISTANCE 40.0f
@@ -40,10 +41,11 @@ bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_
         GameCollider* collider = getGameColliderFromList(c_list, i);
         Vector2 padding = {0, 0};
         /* printf("criterion = %f\n", Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).x); */
-        /* if (Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).x != 0) padding = (Vector2){-8,0}; */
+        if (Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).x != 0) padding = (Vector2){-8,0};
         Vector2 x3 = Vector2Add(padding, collider->capsule_collider.x1);
         Vector2 x4 = Vector2Subtract(collider->capsule_collider.x2, padding);
         if (do_segments_intersect(x1, x2, x3, x4)) {
+            DrawLineV(x3, x4, BLUE);
             collide = true;
             break;
         }

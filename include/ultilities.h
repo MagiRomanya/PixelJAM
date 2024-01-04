@@ -119,9 +119,6 @@ static inline void showMenuScreen() {
             DrawText("Controls", buttonCtrl.x +  MeasureText("Controls", 20)/2.0, buttonCtrl.y + (buttonHeight-20)/2.0, 20, WHITE);
             DrawRectangleRec(buttonQuit, buttonColQuit);
             DrawText("Quit Game", buttonQuit.x + MeasureText("Quit Game", 20)/2.0, buttonQuit.y + (buttonHeight-20)/2.0, 20, WHITE);
-
-	
-
         }
         EndDrawing();
     }
