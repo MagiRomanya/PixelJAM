@@ -34,14 +34,14 @@ int main(void)
     TileMap tileMap = createTileMap();
 
     initializeSprites();
-    loadMap("assets/maps/map-test.png", &tileMap, &collider_list, &cable, &player);
+    loadMap("assets/maps/map-test2.png", &tileMap, &collider_list, &cable, &player);
     printf("N colliders = %zu\n", collider_list.size);
     printf("N tiles = %zu\n", tileMap.size);
 
     //--------------------------------------------------------------------------------------
     // Main game loop
-    showTitleScreen();
-    showMenuScreen();
+    /* showTitleScreen(); */
+    /* showMenuScreen(); */
     SetTargetFPS(120);
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -106,7 +106,7 @@ int main(void)
             {
                 updatePlayerMovement(&player, &cable, &collider_list);
                 renderTileMap(&tileMap);
-                /* renderCollisionCapsules(&collider_list); */
+                renderCollisionCapsules(&collider_list);
                 // printf("Player position = {%f, %f}\n", player.position.x, player.position.y);
                 drawCable(&cable, &player, &collider_list);
                 /* renderCapsule(playerComputeCollider(&player)); */

@@ -95,7 +95,7 @@ void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
                 // Check if grounded
                 const float normal_aligned_to_vertical = Vector2DotProduct(collision.normal, (Vector2){0.0,-1.0});
                 const float verticallity_threshold = 0.85f;
-                player->grounded = (verticallity_threshold < normal_aligned_to_vertical);
+                if (verticallity_threshold < normal_aligned_to_vertical) player->grounded = true;
                 if (!player->grounded) player->canDoubleJump = false;
                 // printf("Collision point = {%f, %f}\n", collision.normal.x, collision.normal.y);
 
@@ -144,6 +144,14 @@ CapsuleCollider createCapsule(int x1, int x2, int y, float r) {
     CapsuleCollider c;
     c.x1 = (Vector2){x1, y};
     c.x2 = (Vector2){x2, y};
+    c.radius = r;
+    return c;
+}
+
+CapsuleCollider createCapsuleVertical(int x, int y1, int y2, float r) {
+    CapsuleCollider c;
+    c.x1 = (Vector2){x, y1};
+    c.x2 = (Vector2){x, y2};
     c.radius = r;
     return c;
 }

@@ -12,6 +12,9 @@ static inline void renderCapsule(CapsuleCollider collider) {
     DrawCircle(collider.x1.x, collider.x1.y, radius, MAROON);
     DrawCircle(collider.x2.x, collider.x2.y, radius, MAROON);
     DrawRectangle(collider.x1.x, collider.x1.y-radius, collider.x2.x - collider.x1.x, collider.x2.y - collider.x1.y + 2*radius, MAROON);
+    DrawRectangle(collider.x1.x-radius, collider.x1.y,
+                  collider.x2.x - collider.x1.x + 2*radius, collider.x2.y - collider.x1.y,
+                  MAROON);
 
 }
 

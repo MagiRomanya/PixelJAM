@@ -32,12 +32,12 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
             }
 
             // Create colliders
-            bool isRed = pixel.r == 255;
-            if (isRed && startNewCollider) {
+            bool HorizontalCollider = pixel.r == 255;
+            if (HorizontalCollider && startNewCollider) {
                 x1 = i * 16 + 8;
                 y = j * 16 + 8;
                 startNewCollider = false;
-            } else if (!isRed && !startNewCollider) {
+            } else if (!HorizontalCollider && !startNewCollider) {
                 x2 = (i - 1) * 16 + 8;
                 CapsuleCollider collider = createCapsule(x1, x2, y, capsuleRadius);
                 GameCollider gameCollider = {0};
@@ -55,6 +55,40 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
             gameCollider.capsule_collider = collider;
             gameCollider.collision_mask = PLAYER_CABLE_COLLIDE;
             gameCollider.friction_damping = 4.0f;
+            addGameColliderToList(colliders, &gameCollider);
+            startNewCollider = true;
+        }
+    }
+
+    int x, y1, y2;
+    for (int i = 0; i < map_width; i++) {
+        for (int j = 0; j < map_height; j++) {
+            Color pixel = pixels[j * map_width + i];
+
+            // Create colliders
+            bool VerticalCollider = pixel.r == 100;
+            if (VerticalCollider && startNewCollider) {
+                x = i * 16 + 8;
+                y1 = j * 16 + 8;
+                startNewCollider = false;
+            } else if (!VerticalCollider && !startNewCollider) {
+                y2 = (j-1) * 16 + 8;
+                CapsuleCollider collider = createCapsuleVertical(x, y1, y2, capsuleRadius);
+                GameCollider gameCollider = {0};
+                gameCollider.capsule_collider = collider;
+                gameCollider.collision_mask = PLAYER_CABLE_COLLIDE;
+                gameCollider.friction_damping = 0.0f;
+                addGameColliderToList(colliders, &gameCollider);
+                startNewCollider = true;
+            }
+        }
+        if (!startNewCollider) {
+            y2 = map_height * 16 - 8;
+            CapsuleCollider collider = createCapsuleVertical(x, y1, y2, capsuleRadius);
+            GameCollider gameCollider = {0};
+            gameCollider.capsule_collider = collider;
+            gameCollider.collision_mask = PLAYER_CABLE_COLLIDE;
+            gameCollider.friction_damping = 0.0f;
             addGameColliderToList(colliders, &gameCollider);
             startNewCollider = true;
         }

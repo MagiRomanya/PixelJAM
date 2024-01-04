@@ -38,6 +38,8 @@ void computePointCapsuleCollision(CapsuleCollider* c, Vector2 point, Collision* 
 
 CapsuleCollider createCapsule(int x1, int x2, int y, float r);
 
+CapsuleCollider createCapsuleVertical(int x, int y1, int y2, float r);
+
 bool do_segments_intersect(Vector2 p1, Vector2 p2, Vector2 q1, Vector2 q2);
 
 #endif // PHYSICS_H_
