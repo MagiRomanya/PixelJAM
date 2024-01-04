@@ -26,7 +26,7 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
                 if (pixel.g) {
                     playerInitialPositionFound = true;
                     cable->anchors[0].position = (Vector2){i*16, j*16};
-                    player->position = (Vector2){i*16, j*16};
+                    player->position = (Vector2){i*16, j*16 - 16};
                 }
                 addTileToMap(tiles, pixel.b, i*16, j*16);
             }

@@ -60,14 +60,17 @@ void destroyGameTileMap(TileMap* t_map) {
 
 Player createPlayer() {
     Player player = {0};
-    player.sprite = LoadTexture("assets/sprites/Tree001.png");
+    player.spriteIdle = LoadTexture("assets/sprites/player-idle.png");
+    player.spriteRun = LoadTexture("assets/sprites/player-run.png");
+    player.spriteIdleL = LoadTexture("assets/sprites/player-idleL.png");
+    player.spriteRunL = LoadTexture("assets/sprites/player-runL.png");
     player.facing_direction = 1.0f;
     player.mass = 1.0f;
 
     const float playerWidth = 32;
-    const float playerHeight = 32;
-    const float capsuleRadius = 10;
-    const float padding = 10;
+    const float playerHeight = 31;
+    const float capsuleRadius = 7;
+    const float padding = 0;
     Vector2 x1 = {playerWidth/2, capsuleRadius + padding};
     Vector2 x2 = {playerWidth/2, playerHeight - capsuleRadius};
     player.base_capsule_collider = (CapsuleCollider){x1,x2, capsuleRadius};
@@ -88,8 +91,47 @@ void playerJump(Player* player) {
     player->input_vector.y -= 100.0f;
 }
 
+void renderPlayer(Player* player) {
+    DrawCircleV(computePlayerHandPosition(player), 5, GREEN);
+    const float velThreshold = 2.0f;
+    if (fabsf(player->velocity.x) < velThreshold) {
+        // IDLE
+        if (player->facing_direction > 0) {
+            DrawTexture(player->spriteIdle, player->position.x, player->position.y, WHITE);
+        }
+        else {
+            DrawTexture(player->spriteIdleL, player->position.x, player->position.y, WHITE);
+        }
+    }
+    else {
+        // Player Run animation
+        Texture2D runTexture;
+        if (player->facing_direction > 0) runTexture = player->spriteRun;
+        else runTexture = player->spriteRunL;
+
+        const int nFrames = 6;
+        const int frameSpeed = 6;
+        static int frameCounter = 0;
+        frameCounter++;
+        static int currentFrame = 0;
+        const float width = (float)player->spriteRun.width / ((float) nFrames);
+        Rectangle frameRec = {0.0f, 0.0f, width, (float)player->spriteRun.height};
+        if (frameCounter >= 1.0f/(GetFrameTime()*frameSpeed)) {
+            frameCounter = 0;
+            currentFrame++;
+            if (currentFrame > nFrames - 1) currentFrame = 0;
+        }
+        frameRec.x = currentFrame * width;
+        DrawTextureRec(runTexture, frameRec, player->position, WHITE);
+    }
+}
+
 void destroyPlayer(Player* player) {
-    UnloadTexture(player->sprite);
+    UnloadTexture(player->spriteIdle);
+    UnloadTexture(player->spriteRun);
+
+    UnloadTexture(player->spriteIdleL);
+    UnloadTexture(player->spriteRunL);
 }
 
 void playerFrameReset(Player* player) {

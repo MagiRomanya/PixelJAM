@@ -40,7 +40,10 @@ struct Player {
     Vector2 force;
 
     // Render
-    Texture2D sprite;
+    Texture2D spriteIdle;
+    Texture2D spriteRun;
+    Texture2D spriteIdleL;
+    Texture2D spriteRunL;
 
     // Input
     Vector2 input_vector;
@@ -60,6 +63,8 @@ CapsuleCollider playerComputeCollider(const Player* player);
 Player createPlayer();
 
 void playerJump(Player* player);
+
+void renderPlayer(Player* player);
 
 Vector2 computePlayerHandPosition(Player* player);
 

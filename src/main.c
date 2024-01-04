@@ -106,11 +106,11 @@ int main(void)
             {
                 updatePlayerMovement(&player, &cable, &collider_list);
                 renderTileMap(&tileMap);
-                // renderCollisionCapsules(&collider_list);
+                /* renderCollisionCapsules(&collider_list); */
                 // printf("Player position = {%f, %f}\n", player.position.x, player.position.y);
                 drawCable(&cable, &player, &collider_list);
-                DrawTexture(player.sprite, player.position.x, player.position.y, WHITE);
-                DrawCircleV(computePlayerHandPosition(&player), 5, GREEN);
+                /* renderCapsule(playerComputeCollider(&player)); */
+                renderPlayer(&player);
             }
             EndMode2D();
         }
