@@ -16,5 +16,7 @@ typedef struct {
 
 PixelPerfectData computePixelPerfectData(Vector2 cameraTarget);
 
+float getVirtualRatio();
+
 
 #endif // PIXEL_PERFECT_H_

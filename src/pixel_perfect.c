@@ -32,3 +32,9 @@ PixelPerfectData computePixelPerfectData(Vector2 cameraTarget) {
 
     return data;
 }
+
+float getVirtualRatio() {
+    const int screenWidth = GetScreenWidth();
+    const int vScreenWidth = getVirtualScreenWidth();
+    return (float)screenWidth / (float)vScreenWidth;
+}

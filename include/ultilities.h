@@ -1,9 +1,12 @@
 #ifndef ULTILITIES_H_
 #define ULTILITIES_H_
 
+#include "cable.h"
 #include "physics.h"
 #include "entity.h"
+#include "pixel_perfect.h"
 #include "raylib.h"
+#include "raymath.h"
 #include <stddef.h>
 #include <stdio.h>
 
@@ -131,6 +134,22 @@ static inline void renderCollisionCapsules(GameColliderList* c_list) {
         GameCollider *c = getGameColliderFromList(c_list, i);
         renderCapsule(c->capsule_collider);
     }
+}
+
+static inline void renderCableLengthUI(Texture2D* sprite, Cable* cable, Player* player) {
+    Rectangle sourceRec = {0.0f, 0.0f, 32.0f, 32.0f};
+    const float virtualRatio = getVirtualRatio();
+    const float width = 32*virtualRatio;
+    Rectangle destRec = {0, 0, width, width};
+    const float paddingA = 4.0f * virtualRatio;
+    const float paddingB = 7.0f * virtualRatio;
+    Rectangle cableLengthBackgound = {8*virtualRatio + paddingA, 8*virtualRatio +paddingA, width -2*paddingA, width -paddingB};
+    const float cableLength = Vector2Distance(cableGetLastAnchor(cable)->position, computePlayerHandPosition(player)) + computeCableLength(cable);
+    const float remainingCable = (cable->maxLength - cableLength) / cable->maxLength;
+    Rectangle cableLengthProgress = {8*virtualRatio + paddingA, 8*virtualRatio +paddingA, remainingCable * (width -2*paddingA), width -paddingB};
+    DrawRectangleRec(cableLengthBackgound, RED);
+    DrawRectangleRec(cableLengthProgress, GRAY);
+    DrawTexturePro(*sprite, sourceRec, destRec, (Vector2){-8*virtualRatio,-8*virtualRatio}, 0, WHITE);
 }
 
 #endif // ULTILITIES_H_
