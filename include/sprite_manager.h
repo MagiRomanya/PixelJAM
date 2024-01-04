@@ -4,6 +4,8 @@
 #include "raylib.h"
 #include <stddef.h>
 
+#define SPRITE_ANCHOR_ID 66
+
 void initializeSprites();
 
 void unloadSprites();

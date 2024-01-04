@@ -3,6 +3,7 @@
 #include "physics.h"
 #include "raylib.h"
 #include "raymath.h"
+#include "sprite_manager.h"
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -82,12 +83,6 @@ void destroyCable(Cable* cable) {
 void drawCable(Cable* cable, Player* player, GameColliderList* c_list) {
     Color cableColor = BLACK;
     Color anchorColor = GRAY;
-    // Draw anchors
-    for (size_t i = 0; i < cable->nAnchors; i++) {
-        Anchor a = cable->anchors[i];
-        const int half_width = 5;
-        DrawRectangle(a.position.x-half_width, a.position.y-half_width, 2*half_width, 2*half_width, anchorColor);
-    }
     // Draw cables
     for (size_t i = 0; i < cable->nAnchors-1; i++) {
         Anchor a1 = cable->anchors[i];
@@ -99,4 +94,13 @@ void drawCable(Cable* cable, Player* player, GameColliderList* c_list) {
     bool collided = computeLastSegmentIntersection(computePlayerHandPosition(player), lastAnchorPos, c_list);
     if (collided) cableColor = RED;
     DrawLineV(lastAnchorPos, computePlayerHandPosition(player), cableColor);
+
+    // Draw anchors
+    for (size_t i = 0; i < cable->nAnchors; i++) {
+        Anchor a = cable->anchors[i];
+        const int half_width = 8;
+        Rectangle rect = {a.position.x-half_width, a.position.y-half_width, 2*half_width, 2*half_width};
+        Texture2D anchorTexture = getSpriteFromID(SPRITE_ANCHOR_ID);
+        DrawTexture(anchorTexture, a.position.x-half_width, a.position.y-half_width, WHITE);
+    }
 };

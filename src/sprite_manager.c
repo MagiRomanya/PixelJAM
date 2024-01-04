@@ -13,6 +13,7 @@ static SpriteContainer spriteContainer;
 
 void initializeSprites() {
     spriteContainer.sprites[0] = LoadTexture("assets/sprites/tile-test.png");
+    spriteContainer.sprites[SPRITE_ANCHOR_ID] = LoadTexture("assets/sprites/anchor.png");
 }
 
 size_t getMaxSprites() {return N_SPRITES; }
