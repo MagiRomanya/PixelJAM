@@ -74,46 +74,45 @@ static inline void showMenuScreen() {
     //InitWindow(1000,500, "ButtonExample");
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
-            ClearBackground(BLACK);
-            Rectangle source = {0, 0, 1920, 1080};
-            Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
-           // Rectangle buttonPlay = {centerx - buttonWidth/2.0, centerx - buttonWidth/2.0};
+        ClearBackground(BLACK);
+        Rectangle source = {0, 0, 1920, 1080};
+        Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+        // Rectangle buttonPlay = {centerx - buttonWidth/2.0, centerx - buttonWidth/2.0};
             
-	    size_t centerx = GetScreenWidth()/2.0;
-            size_t centery = GetScreenHeight()/2.0;
-            Rectangle buttonPlay = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 - 2.0*buttonHeight, buttonWidth, buttonHeight};
-            Rectangle buttonCtrl = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
-            Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
+        size_t centerx = GetScreenWidth()/2.0;
+        size_t centery = GetScreenHeight()/2.0;
+        Rectangle buttonPlay = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 - 2.0*buttonHeight, buttonWidth, buttonHeight};
+        Rectangle buttonCtrl = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
+        Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
  
 
-            if(IsKeyPressed(KEY_ENTER)) break;
+        if(IsKeyPressed(KEY_ENTER)) break;
 
-	    if(CheckCollisionPointRec(GetMousePosition(), buttonPlay))
-	  	    buttonColPlay = RED;
-	    else 
-		    buttonColPlay = GRAY; 
-	    if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl))
-	  	    buttonColCtrl = RED;
-	    else
-		    buttonColCtrl = GRAY;
-            if(CheckCollisionPointRec(GetMousePosition(), buttonQuit))
-	  	    buttonColQuit = RED;
-	    else 
-		    buttonColQuit = GRAY; 
+        if(CheckCollisionPointRec(GetMousePosition(), buttonPlay)) {
+            buttonColPlay = RED;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) return;
+        }
+        else  buttonColPlay = GRAY;
+        if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl))
+            buttonColCtrl = RED;
+        else
+            buttonColCtrl = GRAY;
+        if(CheckCollisionPointRec(GetMousePosition(), buttonQuit))
+            buttonColQuit = RED;
+        else
+            buttonColQuit = GRAY;
         //if (title_screen_duration < titleTime) break;
         BeginDrawing();
         {
-	    
-    	   
-  //const float effect = titleTime / title_screen_duration;
+            //const float effect = titleTime / title_screen_duration;
             //Color color = {255.0, 255.0, 255.0, 255.0*effect};
             //DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
-	    DrawRectangleRec(buttonPlay, buttonColPlay);
-	    DrawText("Play Game", buttonPlay.x + MeasureText("Play Game", 20)/2.0, buttonPlay.y + (buttonHeight-20)/2.0, 20, WHITE);
+            DrawRectangleRec(buttonPlay, buttonColPlay);
+            DrawText("Play Game", buttonPlay.x + MeasureText("Play Game", 20)/2.0, buttonPlay.y + (buttonHeight-20)/2.0, 20, WHITE);
             DrawRectangleRec(buttonCtrl, buttonColCtrl);
-	    DrawText("Controls", buttonCtrl.x +  MeasureText("Controls", 20)/2.0, buttonCtrl.y + (buttonHeight-20)/2.0, 20, WHITE);
- 	    DrawRectangleRec(buttonQuit, buttonColQuit);
-	    DrawText("Quit Game", buttonQuit.x + MeasureText("Quit Game", 20)/2.0, buttonQuit.y + (buttonHeight-20)/2.0, 20, WHITE);
+            DrawText("Controls", buttonCtrl.x +  MeasureText("Controls", 20)/2.0, buttonCtrl.y + (buttonHeight-20)/2.0, 20, WHITE);
+            DrawRectangleRec(buttonQuit, buttonColQuit);
+            DrawText("Quit Game", buttonQuit.x + MeasureText("Quit Game", 20)/2.0, buttonQuit.y + (buttonHeight-20)/2.0, 20, WHITE);
 
 	
 
