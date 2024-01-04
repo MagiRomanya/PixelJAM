@@ -37,7 +37,10 @@ bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_
     bool collide = false;
     for (size_t i = 0; i < c_list->size; i++) {
         GameCollider* collider = getGameColliderFromList(c_list, i);
-        if (do_segments_intersect(x1, x2, collider->capsule_collider.x1, collider->capsule_collider.x2)) {
+        Vector2 padding = {-8,0};
+        Vector2 x3 = Vector2Add(padding, collider->capsule_collider.x1);
+        Vector2 x4 = Vector2Subtract(collider->capsule_collider.x2, padding);
+        if (do_segments_intersect(x1, x2, x3, x4)) {
             collide = true;
             break;
         }
