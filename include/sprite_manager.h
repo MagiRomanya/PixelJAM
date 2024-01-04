@@ -5,6 +5,9 @@
 #include <stddef.h>
 
 #define SPRITE_ANCHOR_ID 66
+#define SPRITE_IMPORTANT_HAT_ID 52
+#define SPRITE_IMPORTANT_HATL_ID 53
+#define SPRITE_CABLE_LENGTH_ID 51
 
 void initializeSprites();
 

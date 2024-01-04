@@ -44,7 +44,6 @@ int main(void)
     /* showMenuScreen(); */
     SetTargetFPS(120);
 
-    Texture2D cableLengthUI = LoadTexture("assets/sprites/cable-length.png");
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -125,7 +124,7 @@ int main(void)
             }
             EndMode2D();
             drawMessage(&rmessage, (Vector2){screenWidth*0.5, 0.45*screenHeight});
-            renderCableLengthUI(&cableLengthUI, &cable, &player);
+            renderCableLengthUI(&cable, &player);
         }
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -139,7 +138,6 @@ int main(void)
     destroyGameColliderList(&collider_list);
     destroyGameTileMap(&tileMap);
     unloadSprites();
-    UnloadTexture(cableLengthUI);
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 

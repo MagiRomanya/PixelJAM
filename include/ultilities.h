@@ -7,6 +7,7 @@
 #include "pixel_perfect.h"
 #include "raylib.h"
 #include "raymath.h"
+#include "sprite_manager.h"
 #include <stddef.h>
 #include <stdio.h>
 
@@ -133,7 +134,7 @@ static inline void renderCollisionCapsules(GameColliderList* c_list) {
     }
 }
 
-static inline void renderCableLengthUI(Texture2D* sprite, Cable* cable, Player* player) {
+static inline void renderCableLengthUI(Cable* cable, Player* player) {
     Rectangle sourceRec = {0.0f, 0.0f, 32.0f, 32.0f};
     const float virtualRatio = getVirtualRatio();
     const float width = 32*virtualRatio;
@@ -146,7 +147,7 @@ static inline void renderCableLengthUI(Texture2D* sprite, Cable* cable, Player* 
     Rectangle cableLengthProgress = {8*virtualRatio + paddingA, 8*virtualRatio +paddingA, remainingCable * (width -2*paddingA), width -paddingB};
     DrawRectangleRec(cableLengthBackgound, RED);
     DrawRectangleRec(cableLengthProgress, GRAY);
-    DrawTexturePro(*sprite, sourceRec, destRec, (Vector2){-8*virtualRatio,-8*virtualRatio}, 0, WHITE);
+    DrawTexturePro(getSpriteFromID(SPRITE_CABLE_LENGTH_ID), sourceRec, destRec, (Vector2){-8*virtualRatio,-8*virtualRatio}, 0, WHITE);
 }
 
 #endif // ULTILITIES_H_

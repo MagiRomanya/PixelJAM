@@ -54,6 +54,8 @@ struct Player {
     bool grounded;
     float mass;
     CapsuleCollider base_capsule_collider;
+    Vector2 hatPosition;
+    Vector2 hatVelocity;
 };
 
 void playerFrameReset(Player* player);

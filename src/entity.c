@@ -67,6 +67,8 @@ Player createPlayer() {
     player.facing_direction = 1.0f;
     player.mass = 1.0f;
 
+    player.hatPosition = player.position;
+
     const float playerWidth = 32;
     const float playerHeight = 31;
     const float capsuleRadius = 7;
@@ -125,6 +127,10 @@ void renderPlayer(Player* player) {
         frameRec.x = currentFrame * width;
         DrawTextureRec(runTexture, frameRec, player->position, WHITE);
     }
+    Texture2D hat;
+    if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_IMPORTANT_HAT_ID);
+    else hat = getSpriteFromID(SPRITE_IMPORTANT_HATL_ID);
+    DrawTextureV(hat, player->hatPosition, WHITE);
 }
 
 void destroyPlayer(Player* player) {

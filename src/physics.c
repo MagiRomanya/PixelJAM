@@ -3,6 +3,7 @@
 #include "entity.h"
 #include "raylib.h"
 #include "raymath.h"
+#include "sprite_manager.h"
 #include <math.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -114,6 +115,27 @@ void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
 }
 
 
+void updatePlayerHatPhysics(Player* player) {
+    Vector2 force = {0.0f};
+    const float hatMass = 1;
+    const float hatStiffness = 100.f;
+    const float hatDamping = 10.f;
+    const float hatUpwardGravity = 10.f;
+
+    Vector2 playerHeadPosition = Vector2Add(player->position, (Vector2){10,-4});
+    Vector2 dx = Vector2Subtract(playerHeadPosition, player->hatPosition);
+    force = Vector2Add(force, Vector2MultiplyS(hatStiffness, dx));
+    force = Vector2Add(force, Vector2MultiplyS(-hatDamping, player->hatVelocity));
+    force.y += -hatUpwardGravity;
+
+    // Integration
+    player->hatVelocity = Vector2Add(player->hatVelocity, Vector2MultiplyS(TIME_STEP / hatMass, force));
+    player->hatPosition = Vector2Add(player->hatPosition, Vector2MultiplyS(TIME_STEP, player->hatVelocity));
+
+    player->hatPosition.y = fmin(player->hatPosition.y, playerHeadPosition.y);
+}
+
+
 void updatePlayerMovement(Player* player, Cable* cable, GameColliderList* clist) {
     const float inputMultiplyer = 100.0f;
     player->force = Vector2MultiplyS(inputMultiplyer, player->input_vector); // input
@@ -133,7 +155,7 @@ void updatePlayerMovement(Player* player, Cable* cable, GameColliderList* clist)
         player->force = Vector2Add(player->force, cableSpringForce);
     }
     computePlayerWorldCollisions(player, clist);
-
+    updatePlayerHatPhysics(player);
     // Integration
     player->velocity = Vector2Add(player->velocity, Vector2MultiplyS(TIME_STEP / player->mass, player->force));
     player->position = Vector2Add(player->position, Vector2MultiplyS(TIME_STEP, player->velocity));
