@@ -122,7 +122,10 @@ void updatePlayerHatPhysics(Player* player) {
     const float hatDamping = 10.f;
     const float hatUpwardGravity = 10.f;
 
-    Vector2 playerHeadPosition = Vector2Add(player->position, (Vector2){10,-4});
+    float facingOffset;
+    if (player->facing_direction > 0) facingOffset = 0;
+    else facingOffset = -1.5;
+    Vector2 playerHeadPosition = Vector2Add(player->position, (Vector2){10 - facingOffset,-4});
     Vector2 dx = Vector2Subtract(playerHeadPosition, player->hatPosition);
     force = Vector2Add(force, Vector2MultiplyS(hatStiffness, dx));
     force = Vector2Add(force, Vector2MultiplyS(-hatDamping, player->hatVelocity));
