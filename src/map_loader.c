@@ -2,9 +2,10 @@
 #include "entity.h"
 #include "raylib.h"
 #include "sprite_manager.h"
+#include "appliance.h"
 #include <stdio.h>
 
-void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable *cable, Player *player) {
+void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, ApplianceList *a_list, Cable *cable, Player *player) {
     Image image = LoadImage(filename);
     Color *pixels = LoadImageColors(image);
     int map_width = image.width;
@@ -22,14 +23,40 @@ void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable
             Color pixel = pixels[j * map_width + i];
             // Place sprites
             if (pixel.a != 0) {
-                // int sprite_id = pixel.b;
-                // if (pixel.g) sprite_id += 256 + pixel.g;
-                if (pixel.g) {
-                    playerInitialPositionFound = true;
-                    cable->anchors[0].position = (Vector2){i*16, j*16};
-                    player->position = (Vector2){i*16, j*16 - 16};
+                if (pixel.b) {
+                    addTileToMap(t_map, SPRITE_KITCHEN_TILE_1_ID, i*16, j*16);
                 }
-                addTileToMap(tiles, SPRITE_KITCHEN_TILE_1_ID, i*16, j*16);
+                else if (pixel.g) {
+                    switch (pixel.g) {
+                        case 255:
+                        {
+                            playerInitialPositionFound = true;
+                            cable->anchors[0].position = (Vector2){i*16, j*16};
+                            player->position = (Vector2){i*16, j*16 - 16};
+                            break;
+                        }
+                        case 32:
+                        {
+                            Appliance a = { .type = WASHING_MACHINE, .hit_box = (Rectangle) {i*16 - 8, j*16 - 8, 48, 48}, .connected = false};
+                            addApplianceToList(a_list, &a);
+                            break;
+                        }
+                        case 64:
+                        {
+                            Appliance a = { .type = BLENDER, .hit_box = (Rectangle) {i*16 - 8, j*16 - 8, 48, 48}, .connected = false};
+                            addApplianceToList(a_list, &a);
+                            break;
+                        }
+                        case 92:
+                        {
+                            Appliance a = { .type = TV, .hit_box = (Rectangle) {i*16 - 8, j*16 - 8, 48, 48}, .connected = false};
+                            addApplianceToList(a_list, &a);
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                }
             }
 
             // Create colliders

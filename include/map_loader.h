@@ -6,8 +6,9 @@
 #include "raylib.h"
 #include "physics.h"
 #include "entity.h"
+#include "appliance.h"
 #include "cable.h"
 
-void loadMap(char *filename , TileMap *tiles, GameColliderList *colliders, Cable *cable, Player *player);
+void loadMap(char *filename, TileMap *t_map, GameColliderList *colliders, ApplianceList *a_list, Cable *cable, Player *player);
 
 #endif // MAP_LOADER_H

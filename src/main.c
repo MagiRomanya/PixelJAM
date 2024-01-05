@@ -1,16 +1,16 @@
-#include "cable.h"
-#include "entity.h"
-#include "physics.h"
-#include "raylib.h"
-#include "pixel_perfect.h"
-#include "raymath.h"
-#include "sprite_manager.h"
-#include "ultilities.h"
-#include "map_loader.h"
 #include <math.h>
 #include <stddef.h>
 #include <stdio.h>
-#include <unistd.h>
+#include "raylib.h"
+#include "raymath.h"
+#include "pixel_perfect.h"
+#include "physics.h"
+#include "ultilities.h"
+#include "map_loader.h"
+#include "sprite_manager.h"
+#include "entity.h"
+#include "appliance.h"
+#include "cable.h"
 
 int main(void)
 {
@@ -35,8 +35,10 @@ int main(void)
 
     TileMap tileMap = createTileMap();
 
+    ApplianceList applianceList = createApplianceList();
+
     initializeAssets();
-    loadMap("assets/maps/map-test2.png", &tileMap, &collider_list, &cable, &player);
+    loadMap("assets/maps/map-test2.png", &tileMap, &collider_list, &applianceList, &cable, &player);
     printf("N colliders = %zu\n", collider_list.size);
     printf("N tiles = %zu\n", tileMap.size);
 
@@ -140,6 +142,7 @@ int main(void)
     destroyCable(&cable);
     destroyGameColliderList(&collider_list);
     destroyGameTileMap(&tileMap);
+    destroyApplianceList(&applianceList);
     destroyAssets();
     CloseAudioDevice();
     CloseWindow();        // Close window and OpenGL context
