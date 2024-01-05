@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "game.h"
 #include "raylib.h"
+#include "sprite_manager.h"
 #include "ultilities.h"
 
 int main(void)
@@ -14,6 +15,9 @@ int main(void)
     InitAudioDevice();
     initializeAssets();
 
+    Image windowIcon = LoadImageFromTexture(getSpriteFromID(SPRITE_SAFETY_HATL_ID));
+    SetWindowIcon(windowIcon);
+
     // Game screens
     //--------------------------------------------------------------------------------------
     bool should_quit = false;
@@ -23,6 +27,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
+    UnloadImage(windowIcon);
     destroyAssets();
     CloseAudioDevice();
     CloseWindow();        // Close window and OpenGL context
