@@ -1,4 +1,5 @@
 #include "cable.h"
+#include "appliance.h"
 #include "entity.h"
 #include "physics.h"
 #include "raylib.h"
@@ -53,7 +54,7 @@ bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_
     return collide;
 }
 
-PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vector2 position) {
+PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, ApplianceList* a_list,  Vector2 position) {
     if (cable->nAnchors >= cable->nMaxAnchors) {
         PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
         return ANCHOR_NOT_ENOUGH_ANCHORS;
@@ -74,9 +75,21 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vec
         return ANCHOR_OBSTRUDED_PATH;
     }
 
+    // Check if we can connect appliance
+    bool connectToAppliance = false;
+    for (size_t i = 0; i < a_list->size; i++) {
+        Appliance* a = getApplianceFromList(a_list, i);
+        if (!a->connected && CheckCollisionPointRec(position, a->hit_box)) {
+            a->connected = true;
+            cable->nMaxAnchors++;
+            cable->nConnectedAppliances++;
+        }
+    }
+
     cable->anchors[cable->nAnchors] = (Anchor){position};
     cable->nAnchors++;
     PlaySound(getSoundTrackFromID(SOUND_TRACK_STAPLE_ID));
+
     return ANCHOR_SUCCESS;
 }
 

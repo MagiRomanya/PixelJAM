@@ -80,7 +80,7 @@ int main(void)
         }
 
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, computePlayerHandPosition(&player));
+            PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, &applianceList, computePlayerHandPosition(&player));
             switch (result) {
                 case ANCHOR_SUCCESS:
                     break;
