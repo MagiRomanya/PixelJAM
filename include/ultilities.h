@@ -46,6 +46,7 @@ static inline void drawMessage(RenderMessage* message, Vector2 position) {
 
 typedef enum {
 LEVEL_1,
+LEVEL_2,
 MENU_SCREEN,
 TITLE_SCREEN,
 QUIT_GAME,
