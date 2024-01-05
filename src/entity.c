@@ -1,10 +1,11 @@
-#include "entity.h"
-#include "physics.h"
+#include <stdio.h>
+#include <stddef.h>
 #include "raylib.h"
 #include "raymath.h"
+#include "physics.h"
+#include "entity.h"
 #include "sprite_manager.h"
-#include <stddef.h>
-#include <stdio.h>
+#include "ultilities.h"
 
 #define GAME_COLLIDER_LIST_CAPACITY 1e3*sizeof(GameCollider)
 
@@ -118,20 +119,9 @@ void renderPlayer(Player* player) {
         if (player->facing_direction > 0) runTexture = player->spriteRun;
         else runTexture = player->spriteRunL;
 
-        const int nFrames = 6;
-        const int frameSpeed = 6;
         static int frameCounter = 0;
-        frameCounter++;
         static int currentFrame = 0;
-        const float width = (float)player->spriteRun.width / ((float) nFrames);
-        Rectangle frameRec = {0.0f, 0.0f, width, (float)player->spriteRun.height};
-        if (frameCounter >= 1.0f/(GetFrameTime()*frameSpeed)) {
-            frameCounter = 0;
-            currentFrame++;
-            if (currentFrame > nFrames - 1) currentFrame = 0;
-        }
-        frameRec.x = currentFrame * width;
-        DrawTextureRec(runTexture, frameRec, player->position, WHITE);
+        renderAnimation(runTexture, player->position.x, player->position.y, 6, 6, &frameCounter, &currentFrame);
     }
     Texture2D hat;
     if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_IMPORTANT_HAT_ID);
