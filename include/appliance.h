@@ -1,9 +1,10 @@
 #ifndef APPLIANCE_H_
 #define APPLIANCE_H_
 
-#include "entity.h"
-#include "raylib.h"
 #include <stddef.h>
+#include "raylib.h"
+#include "entity.h"
+#include "sprite_manager.h"
 
 typedef enum {
     WASHING_MACHINE,
@@ -32,5 +33,7 @@ Appliance* getApplianceFromList(ApplianceList* a_list, size_t index);
 void clearApplianceList(ApplianceList* a_list);
 
 void destroyApplianceList(ApplianceList* a_list);
+
+void renderAppliances(ApplianceList* a_list);
 
 #endif

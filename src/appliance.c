@@ -25,3 +25,21 @@ void clearApplianceList(ApplianceList* a_list) { a_list->size = 0; }
 void destroyApplianceList(ApplianceList* a_list) {
     free(a_list->appliances);
 }
+
+void renderAppliances(ApplianceList* a_list) {
+    for (int i = 0; i < a_list->size; i++) {
+        Appliance* a = getApplianceFromList(a_list, i);
+        switch (a->type) {
+            case WASHING_MACHINE:
+            {
+                if (a->connected) {
+                    DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_ON_ID), a->hit_box.x, a->hit_box.y, WHITE);
+                } else {
+                    printf("GOD CABRÓN\n");
+                    DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_OFF_ID), a->hit_box.x, a->hit_box.y, WHITE);
+                }
+                break;
+            }
+        }
+    }
+}

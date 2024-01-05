@@ -115,6 +115,7 @@ int main(void)
                 // renderCollisionCapsules(&collider_list);
                 // printf("Player position = {%f, %f}\n", player.position.x, player.position.y);
                 drawCable(&cable, &player, &collider_list);
+                renderAppliances(&applianceList);
                 /* renderCapsule(playerComputeCollider(&player)); */
                 renderPlayer(&player);
             }

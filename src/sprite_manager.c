@@ -20,6 +20,8 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_IMPORTANT_HATL_ID] = LoadTexture("assets/sprites/important-hatL.png");
     assetsContainer.sprites[SPRITE_CABLE_LENGTH_ID] = LoadTexture("assets/sprites/cable-length.png");
     assetsContainer.sprites[SPRITE_TOOL_ID] = LoadTexture("assets/sprites/tool.png");
+    assetsContainer.sprites[SPRITE_WASHING_MACHINE_ON_ID] = LoadTexture("assets/sprites/washing-machine-on.png");
+    assetsContainer.sprites[SPRITE_WASHING_MACHINE_OFF_ID] = LoadTexture("assets/sprites/washing-machine-off.png");
     assetsContainer.sprites[SPRITE_TELEVISION_ON_ID] = LoadTexture("assets/sprites/television-on.png");
     assetsContainer.sprites[SPRITE_TELEVISION_OFF_ID] = LoadTexture("assets/sprites/television-off.png");
     assetsContainer.sprites[SPRITE_BLENDER_OFF_ID] = LoadTexture("assets/sprites/blender-off.png");
