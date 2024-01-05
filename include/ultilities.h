@@ -1,6 +1,7 @@
 #ifndef ULTILITIES_H_
 #define ULTILITIES_H_
 
+#include "appliance.h"
 #include "cable.h"
 #include "physics.h"
 #include "entity.h"
@@ -200,6 +201,28 @@ static inline void renderAnimation(Texture2D texture, int x, int y, int nFrames,
     frameRec.x = (*currentFrame) * width;
     (*frameCounter)++;
     DrawTextureRec(texture, frameRec, (Vector2) {x, y}, WHITE);
+}
+
+static inline bool renderVictoryScreen(ApplianceList* a_list) {
+    const int screenWidth = GetScreenWidth();
+    const int screenHeight = GetScreenHeight();
+    if (areAllAppliancesConnected(a_list)) {
+        const float fontSize = screenHeight/5.0f;
+        const Vector2 textPosition = {screenWidth/4.0f, screenHeight/2.0f};
+        DrawText("VICTORY!", textPosition.x, textPosition.y, fontSize, DARKGREEN);
+        const float buttonWidth = screenWidth / 10.0f;
+        const float buttonHeight = screenHeight / 20.0f;
+        const float buttonPositionX = screenWidth/2.0f - buttonWidth/2.0f;
+        const float buttonPositionY = screenHeight/2.0f - buttonHeight / 2.0f + fontSize;
+        Rectangle continueButtonRec = {buttonPositionX, buttonPositionY, buttonWidth, buttonHeight};
+        DrawRectangleRec(continueButtonRec, DARKGREEN);
+        const float continueSize = buttonWidth/5.f;
+        DrawText("Continue", buttonPositionX + buttonWidth/2.0f - MeasureText("Continue", continueSize)/2.0, buttonPositionY + buttonHeight*0.2f, continueSize, BLUE);
+
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+            if (CheckCollisionPointRec(GetMousePosition(), continueButtonRec)) return false;
+    }
+    return true;
 }
 
 #endif // ULTILITIES_H_
