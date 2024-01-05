@@ -33,10 +33,10 @@ void renderAppliances(ApplianceList* a_list) {
             case WASHING_MACHINE:
             {
                 if (a->connected) {
-                    DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_ON_ID), a->hit_box.x, a->hit_box.y, WHITE);
+                    DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 } else {
-                    printf("GOD CABRÓN\n");
-                    DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_OFF_ID), a->hit_box.x, a->hit_box.y, WHITE);
+                    DrawRectangleRec(a->hit_box, BLACK);
+                    DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
                 break;
             }

@@ -45,8 +45,8 @@ int main(void)
     //--------------------------------------------------------------------------------------
     // Main game loop
     bool should_quit = false;
-    showTitleScreen();
-    should_quit = showMenuScreen();
+    // showTitleScreen();
+    // should_quit = showMenuScreen();
     SetTargetFPS(120);
 
     while (!WindowShouldClose() && !should_quit)    // Detect window close button or ESC key
