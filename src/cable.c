@@ -13,10 +13,10 @@
 
 Cable createCable(Vector2 initialAnchor, size_t maxAnchors, float maxLength) {
     Cable cable = {0};
-    cable.maxLength = maxLength+1;
-    cable.nMaxAnchors = maxAnchors;
+    cable.maxLength = maxLength;
+    cable.nMaxAnchors = maxAnchors+1;
     cable.nAnchors = 1;
-    cable.anchors = malloc(sizeof(Anchor) * maxAnchors);
+    cable.anchors = malloc(sizeof(Anchor) * (maxAnchors + 30));
     cable.anchors[0] = (Anchor){initialAnchor, true};
     return cable;
 }
@@ -96,14 +96,15 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
             break;
         }
     }
-    if (cable->nAnchors >= cable->nMaxAnchors) {
-        PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
-        return ANCHOR_NOT_ENOUGH_ANCHORS;
-    }
 
 
-    // Place normal anchor
     if (!connectToAppliance) {
+        if (cable->nAnchors >= cable->nMaxAnchors) {
+            PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
+            return ANCHOR_NOT_ENOUGH_ANCHORS;
+        }
+
+        // Place normal anchor
         cable->anchors[cable->nAnchors] = (Anchor){position, true};
         cable->nAnchors++;
     }
