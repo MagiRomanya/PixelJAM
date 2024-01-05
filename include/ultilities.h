@@ -189,4 +189,17 @@ static inline void renderAnchorsLeftUI(Cable* cable) {
     DrawText(TextFormat("%i", cable->nMaxAnchors - cable->nAnchors), -origin.x + virtualRatio*4, -origin.y, width*0.9, GOLD);
 }
 
+static inline void renderAnimation(Texture2D texture, int x, int y, int nFrames, int frameSpeed, int* frameCounter, int* currentFrame) {
+    int width = texture.width / nFrames;
+    Rectangle frameRec = {0.0f, 0.0f, width, texture.height};
+    if ((*frameCounter) >= 1.0f/(GetFrameTime()*frameSpeed)) {
+        (*frameCounter) = 0;
+        (*currentFrame)++;
+        if ((*currentFrame) > nFrames - 1) (*currentFrame) = 0;
+    }
+    frameRec.x = (*currentFrame) * width;
+    (*frameCounter)++;
+    DrawTextureRec(texture, frameRec, (Vector2) {x, y}, WHITE);
+}
+
 #endif // ULTILITIES_H_
