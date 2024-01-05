@@ -2,6 +2,7 @@
 #include "cable.h"
 #include "raylib.h"
 #include "ultilities.h"
+#include <stddef.h>
 
 #define APPLIANCE_LIST_CAPACITY 10*sizeof(Appliance)
 
@@ -47,4 +48,13 @@ void renderAppliances(ApplianceList* a_list) {
             }
         }
     }
+}
+
+
+bool areAllAppliancesConnected(ApplianceList* a_list) {
+    for (size_t i = 0; i < a_list->size; i++) {
+        Appliance* a = getApplianceFromList(a_list, i);
+        if (a->connected) return true;
+    }
+    return false;
 }

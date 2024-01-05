@@ -36,4 +36,6 @@ void destroyApplianceList(ApplianceList* a_list);
 
 void renderAppliances(ApplianceList* a_list);
 
+bool areAllAppliancesConnected(ApplianceList* a_list);
+
 #endif

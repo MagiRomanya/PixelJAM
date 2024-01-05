@@ -133,6 +133,9 @@ int main(void)
             drawMessage(&rmessage, (Vector2){screenWidth*0.5, 0.45*screenHeight});
             renderCableLengthUI(&cable, &player);
             renderAnchorsLeftUI(&cable);
+            if (areAllAppliancesConnected(&applianceList)) {
+                DrawText("VICTORY!", screenWidth/4.0f, screenHeight/2.0f, screenHeight/5.0f, DARKGREEN);
+            }
         }
         EndDrawing();
         //----------------------------------------------------------------------------------
