@@ -37,22 +37,23 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
                         }
                         case 32:
                         {
+                            // 16 x 19
                             Appliance a = { .type = WASHING_MACHINE, .hit_box = (Rectangle) {i*16 - 8, j*16 - 3 - 8, 16 + 2*8, 19 + 2*8}, .connected = false};
-                            addApplianceToList(a_list, &a);
+                            addApplianceToList(a_list, a);
                             break;
                         }
                         case 64:
                         {
                             // 23 x 21
-                            Appliance a = { .type = BLENDER, .hit_box = (Rectangle) {i*16 - 8, j*16 - 8, 32, 32}, .connected = false};
-                            addApplianceToList(a_list, &a);
+                            Appliance a = { .type = BLENDER, .hit_box = (Rectangle) {i*16 - 8, j*16 -5 - 8, 23 + 2*8, 21 + 2*8}, .connected = false};
+                            addApplianceToList(a_list, a);
                             break;
                         }
                         case 92:
                         {
                             // 13 x 20
-                            Appliance a = { .type = TV, .hit_box = (Rectangle) {i*16 - 8, j*16 - 8, 48, 48}, .connected = false};
-                            addApplianceToList(a_list, &a);
+                            Appliance a = { .type = TV, .hit_box = (Rectangle) {i*16 - 8, j*16 - 4 - 8, 13 + 2*8, 20 + 2*8}, .connected = false};
+                            addApplianceToList(a_list, a);
                             break;
                         }
                         default:

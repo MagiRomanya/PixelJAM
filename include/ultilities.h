@@ -218,6 +218,9 @@ static inline void renderAnchorsLeftUI(Cable* cable) {
 
 static inline void renderAnimation(Texture2D texture, int x, int y, int nFrames, int frameSpeed, int* frameCounter, int* currentFrame) {
     int width = texture.width / nFrames;
+    printf("nFrames = %i\n", nFrames);
+    printf("texture.width = %i\n", texture.width);
+    printf("width = %i\n", width);
     Rectangle frameRec = {0.0f, 0.0f, width, texture.height};
     if ((*frameCounter) >= 1.0f/(GetFrameTime()*frameSpeed)) {
         (*frameCounter) = 0;

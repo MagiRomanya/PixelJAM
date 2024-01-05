@@ -4,6 +4,7 @@
 #include "sprite_manager.h"
 #include "ultilities.h"
 #include <stddef.h>
+#include <stdio.h>
 
 #define APPLIANCE_LIST_CAPACITY 10*sizeof(Appliance)
 
@@ -16,13 +17,13 @@ ApplianceList createApplianceList() {
 }
 
 
-void addApplianceToList(ApplianceList* a_list, Appliance* a) {
-    a_list->appliances[sizeof(Appliance)*a_list->size] = *a;
+void addApplianceToList(ApplianceList* a_list, Appliance a) {
+    a_list->appliances[a_list->size] = a;
     a_list->size += 1;
 }
 
 Appliance* getApplianceFromList(ApplianceList* a_list, size_t index) {
-    return &a_list->appliances[sizeof(Appliance) * index];
+    return &a_list->appliances[index];
 }
 
 void clearApplianceList(ApplianceList* a_list) { a_list->size = 0; }
@@ -66,7 +67,8 @@ void renderAppliances(ApplianceList* a_list) {
                 if (a->connected) {
                     static int frameCounter = 0;
                     static int currentFrame = 0;
-                    renderAnimation(getSpriteFromID(SPRITE_TELEVISION_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, 23, 6, &frameCounter, &currentFrame);
+                    int animationFrames = 27;
+                    renderAnimation(getSpriteFromID(SPRITE_TELEVISION_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &frameCounter, &currentFrame);
                 } else {
                     DrawTexture(getSpriteFromID(SPRITE_TELEVISION_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
@@ -80,7 +82,7 @@ void renderAppliances(ApplianceList* a_list) {
 bool areAllAppliancesConnected(ApplianceList* a_list) {
     for (size_t i = 0; i < a_list->size; i++) {
         Appliance* a = getApplianceFromList(a_list, i);
-        if (a->connected) return true;
+        if (!a->connected) return false;
     }
-    return false;
+    return true;
 }
