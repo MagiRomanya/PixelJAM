@@ -20,21 +20,21 @@ int main(void)
 
     // Game screens
     //--------------------------------------------------------------------------------------
-    SCREEN current_screen = TITLE_SCREEN;
+    SCREEN currentScreen = TITLE_SCREEN;
 
-    while (current_screen != QUIT_GAME) {
-        switch (current_screen) {
+    while (currentScreen != QUIT_GAME) {
+        switch (currentScreen) {
             case TITLE_SCREEN:
-                current_screen = showTitleScreen();
+                currentScreen = showTitleScreen();
                 break;
             case LEVEL_1:
-                current_screen = runLevel("assets/maps/map-test2.png", 1000.0f, 10, CREDITS_SCREEN);
+                currentScreen = runLevel("assets/maps/map-test2.png", 1000.0f, 10, CREDITS_SCREEN);
                 break;
             case MENU_SCREEN:
-                current_screen = showMenuScreen();
+                currentScreen = showMenuScreen();
                 break;
             case CREDITS_SCREEN:
-                current_screen = showCreditsScreen();
+                currentScreen = showCreditsScreen();
                 break;
             default:
                 break;

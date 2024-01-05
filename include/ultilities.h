@@ -87,7 +87,7 @@ static inline void drawTextInsideRectangle(Rectangle rectangle, char* text, int 
     DrawText(text, rectangle.x + rectangle.width/2.0f - MeasureText(text, 20)/2.0f, rectangle.y + (rectangle.height-fontSize)/2.0f, fontSize, color);
 }
 static inline SCREEN showMenuScreen() {
-    SCREEN current_screen;
+    SCREEN currentScreen;
     size_t frameNumber = 0;
     // Menu screen
     //size_t centerx = GetScreenWidth()/2.0;     NOT
@@ -126,7 +126,7 @@ static inline SCREEN showMenuScreen() {
         if(CheckCollisionPointRec(GetMousePosition(), buttonPlay)) {
             buttonColPlay = RED;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                current_screen = LEVEL_1;
+                currentScreen = LEVEL_1;
                 break;
             }
         }
@@ -134,7 +134,7 @@ static inline SCREEN showMenuScreen() {
         if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl)) {
             buttonColCtrl = RED;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                current_screen = CONTROLS_SCREEN;
+                currentScreen = CONTROLS_SCREEN;
                 break;
             }
         }
@@ -143,7 +143,7 @@ static inline SCREEN showMenuScreen() {
         if(CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
             buttonColQuit = RED;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                current_screen = QUIT_GAME;
+                currentScreen = QUIT_GAME;
                 break;
             }
         }
@@ -178,7 +178,7 @@ static inline SCREEN showMenuScreen() {
         printf(":/\n");
         return QUIT_GAME;
     };
-    return current_screen;
+    return currentScreen;
 }
 
 
@@ -253,7 +253,7 @@ static inline bool renderVictoryScreen(ApplianceList* a_list) {
 
 static inline SCREEN showCreditsScreen() {
     // Title screen
-    SCREEN current_screen = QUIT_GAME;
+    SCREEN currentScreen = QUIT_GAME;
     SetTargetFPS(60);
     Texture2D creditsScreen = LoadTexture("assets/sprites/credits.png");
 
@@ -277,7 +277,7 @@ static inline SCREEN showCreditsScreen() {
             if (CheckCollisionPointRec(GetMousePosition(), buttonMenu)) {
                 DrawRectangleRec(buttonMenu, RED);
                 if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                    current_screen = MENU_SCREEN;
+                    currentScreen = MENU_SCREEN;
                     break;
                 }
             }
@@ -289,7 +289,7 @@ static inline SCREEN showCreditsScreen() {
             if (CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
                 DrawRectangleRec(buttonQuit, RED);
                 if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                    current_screen = QUIT_GAME;
+                    currentScreen = QUIT_GAME;
                     break;
                 }
             }
@@ -301,7 +301,7 @@ static inline SCREEN showCreditsScreen() {
         EndDrawing();
     }
     UnloadTexture(creditsScreen);
-    return current_screen;
+    return currentScreen;
 }
 
 #endif // ULTILITIES_H_
