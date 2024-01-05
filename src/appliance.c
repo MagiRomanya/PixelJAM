@@ -66,6 +66,7 @@ void renderAppliances(ApplianceList* a_list) {
                 if (a->connected) {
                     static int frameCounter = 0;
                     static int currentFrame = 0;
+                    int animationFrames = 27;
                     renderAnimation(getSpriteFromID(SPRITE_TELEVISION_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, 23, 6, &frameCounter, &currentFrame);
                 } else {
                     DrawTexture(getSpriteFromID(SPRITE_TELEVISION_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
@@ -80,7 +81,7 @@ void renderAppliances(ApplianceList* a_list) {
 bool areAllAppliancesConnected(ApplianceList* a_list) {
     for (size_t i = 0; i < a_list->size; i++) {
         Appliance* a = getApplianceFromList(a_list, i);
-        if (a->connected) return true;
+        if (!a->connected) return false;
     }
-    return false;
+    return true;
 }
