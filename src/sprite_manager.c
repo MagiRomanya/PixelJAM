@@ -42,6 +42,7 @@ void initializeAssets() {
     assetsContainer.tracks[SOUND_TRACK_JUMP_EFFECT_ID] = LoadSound("assets/sound/jump-effect.mp3");
     assetsContainer.tracks[SOUND_TRACK_PTERODACTYL_ID] = LoadSound("assets/sound/pterodactyl.mp3");
     assetsContainer.tracks[SOUND_TRACK_ERROR_EFFECT_ID] = LoadSound("assets/sound/error-effect.mp3");
+    assetsContainer.tracks[SOUND_TRACK_WASHING_MACHINE_ID] = LoadSound("assets/sound/washing-machine.mp3");
 }
 
 void destroyAssets() {
@@ -57,6 +58,8 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_OFF_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_STAGE1_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_STAGE2_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_WASHING_MACHINE_ON_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_WASHING_MACHINE_OFF_ID]);
 
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_1_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_2_ID]);
@@ -70,6 +73,7 @@ void destroyAssets() {
     UnloadSound(assetsContainer.tracks[SOUND_TRACK_JUMP_EFFECT_ID]);
     UnloadSound(assetsContainer.tracks[SOUND_TRACK_PTERODACTYL_ID]);
     UnloadSound(assetsContainer.tracks[SOUND_TRACK_ERROR_EFFECT_ID]);
+    UnloadSound(assetsContainer.tracks[SOUND_TRACK_WASHING_MACHINE_ID]);
 }
 
 Texture2D getSpriteFromID(size_t SpriteID) {

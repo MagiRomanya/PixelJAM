@@ -17,7 +17,7 @@ Cable createCable(Vector2 initialAnchor, size_t maxAnchors, float maxLength) {
     cable.nMaxAnchors = maxAnchors;
     cable.nAnchors = 1;
     cable.anchors = malloc(sizeof(Anchor) * maxAnchors);
-    cable.anchors[0] = (Anchor){initialAnchor};
+    cable.anchors[0] = (Anchor){initialAnchor, true};
     return cable;
 }
 
@@ -80,6 +80,7 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
     for (size_t i = 0; i < a_list->size; i++) {
         Appliance* a = getApplianceFromList(a_list, i);
         if (!a->connected && CheckCollisionPointRec(position, a->hit_box)) {
+            if (a->type == WASHING_MACHINE) PlaySound(getSoundTrackFromID(SOUND_TRACK_WASHING_MACHINE_ID));
             connectToAppliance = true;
             a->connected = true;
             cable->nMaxAnchors++;

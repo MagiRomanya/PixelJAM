@@ -40,7 +40,7 @@ void renderAppliances(ApplianceList* a_list) {
                     static int currentFrame = 0;
                     renderAnimation(getSpriteFromID(SPRITE_WASHING_MACHINE_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, 23, 6, &frameCounter, &currentFrame);
                 } else {
-                    DrawRectangleRec(a->hit_box, BLACK);
+                    /* DrawRectangleRec(a->hit_box, BLACK); */
                     DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
                 break;
