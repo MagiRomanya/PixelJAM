@@ -55,8 +55,9 @@ CREDITS_SCREEN,
 
 
 static inline SCREEN showTitleScreen() {
-    const float title_screen_duration = 2.0f;
-    const int MaxFrames = 2 * 60;
+    const float animation_screen_duration = 4.0f;	
+    const float title_screen_duration = 5.0f;
+    const int MaxFrames = 5 * 60;
     size_t frameNumber = 0;
     // Title screen
     Texture2D titleScreen = LoadTexture("assets/sprites/titlescreen.png");
@@ -72,9 +73,12 @@ static inline SCREEN showTitleScreen() {
             ClearBackground(BLACK);
             Rectangle source = {0, 0, 1920, 1080};
             Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
-            const float effect = titleTime / title_screen_duration;
-            Color color = {255.0, 255.0, 255.0, 255.0*effect};
-            DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
+            float effect = (titleTime*titleTime) / (animation_screen_duration*animation_screen_duration);
+	    if(frameNumber/60.0 > animation_screen_duration)
+		    effect = 0.0;
+	    Color color = {255.0, 255.0, 255.0, 255.0*effect};
+ 
+	    DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
         }
         EndDrawing();
     }
