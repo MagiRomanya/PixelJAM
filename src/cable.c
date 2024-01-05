@@ -80,7 +80,9 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
     for (size_t i = 0; i < a_list->size; i++) {
         Appliance* a = getApplianceFromList(a_list, i);
         if (!a->connected && CheckCollisionPointRec(position, a->hit_box)) {
-            if (a->type == WASHING_MACHINE) PlaySound(getSoundTrackFromID(SOUND_TRACK_WASHING_MACHINE_ID));
+            if (a->type == WASHING_MACHINE) {
+                PlaySound(getSoundTrackFromID(SOUND_TRACK_WASHING_MACHINE_ID));
+            }
             connectToAppliance = true;
             a->connected = true;
             cable->nMaxAnchors++;
@@ -108,7 +110,7 @@ bool tryRemoveLastAnchor(Cable* cable, ApplianceList* a_list, Vector2 position) 
     if (Vector2Distance(position, anchor->position) > ANCHOR_REMOVE_DISTANCE) return false; // To far away
 
     for (size_t i = 0; i < a_list->size; i++) {
-        Appliance* a = getApplianceFromList(a_list, i++);
+        Appliance* a = getApplianceFromList(a_list, i);
         if (a->connected && CheckCollisionPointRec(anchor->position, a->hit_box)) {
             a->connected = false;
             cable->nConnectedAppliances--;

@@ -35,16 +35,18 @@ void destroyApplianceList(ApplianceList* a_list) {
 void renderAppliances(ApplianceList* a_list) {
     for (int i = 0; i < a_list->size; i++) {
         Appliance* a = getApplianceFromList(a_list, i);
+        DrawRectangleRec(a->hit_box, BLACK);
         switch (a->type) {
             case WASHING_MACHINE:
             {
+
                 if (a->connected) {
                     static int frameCounter = 0;
                     static int currentFrame = 0;
                     const int animationFrames = 23;
+
                     renderAnimation(getSpriteFromID(SPRITE_WASHING_MACHINE_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &frameCounter, &currentFrame);
                 } else {
-                    /* DrawRectangleRec(a->hit_box, BLACK); */
                     DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
                 break;
@@ -77,7 +79,6 @@ void renderAppliances(ApplianceList* a_list) {
         }
     }
 }
-
 
 bool areAllAppliancesConnected(ApplianceList* a_list) {
     for (size_t i = 0; i < a_list->size; i++) {
