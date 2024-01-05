@@ -37,6 +37,6 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
 
 void drawCable(Cable* cable, Player* player, GameColliderList* c_list);
 
-bool tryRemoveLastAnchor(Cable* cable, Vector2 position);
+bool tryRemoveLastAnchor(Cable* cable, ApplianceList* a_list, Vector2 position);
 
 #endif // CABLE_H_

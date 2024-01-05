@@ -93,10 +93,20 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
     return ANCHOR_SUCCESS;
 }
 
-bool tryRemoveLastAnchor(Cable* cable, Vector2 position) {
+bool tryRemoveLastAnchor(Cable* cable, ApplianceList* a_list, Vector2 position) {
     if (cable->nAnchors <= 1) return false; // Can not remove base anchor
     Anchor* anchor = cableGetLastAnchor(cable);
     if (Vector2Distance(position, anchor->position) > ANCHOR_REMOVE_DISTANCE) return false; // To far away
+
+    for (size_t i = 0; i < a_list->size; i++) {
+        Appliance* a = getApplianceFromList(a_list, i++);
+        if (a->connected && CheckCollisionPointRec(anchor->position, a->hit_box)) {
+            printf("Hello\n");
+            a->connected = false;
+            cable->nConnectedAppliances--;
+            cable->nMaxAnchors--;
+        }
+    }
     cable->nAnchors--;
     PlaySound(getSoundTrackFromID(SOUND_TRACK_STAPLE_REMOVE_ID));
     return true;

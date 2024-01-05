@@ -96,7 +96,7 @@ int main(void)
             }
         }
         if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
-            tryRemoveLastAnchor(&cable, Vector2Add(player.position, (Vector2){16,16}));
+            tryRemoveLastAnchor(&cable, &applianceList, Vector2Add(player.position, (Vector2){16,16}));
         }
 
         // Draw
