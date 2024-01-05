@@ -37,8 +37,8 @@ int main(void)
             case LEVEL_1:
                 currentScreen = runLevel("assets/maps/level1.png", 1000.0f, 0, LEVEL_2);
                 break;
-
             case LEVEL_2:
+                SetPlayerHat(POINTY_HAT);
                 currentScreen = runLevel("assets/maps/level2.png", 1000.0f, 2, CREDITS_SCREEN);
                 break;
             case CREDITS_SCREEN:
