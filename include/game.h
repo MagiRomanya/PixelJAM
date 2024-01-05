@@ -8,6 +8,10 @@
 typedef enum {
 IMPORTANT_HAT,
 SAFETY_HAT,
+CHEF_HAT,
+KING_HAT,
+POINTY_HAT,
+TOP_HAT,
 }HAT_TYPE;
 
 void SetPlayerHat(HAT_TYPE hat);

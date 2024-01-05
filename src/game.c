@@ -17,7 +17,7 @@ void SetPlayerHat(HAT_TYPE hat) { playerHat = hat; }
 HAT_TYPE GetPlayerHat() { return playerHat; }
 
 void SetNextPlayerHat() {
-    playerHat = (playerHat+1) % 2;
+    playerHat = (playerHat+1) % 6;
 }
 
 SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN nextScreen) {

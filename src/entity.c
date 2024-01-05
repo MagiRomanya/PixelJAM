@@ -97,6 +97,46 @@ void playerJump(Player* player) {
     player->input_vector.y -= 100.0f;
 }
 
+void renderPlayerHat(Player* player) {
+    Texture2D hat;
+    switch (GetPlayerHat()) {
+        case IMPORTANT_HAT:
+        {
+            if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_IMPORTANT_HAT_ID);
+            else hat = getSpriteFromID(SPRITE_IMPORTANT_HATL_ID);
+            break;
+        }
+        case SAFETY_HAT:
+        {
+            if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_SAFETY_HAT_ID);
+            else hat = getSpriteFromID(SPRITE_SAFETY_HATL_ID);
+            break;
+        }
+        case CHEF_HAT:
+        {
+            hat = getSpriteFromID(SPRITE_CHEF_HAT_ID);
+            break;
+        }
+        case KING_HAT:
+        {
+            hat = getSpriteFromID(SPRITE_KING_HAT_ID);
+            break;
+        }
+        case POINTY_HAT:
+        {
+            if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_POINTY_HATL_ID);
+            else hat = getSpriteFromID(SPRITE_POINTY_HAT_ID);
+            break;
+        }
+        case TOP_HAT:
+        {
+            hat = getSpriteFromID(SPRITE_TOP_HAT_ID);
+            break;
+        }
+    }
+    DrawTextureV(hat, player->hatPosition, WHITE);
+}
+
 void renderPlayer(Player* player) {
     // DrawCircleV(computePlayerHandPosition(player), 5, GREEN);
     Vector2 handPosition = computePlayerHandPosition(player);
@@ -124,23 +164,7 @@ void renderPlayer(Player* player) {
         static int currentFrame = 0;
         renderAnimation(runTexture, player->position.x, player->position.y, 6, 6, &frameCounter, &currentFrame);
     }
-
-    Texture2D hat;
-    switch (GetPlayerHat()) {
-        case IMPORTANT_HAT:
-        {
-            if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_IMPORTANT_HAT_ID);
-            else hat = getSpriteFromID(SPRITE_IMPORTANT_HATL_ID);
-            break;
-        }
-        case SAFETY_HAT:
-        {
-            if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_SAFETY_HAT_ID);
-            else hat = getSpriteFromID(SPRITE_SAFETY_HATL_ID);
-            break;
-        }
-    }
-    DrawTextureV(hat, player->hatPosition, WHITE);
+    renderPlayerHat(player);
 }
 
 void destroyPlayer(Player* player) {

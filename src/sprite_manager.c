@@ -30,6 +30,12 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_BLENDER_OFF_STAGE2_ID] = LoadTexture("assets/sprites/blender-off-stage-2.png");
     assetsContainer.sprites[SPRITE_BLENDER_ON_STAGE1_ID] = LoadTexture("assets/sprites/blender-on-stage-1.png");
     assetsContainer.sprites[SPRITE_BLENDER_ON_STAGE2_ID] = LoadTexture("assets/sprites/blender-on-stage-2.png");
+    assetsContainer.sprites[SPRITE_CHEF_HAT_ID] = LoadTexture("assets/sprites/chef-hat.png");
+    assetsContainer.sprites[SPRITE_KING_HAT_ID] = LoadTexture("assets/sprites/king-hat.png");
+    assetsContainer.sprites[SPRITE_POINTY_HAT_ID] = LoadTexture("assets/sprites/pointy-hat.png");
+    assetsContainer.sprites[SPRITE_POINTY_HATL_ID] = LoadTexture("assets/sprites/pointy-hatL.png");
+    assetsContainer.sprites[SPRITE_TOP_HAT_ID] = LoadTexture("assets/sprites/top-hat.png");
+
 
     // Tiles
     assetsContainer.sprites[0] = LoadTexture("assets/sprites/tile-test.png");
@@ -46,6 +52,8 @@ void initializeAssets() {
     assetsContainer.tracks[SOUND_TRACK_PTERODACTYL_ID] = LoadSound("assets/sound/pterodactyl.mp3");
     assetsContainer.tracks[SOUND_TRACK_ERROR_EFFECT_ID] = LoadSound("assets/sound/error-effect.mp3");
     assetsContainer.tracks[SOUND_TRACK_WASHING_MACHINE_ID] = LoadSound("assets/sound/washing-machine.mp3");
+    assetsContainer.tracks[SOUND_TRACK_BLENDER_ID] = LoadSound("assets/sound/blender.mp3");
+    assetsContainer.tracks[SOUND_TRACK_TELEVISION_ID] = LoadSound("assets/sound/television.mp3");
 }
 
 void destroyAssets() {
@@ -66,6 +74,11 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_ON_STAGE2_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_WASHING_MACHINE_ON_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_WASHING_MACHINE_OFF_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_CHEF_HAT_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_KING_HAT_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_POINTY_HAT_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_POINTY_HATL_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_TOP_HAT_ID]);
 
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_1_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_2_ID]);
@@ -80,6 +93,8 @@ void destroyAssets() {
     UnloadSound(assetsContainer.tracks[SOUND_TRACK_PTERODACTYL_ID]);
     UnloadSound(assetsContainer.tracks[SOUND_TRACK_ERROR_EFFECT_ID]);
     UnloadSound(assetsContainer.tracks[SOUND_TRACK_WASHING_MACHINE_ID]);
+    UnloadSound(assetsContainer.tracks[SOUND_TRACK_BLENDER_ID]);
+    UnloadSound(assetsContainer.tracks[SOUND_TRACK_TELEVISION_ID]);
 }
 
 Texture2D getSpriteFromID(size_t SpriteID) {
