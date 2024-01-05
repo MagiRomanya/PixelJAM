@@ -44,11 +44,12 @@ int main(void)
 
     //--------------------------------------------------------------------------------------
     // Main game loop
+    bool should_quit = false;
     showTitleScreen();
-    showMenuScreen();
+    should_quit = showMenuScreen();
     SetTargetFPS(120);
 
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    while (!WindowShouldClose() && !should_quit)    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
@@ -130,6 +131,7 @@ int main(void)
             EndMode2D();
             drawMessage(&rmessage, (Vector2){screenWidth*0.5, 0.45*screenHeight});
             renderCableLengthUI(&cable, &player);
+            renderAnchorsLeftUI(&cable);
         }
         EndDrawing();
         //----------------------------------------------------------------------------------

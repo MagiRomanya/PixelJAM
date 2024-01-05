@@ -43,6 +43,7 @@ static inline void drawMessage(RenderMessage* message, Vector2 position) {
 
 static inline void showTitleScreen() {
     const float title_screen_duration = 2.0f;
+    const int MaxFrames = 2 * 60;
     size_t frameNumber = 0;
     // Title screen
     Texture2D titleScreen = LoadTexture("assets/sprites/titlescreen.png");
@@ -51,7 +52,8 @@ static inline void showTitleScreen() {
     while (!WindowShouldClose()) {
         frameNumber++;
         float titleTime = frameNumber*GetFrameTime();
-        if (title_screen_duration < titleTime) break;
+        if (frameNumber == MaxFrames / 4) PlaySound(getSoundTrackFromID(SOUND_TRACK_PTERODACTYL_ID));
+        if (MaxFrames < frameNumber) break;
         BeginDrawing();
         {
             ClearBackground(BLACK);
@@ -66,25 +68,35 @@ static inline void showTitleScreen() {
     UnloadTexture(titleScreen);
 }
 
-static inline void showMenuScreen() {
-    //const float title_screen_duration = 2.0f;
+static inline bool showMenuScreen() {
     size_t frameNumber = 0;
-    // Menu scree
+    // Menu screen
     //size_t centerx = GetScreenWidth()/2.0;     NOT
     //size_t centery = GetScreenHeigth()/2.0;    HERE
     Color buttonColPlay = GRAY;
     Color buttonColCtrl = GRAY;
     Color buttonColQuit = GRAY;
 
+    bool shouldQuit = false;
+
+    Sound menuMusicTrack = LoadSound("assets/sound/menu-music.wav");
+
     size_t buttonHeight = 50;
     size_t buttonWidth = 200;
-    //Texture2D menuScreen = LoadTexture("assets/sprites/titlescreen.png");
-    //InitWindow(1000,500, "ButtonExample");
+    Texture2D menuScreen = LoadTexture("assets/sprites/game-title.png");
+
+    PlaySound(menuMusicTrack);
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
         ClearBackground(BLACK);
-        Rectangle source = {0, 0, 1920, 1080};
-        Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+        const Rectangle gameTitleSourceRec = {0, 0, 128, 128};
+        const float gameTitleWidth = GetScreenWidth() / 3.0f;
+        const Vector2 gameTitlePosition = {-gameTitleWidth, 0};
+        const Rectangle gameTitleDestRec = {0,0, gameTitleWidth, gameTitleWidth};
+
+        const Rectangle applianceSourceRec = {0,0,32,32};
+        const float applianceWidth = gameTitleWidth * 0.5f;
+        const Rectangle applianceDestRec = {0,0,applianceWidth, applianceWidth};
         // Rectangle buttonPlay = {centerx - buttonWidth/2.0, centerx - buttonWidth/2.0};
             
         size_t centerx = GetScreenWidth()/2.0;
@@ -98,33 +110,48 @@ static inline void showMenuScreen() {
 
         if(CheckCollisionPointRec(GetMousePosition(), buttonPlay)) {
             buttonColPlay = RED;
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) return;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) break;
         }
         else  buttonColPlay = GRAY;
         if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl))
             buttonColCtrl = RED;
         else
             buttonColCtrl = GRAY;
-        if(CheckCollisionPointRec(GetMousePosition(), buttonQuit))
+        if(CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
             buttonColQuit = RED;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                shouldQuit = true;
+                break;
+            }
+        }
         else
             buttonColQuit = GRAY;
-        //if (title_screen_duration < titleTime) break;
+
         BeginDrawing();
         {
-            //const float effect = titleTime / title_screen_duration;
-            //Color color = {255.0, 255.0, 255.0, 255.0*effect};
-            //DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
+            ClearBackground(WHITE);
+            const float time = frameNumber * GetFrameTime();
+            DrawTexturePro(menuScreen, gameTitleSourceRec, gameTitleDestRec, gameTitlePosition, 0, WHITE);
+            // Flying appliances
+            /* Vector2 appliancePosition = Vector2Add((Vector2){0,0}, Vector2MultiplyS(100*time, (Vector2){-1,-1})); */
+            /* const float applianceRotation = 0; */
+            /* DrawTexturePro(getSpriteFromID(SPRITE_BLENDER_OFF_ID), applianceSourceRec, applianceDestRec, appliancePosition, applianceRotation, WHITE); */
+
+            // Buttons
             DrawRectangleRec(buttonPlay, buttonColPlay);
             DrawText("Play Game", buttonPlay.x + MeasureText("Play Game", 20)/2.0, buttonPlay.y + (buttonHeight-20)/2.0, 20, WHITE);
             DrawRectangleRec(buttonCtrl, buttonColCtrl);
             DrawText("Controls", buttonCtrl.x +  MeasureText("Controls", 20)/2.0, buttonCtrl.y + (buttonHeight-20)/2.0, 20, WHITE);
             DrawRectangleRec(buttonQuit, buttonColQuit);
             DrawText("Quit Game", buttonQuit.x + MeasureText("Quit Game", 20)/2.0, buttonQuit.y + (buttonHeight-20)/2.0, 20, WHITE);
+            frameNumber++;
         }
         EndDrawing();
     }
-    //UnloadTexture(titleScreen);
+    StopSound(menuMusicTrack);
+    UnloadSound(menuMusicTrack);
+    UnloadTexture(menuScreen);
+    return shouldQuit;
 }
 
 
@@ -149,6 +176,17 @@ static inline void renderCableLengthUI(Cable* cable, Player* player) {
     /* DrawRectangleRec(cableLengthBackgound, RED); */
     DrawRectangleRec(cableLengthProgress, GRAY);
     DrawTexturePro(getSpriteFromID(SPRITE_CABLE_LENGTH_ID), sourceRec, destRec, (Vector2){-8*virtualRatio,-8*virtualRatio}, 0, WHITE);
+}
+
+static inline void renderAnchorsLeftUI(Cable* cable) {
+    const float oWidth = 16.0f;
+    Rectangle sourceRec = {0.0f, 0.0f, oWidth, oWidth};
+    const float virtualRatio = getVirtualRatio();
+    const float width = oWidth*virtualRatio;
+    Rectangle destRec = {0, 0, width, width};
+    Vector2 origin = {-(16.0 + 32.0)*virtualRatio, -width};
+    DrawTexturePro(getSpriteFromID(SPRITE_ANCHOR_ID), sourceRec, destRec, origin, 0, GRAY);
+    DrawText(TextFormat("%i", cable->nMaxAnchors - cable->nAnchors), -origin.x + virtualRatio*4, -origin.y, width*0.9, GOLD);
 }
 
 #endif // ULTILITIES_H_
