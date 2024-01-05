@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stddef.h>
+#include "game.h"
 #include "raylib.h"
 #include "raymath.h"
 #include "physics.h"
@@ -123,9 +124,22 @@ void renderPlayer(Player* player) {
         static int currentFrame = 0;
         renderAnimation(runTexture, player->position.x, player->position.y, 6, 6, &frameCounter, &currentFrame);
     }
+
     Texture2D hat;
-    if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_IMPORTANT_HAT_ID);
-    else hat = getSpriteFromID(SPRITE_IMPORTANT_HATL_ID);
+    switch (GetPlayerHat()) {
+        case IMPORTANT_HAT:
+        {
+            if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_IMPORTANT_HAT_ID);
+            else hat = getSpriteFromID(SPRITE_IMPORTANT_HATL_ID);
+            break;
+        }
+        case SAFETY_HAT:
+        {
+            if (player->facing_direction > 0) hat = getSpriteFromID(SPRITE_SAFETY_HAT_ID);
+            else hat = getSpriteFromID(SPRITE_SAFETY_HATL_ID);
+            break;
+        }
+    }
     DrawTextureV(hat, player->hatPosition, WHITE);
 }
 

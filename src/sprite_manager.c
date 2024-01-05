@@ -18,6 +18,8 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_ANCHOR_ID] = LoadTexture("assets/sprites/anchor.png");
     assetsContainer.sprites[SPRITE_IMPORTANT_HAT_ID] = LoadTexture("assets/sprites/important-hat.png");
     assetsContainer.sprites[SPRITE_IMPORTANT_HATL_ID] = LoadTexture("assets/sprites/important-hatL.png");
+    assetsContainer.sprites[SPRITE_SAFETY_HAT_ID] = LoadTexture("assets/sprites/safety-hat.png");
+    assetsContainer.sprites[SPRITE_SAFETY_HATL_ID] = LoadTexture("assets/sprites/safety-hatL.png");
     assetsContainer.sprites[SPRITE_CABLE_LENGTH_ID] = LoadTexture("assets/sprites/cable-length.png");
     assetsContainer.sprites[SPRITE_TOOL_ID] = LoadTexture("assets/sprites/tool.png");
     assetsContainer.sprites[SPRITE_WASHING_MACHINE_ON_ID] = LoadTexture("assets/sprites/washing-machine-on.png");
@@ -51,6 +53,8 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_ANCHOR_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_IMPORTANT_HAT_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_IMPORTANT_HATL_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_SAFETY_HAT_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_SAFETY_HATL_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_CABLE_LENGTH_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_TOOL_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_TELEVISION_ON_ID]);
