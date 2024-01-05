@@ -40,7 +40,8 @@ void renderAppliances(ApplianceList* a_list) {
                 if (a->connected) {
                     static int frameCounter = 0;
                     static int currentFrame = 0;
-                    renderAnimation(getSpriteFromID(SPRITE_WASHING_MACHINE_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, 23, 6, &frameCounter, &currentFrame);
+                    const int animationFrames = 23;
+                    renderAnimation(getSpriteFromID(SPRITE_WASHING_MACHINE_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &frameCounter, &currentFrame);
                 } else {
                     /* DrawRectangleRec(a->hit_box, BLACK); */
                     DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
@@ -52,7 +53,9 @@ void renderAppliances(ApplianceList* a_list) {
                 if (a->connected) {
                     static int frameCounter = 0;
                     static int currentFrame = 0;
-                    renderAnimation(getSpriteFromID(SPRITE_BLENDER_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, 23, 6, &frameCounter, &currentFrame);
+                    const int stage1frames = 20;
+                    const int stage2frames = 8;
+                    renderAnimation(getSpriteFromID(SPRITE_BLENDER_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage1frames, 6, &frameCounter, &currentFrame);
                 } else {
                     DrawTexture(getSpriteFromID(SPRITE_BLENDER_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
