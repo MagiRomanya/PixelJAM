@@ -1,6 +1,7 @@
 #include "appliance.h"
 #include "cable.h"
 #include "raylib.h"
+#include "ultilities.h"
 
 #define APPLIANCE_LIST_CAPACITY 10*sizeof(Appliance)
 

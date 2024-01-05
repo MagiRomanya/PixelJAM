@@ -5,7 +5,6 @@
 #include "raylib.h"
 #include "entity.h"
 #include "sprite_manager.h"
-#include "ultilities.h"
 
 typedef enum {
     WASHING_MACHINE,
