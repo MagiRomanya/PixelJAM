@@ -27,11 +27,14 @@ int main(void)
             case TITLE_SCREEN:
                 currentScreen = showTitleScreen();
                 break;
-            case LEVEL_1:
-                currentScreen = runLevel("assets/maps/map-test2.png", 1000.0f, 10, CREDITS_SCREEN);
-                break;
             case MENU_SCREEN:
                 currentScreen = showMenuScreen();
+                break;
+            case CONTROLS_SCREEN:
+                currentScreen = runLevel("assets/maps/map-test2.png", 1000.0f, 10, CREDITS_SCREEN);
+                break;
+            case LEVEL_1:
+                currentScreen = runLevel("assets/maps/map-test2.png", 1000.0f, 10, CREDITS_SCREEN);
                 break;
             case CREDITS_SCREEN:
                 currentScreen = showCreditsScreen();
