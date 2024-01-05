@@ -8,6 +8,7 @@
 
 typedef struct {
     Vector2 position;
+    bool visible;
 } Anchor;
 
 struct Cable{
