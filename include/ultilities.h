@@ -161,7 +161,7 @@ static inline void renderAnchorsLeftUI(Cable* cable) {
     Rectangle destRec = {0, 0, width, width};
     Vector2 origin = {-(16.0 + 32.0)*virtualRatio, -width};
     DrawTexturePro(getSpriteFromID(SPRITE_ANCHOR_ID), sourceRec, destRec, origin, 0, GRAY);
-    DrawText(TextFormat("%i", cable->nMaxAnchors - cable->nAnchors), -origin.x + virtualRatio*4, -origin.y, width, GOLD);
+    DrawText(TextFormat("%i", cable->nMaxAnchors - cable->nAnchors), -origin.x + virtualRatio*4, -origin.y, width*0.9, GOLD);
 }
 
 #endif // ULTILITIES_H_

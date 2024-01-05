@@ -54,16 +54,25 @@ bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_
 }
 
 PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vector2 position) {
-    if (cable->nAnchors >= cable->nMaxAnchors) return ANCHOR_NOT_ENOUGH_ANCHORS;
+    if (cable->nAnchors >= cable->nMaxAnchors) {
+        PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
+        return ANCHOR_NOT_ENOUGH_ANCHORS;
+    }
 
     Anchor* lastAnchor = cableGetLastAnchor(cable);
     float cableLength = computeCableLength(cable);
     float newFragmentLength = Vector2Distance(position, lastAnchor->position);
-    if (cableLength + newFragmentLength >= cable->maxLength) return ANCHOR_NOT_ENOUGH_LENGTH;
+    if (cableLength + newFragmentLength >= cable->maxLength) {
+        PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
+        return ANCHOR_NOT_ENOUGH_LENGTH;
+    }
 
     // New cable segment
     bool collide = computeLastSegmentIntersection(lastAnchor->position, position, c_list);
-    if (collide) return ANCHOR_OBSTRUDED_PATH;
+    if (collide) {
+        PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
+        return ANCHOR_OBSTRUDED_PATH;
+    }
 
     cable->anchors[cable->nAnchors] = (Anchor){position};
     cable->nAnchors++;
