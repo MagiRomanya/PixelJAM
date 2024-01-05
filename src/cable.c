@@ -1,4 +1,5 @@
 #include "cable.h"
+#include "appliance.h"
 #include "entity.h"
 #include "physics.h"
 #include "raylib.h"
@@ -53,7 +54,7 @@ bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_
     return collide;
 }
 
-PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vector2 position) {
+PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, ApplianceList* a_list,  Vector2 position) {
     if (cable->nAnchors >= cable->nMaxAnchors) {
         PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
         return ANCHOR_NOT_ENOUGH_ANCHORS;
@@ -74,16 +75,45 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list,  Vec
         return ANCHOR_OBSTRUDED_PATH;
     }
 
-    cable->anchors[cable->nAnchors] = (Anchor){position};
-    cable->nAnchors++;
+    // Check if we can connect appliance
+    bool connectToAppliance = false;
+    for (size_t i = 0; i < a_list->size; i++) {
+        Appliance* a = getApplianceFromList(a_list, i);
+        if (!a->connected && CheckCollisionPointRec(position, a->hit_box)) {
+            connectToAppliance = true;
+            a->connected = true;
+            cable->nMaxAnchors++;
+            cable->nConnectedAppliances++;
+            Vector2 applianceCenter = {a->hit_box.x + a->hit_box.width/2.0f, a->hit_box.y + a->hit_box.height/2.0f};
+            cable->anchors[cable->nAnchors] = (Anchor){applianceCenter, false};
+            cable->nAnchors++;
+            break;
+        }
+    }
+
+    // Place normal anchor
+    if (!connectToAppliance) {
+        cable->anchors[cable->nAnchors] = (Anchor){position, true};
+        cable->nAnchors++;
+    }
+
     PlaySound(getSoundTrackFromID(SOUND_TRACK_STAPLE_ID));
     return ANCHOR_SUCCESS;
 }
 
-bool tryRemoveLastAnchor(Cable* cable, Vector2 position) {
+bool tryRemoveLastAnchor(Cable* cable, ApplianceList* a_list, Vector2 position) {
     if (cable->nAnchors <= 1) return false; // Can not remove base anchor
     Anchor* anchor = cableGetLastAnchor(cable);
     if (Vector2Distance(position, anchor->position) > ANCHOR_REMOVE_DISTANCE) return false; // To far away
+
+    for (size_t i = 0; i < a_list->size; i++) {
+        Appliance* a = getApplianceFromList(a_list, i++);
+        if (a->connected && CheckCollisionPointRec(anchor->position, a->hit_box)) {
+            a->connected = false;
+            cable->nConnectedAppliances--;
+            cable->nMaxAnchors--;
+        }
+    }
     cable->nAnchors--;
     PlaySound(getSoundTrackFromID(SOUND_TRACK_STAPLE_REMOVE_ID));
     return true;
@@ -111,6 +141,7 @@ void drawCable(Cable* cable, Player* player, GameColliderList* c_list) {
     // Draw anchors
     for (size_t i = 0; i < cable->nAnchors; i++) {
         Anchor a = cable->anchors[i];
+        if (!a.visible) continue;
         const int half_width = 8;
         Rectangle rect = {a.position.x-half_width, a.position.y-half_width, 2*half_width, 2*half_width};
         Texture2D anchorTexture = getSpriteFromID(SPRITE_ANCHOR_ID);
