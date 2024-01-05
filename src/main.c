@@ -20,10 +20,26 @@ int main(void)
 
     // Game screens
     //--------------------------------------------------------------------------------------
-    bool should_quit = false;
-    showTitleScreen();
-    should_quit = showMenuScreen();
-    runLevel("assets/maps/map-test2.png", 1000, 10);
+    SCREEN_SELECTION selection = SELECTED_TITLE_SCREEN;
+
+    while (selection != SELECTED_QUIT) {
+        switch (selection) {
+            case SELECTED_TITLE_SCREEN:
+                selection = showTitleScreen();
+                break;
+            case SELECTED_PLAY_LEVEL1:
+                selection = runLevel("assets/maps/map-test2.png", 1000.0f, 10, SELECTED_CREDITS);
+                break;
+            case SELECTED_MENU_SCREEN:
+                selection = showMenuScreen();
+                break;
+            case SELECTED_CREDITS:
+                selection = showCreditsScreen();
+                break;
+            default:
+                break;
+        }
+    }
 
     // De-Initialization
     //--------------------------------------------------------------------------------------

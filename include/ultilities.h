@@ -11,6 +11,7 @@
 #include "sprite_manager.h"
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static inline void renderCapsule(CapsuleCollider collider) {
     const float radius = collider.radius;
@@ -42,7 +43,18 @@ static inline void drawMessage(RenderMessage* message, Vector2 position) {
     DrawText(message->message, position.x, position.y, MESSAGE_FONT_SIZE, RED);
 }
 
-static inline void showTitleScreen() {
+
+typedef enum {
+SELECTED_PLAY_LEVEL1,
+SELECTED_MENU_SCREEN,
+SELECTED_TITLE_SCREEN,
+SELECTED_QUIT,
+SELECTED_CONTROLS,
+SELECTED_CREDITS,
+} SCREEN_SELECTION;
+
+
+static inline SCREEN_SELECTION showTitleScreen() {
     const float title_screen_duration = 2.0f;
     const int MaxFrames = 2 * 60;
     size_t frameNumber = 0;
@@ -67,9 +79,15 @@ static inline void showTitleScreen() {
         EndDrawing();
     }
     UnloadTexture(titleScreen);
+    if (WindowShouldClose()) return SELECTED_QUIT;
+    return SELECTED_MENU_SCREEN;
 }
 
-static inline bool showMenuScreen() {
+static inline void drawTextInsideRectangle(Rectangle rectangle, char* text, int fontSize, Color color) {
+    DrawText(text, rectangle.x + rectangle.width/2.0f - MeasureText(text, 20)/2.0f, rectangle.y + (rectangle.height-fontSize)/2.0f, fontSize, color);
+}
+static inline SCREEN_SELECTION showMenuScreen() {
+    SCREEN_SELECTION selection;
     size_t frameNumber = 0;
     // Menu screen
     //size_t centerx = GetScreenWidth()/2.0;     NOT
@@ -77,8 +95,6 @@ static inline bool showMenuScreen() {
     Color buttonColPlay = GRAY;
     Color buttonColCtrl = GRAY;
     Color buttonColQuit = GRAY;
-
-    bool shouldQuit = false;
 
     Sound menuMusicTrack = LoadSound("assets/sound/menu-music.wav");
 
@@ -107,21 +123,27 @@ static inline bool showMenuScreen() {
         Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
  
 
-        if(IsKeyPressed(KEY_ENTER)) break;
-
         if(CheckCollisionPointRec(GetMousePosition(), buttonPlay)) {
             buttonColPlay = RED;
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) break;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                selection = SELECTED_PLAY_LEVEL1;
+                break;
+            }
         }
         else  buttonColPlay = GRAY;
-        if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl))
+        if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl)) {
             buttonColCtrl = RED;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                selection = SELECTED_CONTROLS;
+                break;
+            }
+        }
         else
             buttonColCtrl = GRAY;
         if(CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
             buttonColQuit = RED;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                shouldQuit = true;
+                selection = SELECTED_QUIT;
                 break;
             }
         }
@@ -140,11 +162,11 @@ static inline bool showMenuScreen() {
 
             // Buttons
             DrawRectangleRec(buttonPlay, buttonColPlay);
-            DrawText("Play Game", buttonPlay.x + MeasureText("Play Game", 20)/2.0, buttonPlay.y + (buttonHeight-20)/2.0, 20, WHITE);
+            drawTextInsideRectangle(buttonPlay, "Play Game", 20, WHITE);
             DrawRectangleRec(buttonCtrl, buttonColCtrl);
-            DrawText("Controls", buttonCtrl.x +  MeasureText("Controls", 20)/2.0, buttonCtrl.y + (buttonHeight-20)/2.0, 20, WHITE);
+            drawTextInsideRectangle(buttonCtrl, "Controls", 20, WHITE);
             DrawRectangleRec(buttonQuit, buttonColQuit);
-            DrawText("Quit Game", buttonQuit.x + MeasureText("Quit Game", 20)/2.0, buttonQuit.y + (buttonHeight-20)/2.0, 20, WHITE);
+            drawTextInsideRectangle(buttonQuit, "Quit Game", 20, WHITE);
             frameNumber++;
         }
         EndDrawing();
@@ -152,7 +174,11 @@ static inline bool showMenuScreen() {
     StopSound(menuMusicTrack);
     UnloadSound(menuMusicTrack);
     UnloadTexture(menuScreen);
-    return shouldQuit;
+    if (WindowShouldClose()) {
+        printf(":/\n");
+        return SELECTED_QUIT;
+    };
+    return selection;
 }
 
 
@@ -223,6 +249,59 @@ static inline bool renderVictoryScreen(ApplianceList* a_list) {
             if (CheckCollisionPointRec(GetMousePosition(), continueButtonRec)) return false;
     }
     return true;
+}
+
+static inline SCREEN_SELECTION showCreditsScreen() {
+    // Title screen
+    SCREEN_SELECTION selection = SELECTED_QUIT;
+    SetTargetFPS(60);
+    Texture2D creditsScreen = LoadTexture("assets/sprites/credits.png");
+
+    while (!WindowShouldClose()) {
+        if (GetRandomValue(0, 1000) == 1) {
+            PlaySound(getSoundTrackFromID(SOUND_TRACK_PTERODACTYL_ID));
+        }
+        BeginDrawing();
+        {
+            ClearBackground(BLACK);
+            Rectangle source = {0, 0, 1920, 1080};
+            Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+            DrawTexturePro(creditsScreen, source, destination, (Vector2){0}, 0, WHITE);
+
+            size_t centerx = GetScreenWidth() * 0.6f;
+            size_t centery = GetScreenHeight() * 0.6;
+            size_t buttonHeight = 50;
+            size_t buttonWidth = 200;
+            Rectangle buttonMenu = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
+            Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
+            if (CheckCollisionPointRec(GetMousePosition(), buttonMenu)) {
+                DrawRectangleRec(buttonMenu, RED);
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                    selection = SELECTED_MENU_SCREEN;
+                    break;
+                }
+            }
+            else {
+                DrawRectangleRec(buttonMenu, GRAY);
+            }
+            drawTextInsideRectangle(buttonMenu, "Back to menu", 20, WHITE);
+
+            if (CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
+                DrawRectangleRec(buttonQuit, RED);
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                    selection = SELECTED_QUIT;
+                    break;
+                }
+            }
+            else {
+                DrawRectangleRec(buttonQuit, GRAY);
+            }
+            drawTextInsideRectangle(buttonQuit, "Quit", 20, WHITE);
+        }
+        EndDrawing();
+    }
+    UnloadTexture(creditsScreen);
+    return selection;
 }
 
 #endif // ULTILITIES_H_
