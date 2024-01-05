@@ -42,8 +42,8 @@ int main(void)
 
     //--------------------------------------------------------------------------------------
     // Main game loop
-    /* showTitleScreen(); */
-    /* showMenuScreen(); */
+    showTitleScreen();
+    showMenuScreen();
     SetTargetFPS(120);
 
     while (!WindowShouldClose())    // Detect window close button or ESC key

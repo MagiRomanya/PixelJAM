@@ -78,15 +78,20 @@ static inline void showMenuScreen() {
     Color buttonColCtrl = GRAY;
     Color buttonColQuit = GRAY;
 
+    Sound menuMusicTrack = LoadSound("assets/sound/menu-music.wav");
+
     size_t buttonHeight = 50;
     size_t buttonWidth = 200;
-    //Texture2D menuScreen = LoadTexture("assets/sprites/titlescreen.png");
-    //InitWindow(1000,500, "ButtonExample");
+    Texture2D menuScreen = LoadTexture("assets/sprites/game-title.png");
+
+    PlaySound(menuMusicTrack);
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
         ClearBackground(BLACK);
-        Rectangle source = {0, 0, 1920, 1080};
-        Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+        Rectangle source = {0, 0, 128, 128};
+        const float width = GetScreenWidth() / 3.0f;
+        const Vector2 origin = {-width, 0};
+        Rectangle destination = {0,0, width, width};
         // Rectangle buttonPlay = {centerx - buttonWidth/2.0, centerx - buttonWidth/2.0};
             
         size_t centerx = GetScreenWidth()/2.0;
@@ -100,7 +105,7 @@ static inline void showMenuScreen() {
 
         if(CheckCollisionPointRec(GetMousePosition(), buttonPlay)) {
             buttonColPlay = RED;
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) return;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) break;
         }
         else  buttonColPlay = GRAY;
         if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl))
@@ -116,7 +121,7 @@ static inline void showMenuScreen() {
         {
             //const float effect = titleTime / title_screen_duration;
             //Color color = {255.0, 255.0, 255.0, 255.0*effect};
-            //DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
+            DrawTexturePro(menuScreen, source, destination, origin, 0, WHITE);
             DrawRectangleRec(buttonPlay, buttonColPlay);
             DrawText("Play Game", buttonPlay.x + MeasureText("Play Game", 20)/2.0, buttonPlay.y + (buttonHeight-20)/2.0, 20, WHITE);
             DrawRectangleRec(buttonCtrl, buttonColCtrl);
@@ -126,7 +131,9 @@ static inline void showMenuScreen() {
         }
         EndDrawing();
     }
-    //UnloadTexture(titleScreen);
+    StopSound(menuMusicTrack);
+    UnloadSound(menuMusicTrack);
+    UnloadTexture(menuScreen);
 }
 
 
