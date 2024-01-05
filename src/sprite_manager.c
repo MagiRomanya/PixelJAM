@@ -35,6 +35,8 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_POINTY_HAT_ID] = LoadTexture("assets/sprites/pointy-hat.png");
     assetsContainer.sprites[SPRITE_POINTY_HATL_ID] = LoadTexture("assets/sprites/pointy-hatL.png");
     assetsContainer.sprites[SPRITE_TOP_HAT_ID] = LoadTexture("assets/sprites/top-hat.png");
+    assetsContainer.sprites[SPRITE_BRICK_TILE_ID] = LoadTexture("assets/sprites/tile-brick.png");
+    assetsContainer.sprites[SPRITE_BRICK_BACKGROUND_ID] = LoadTexture("assets/sprites/brick-background.png");
 
 
     // Tiles
@@ -79,7 +81,9 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_POINTY_HAT_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_POINTY_HATL_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_TOP_HAT_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_BRICK_BACKGROUND_ID]);
 
+    UnloadTexture(assetsContainer.sprites[SPRITE_BRICK_TILE_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_1_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_2_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_3_ID]);
