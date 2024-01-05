@@ -1,6 +1,7 @@
 #include "appliance.h"
 #include "cable.h"
 #include "raylib.h"
+#include "sprite_manager.h"
 #include "ultilities.h"
 #include <stddef.h>
 
@@ -43,6 +44,28 @@ void renderAppliances(ApplianceList* a_list) {
                 } else {
                     /* DrawRectangleRec(a->hit_box, BLACK); */
                     DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
+                }
+                break;
+            }
+            case BLENDER:
+            {
+                if (a->connected) {
+                    static int frameCounter = 0;
+                    static int currentFrame = 0;
+                    renderAnimation(getSpriteFromID(SPRITE_BLENDER_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, 23, 6, &frameCounter, &currentFrame);
+                } else {
+                    DrawTexture(getSpriteFromID(SPRITE_BLENDER_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
+                }
+                break;
+            }
+            case TV:
+            {
+                if (a->connected) {
+                    static int frameCounter = 0;
+                    static int currentFrame = 0;
+                    renderAnimation(getSpriteFromID(SPRITE_TELEVISION_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, 23, 6, &frameCounter, &currentFrame);
+                } else {
+                    DrawTexture(getSpriteFromID(SPRITE_TELEVISION_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
                 break;
             }
