@@ -304,4 +304,57 @@ static inline SCREEN showCreditsScreen() {
     return currentScreen;
 }
 
+static inline SCREEN showControlsScreen() {
+    // Title screen
+    SCREEN currentScreen = QUIT_GAME;
+    SetTargetFPS(60);
+    Texture2D creditsScreen = LoadTexture("assets/sprites/controls.png");
+
+    while (!WindowShouldClose()) {
+        if (GetRandomValue(0, 1000) == 1) {
+            PlaySound(getSoundTrackFromID(SOUND_TRACK_PTERODACTYL_ID));
+        }
+        BeginDrawing();
+        {
+            ClearBackground(BLACK);
+            Rectangle source = {0, 0, 1920, 1080};
+            Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+            DrawTexturePro(creditsScreen, source, destination, (Vector2){0}, 0, WHITE);
+
+            size_t centerx = GetScreenWidth() * 0.6f;
+            size_t centery = GetScreenHeight() * 0.6;
+            size_t buttonHeight = 50;
+            size_t buttonWidth = 200;
+            Rectangle buttonMenu = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
+            Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
+            if (CheckCollisionPointRec(GetMousePosition(), buttonMenu)) {
+                DrawRectangleRec(buttonMenu, RED);
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                    currentScreen = MENU_SCREEN;
+                    break;
+                }
+            }
+            else {
+                DrawRectangleRec(buttonMenu, GRAY);
+            }
+            drawTextInsideRectangle(buttonMenu, "Back to menu", 20, WHITE);
+
+            if (CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
+                DrawRectangleRec(buttonQuit, RED);
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                    currentScreen = QUIT_GAME;
+                    break;
+                }
+            }
+            else {
+                DrawRectangleRec(buttonQuit, GRAY);
+            }
+            drawTextInsideRectangle(buttonQuit, "Quit", 20, WHITE);
+        }
+        EndDrawing();
+    }
+    UnloadTexture(creditsScreen);
+    return currentScreen;
+}
+
 #endif // ULTILITIES_H_

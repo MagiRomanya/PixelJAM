@@ -31,7 +31,7 @@ int main(void)
                 currentScreen = showMenuScreen();
                 break;
             case CONTROLS_SCREEN:
-                currentScreen = runLevel("assets/maps/map-test2.png", 1000.0f, 10, CREDITS_SCREEN);
+                currentScreen = showControlsScreen();
                 break;
             case LEVEL_1:
                 currentScreen = runLevel("assets/maps/map-test2.png", 1000.0f, 10, CREDITS_SCREEN);
