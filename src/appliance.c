@@ -35,7 +35,6 @@ void destroyApplianceList(ApplianceList* a_list) {
 void renderAppliances(ApplianceList* a_list) {
     for (int i = 0; i < a_list->size; i++) {
         Appliance* a = getApplianceFromList(a_list, i);
-        DrawRectangleRec(a->hit_box, BLACK);
         switch (a->type) {
             case WASHING_MACHINE:
             {
@@ -53,14 +52,27 @@ void renderAppliances(ApplianceList* a_list) {
             }
             case BLENDER:
             {
+                static int frameCounter = 0;
+                static int currentFrame = 0;
+                const int stage1frames = 20;
+                const int stage2frames = 8;
+                static int blenderStage = 1;
                 if (a->connected) {
-                    static int frameCounter = 0;
-                    static int currentFrame = 0;
-                    const int stage1frames = 20;
-                    const int stage2frames = 8;
-                    renderAnimation(getSpriteFromID(SPRITE_BLENDER_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage1frames, 6, &frameCounter, &currentFrame);
+                    if (blenderStage == 1) {
+                        renderAnimation(getSpriteFromID(SPRITE_BLENDER_ON_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage1frames, 6, &frameCounter, &currentFrame);
+                        printf("currentFrame = %i\n", currentFrame);
+                        if (currentFrame == stage1frames-1) blenderStage = 2;
+                    }
+                    else {
+                        renderAnimation(getSpriteFromID(SPRITE_BLENDER_ON_STAGE2_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage2frames, 6, &frameCounter, &currentFrame);
+                    }
                 } else {
-                    DrawTexture(getSpriteFromID(SPRITE_BLENDER_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
+                    if (blenderStage == 1) {
+                        DrawTexture(getSpriteFromID(SPRITE_BLENDER_OFF_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
+                    }
+                    else {
+                        DrawTexture(getSpriteFromID(SPRITE_BLENDER_OFF_STAGE2_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
+                    }
                 }
                 break;
             }

@@ -26,9 +26,10 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_WASHING_MACHINE_OFF_ID] = LoadTexture("assets/sprites/washing-machine-off.png");
     assetsContainer.sprites[SPRITE_TELEVISION_ON_ID] = LoadTexture("assets/sprites/television-on.png");
     assetsContainer.sprites[SPRITE_TELEVISION_OFF_ID] = LoadTexture("assets/sprites/television-off.png");
-    assetsContainer.sprites[SPRITE_BLENDER_OFF_ID] = LoadTexture("assets/sprites/blender-off.png");
-    assetsContainer.sprites[SPRITE_BLENDER_STAGE1_ID] = LoadTexture("assets/sprites/blender-on-stage-1.png");
-    assetsContainer.sprites[SPRITE_BLENDER_STAGE2_ID] = LoadTexture("assets/sprites/blender-on-stage-2.png");
+    assetsContainer.sprites[SPRITE_BLENDER_OFF_STAGE1_ID] = LoadTexture("assets/sprites/blender-off.png");
+    assetsContainer.sprites[SPRITE_BLENDER_OFF_STAGE2_ID] = LoadTexture("assets/sprites/blender-off-stage-2.png");
+    assetsContainer.sprites[SPRITE_BLENDER_ON_STAGE1_ID] = LoadTexture("assets/sprites/blender-on-stage-1.png");
+    assetsContainer.sprites[SPRITE_BLENDER_ON_STAGE2_ID] = LoadTexture("assets/sprites/blender-on-stage-2.png");
 
     // Tiles
     assetsContainer.sprites[0] = LoadTexture("assets/sprites/tile-test.png");
@@ -59,9 +60,10 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_TOOL_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_TELEVISION_ON_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_TELEVISION_OFF_ID]);
-    UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_OFF_ID]);
-    UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_STAGE1_ID]);
-    UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_STAGE2_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_OFF_STAGE1_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_OFF_STAGE2_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_ON_STAGE1_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_BLENDER_ON_STAGE2_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_WASHING_MACHINE_ON_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_WASHING_MACHINE_OFF_ID]);
 
