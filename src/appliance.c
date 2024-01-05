@@ -68,7 +68,7 @@ void renderAppliances(ApplianceList* a_list) {
                     static int frameCounter = 0;
                     static int currentFrame = 0;
                     int animationFrames = 27;
-                    renderAnimation(getSpriteFromID(SPRITE_TELEVISION_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, 23, 6, &frameCounter, &currentFrame);
+                    renderAnimation(getSpriteFromID(SPRITE_TELEVISION_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &frameCounter, &currentFrame);
                 } else {
                     DrawTexture(getSpriteFromID(SPRITE_TELEVISION_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
