@@ -55,11 +55,6 @@ bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_
 }
 
 PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, ApplianceList* a_list,  Vector2 position) {
-    if (cable->nAnchors >= cable->nMaxAnchors) {
-        PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
-        return ANCHOR_NOT_ENOUGH_ANCHORS;
-    }
-
     Anchor* lastAnchor = cableGetLastAnchor(cable);
     float cableLength = computeCableLength(cable);
     float newFragmentLength = Vector2Distance(position, lastAnchor->position);
@@ -80,8 +75,16 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
     for (size_t i = 0; i < a_list->size; i++) {
         Appliance* a = getApplianceFromList(a_list, i);
         if (!a->connected && CheckCollisionPointRec(position, a->hit_box)) {
-            if (a->type == WASHING_MACHINE) {
-                PlaySound(getSoundTrackFromID(SOUND_TRACK_WASHING_MACHINE_ID));
+            switch (a->type) {
+                case WASHING_MACHINE:
+                    PlaySound(getSoundTrackFromID(SOUND_TRACK_WASHING_MACHINE_ID));
+                    break;
+                case BLENDER:
+                    PlaySound(getSoundTrackFromID(SOUND_TRACK_BLENDER_ID));
+                    break;
+                case TV:
+                    PlaySound(getSoundTrackFromID(SOUND_TRACK_TELEVISION_ID));
+                    break;
             }
             connectToAppliance = true;
             a->connected = true;
@@ -93,6 +96,11 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
             break;
         }
     }
+    if (cable->nAnchors >= cable->nMaxAnchors) {
+        PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
+        return ANCHOR_NOT_ENOUGH_ANCHORS;
+    }
+
 
     // Place normal anchor
     if (!connectToAppliance) {
