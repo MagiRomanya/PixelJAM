@@ -19,12 +19,12 @@ GameColliderList createGameColliderList() {
 }
 
 void addGameColliderToList(GameColliderList* c_list, GameCollider* e) {
-    c_list->colliders[sizeof(GameCollider)*c_list->size] = *e;
+    c_list->colliders[c_list->size] = *e;
     c_list->size += 1;
 }
 
 GameCollider* getGameColliderFromList(GameColliderList* c_list, size_t index) {
-    return &c_list->colliders[sizeof(GameCollider) * index];
+    return &c_list->colliders[index];
 }
 
 void clearGameColliderList(GameColliderList* c_list) { c_list->size = 0; }

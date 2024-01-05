@@ -4,6 +4,7 @@
 #include "sprite_manager.h"
 #include "ultilities.h"
 #include <stddef.h>
+#include <stdio.h>
 
 #define APPLIANCE_LIST_CAPACITY 10*sizeof(Appliance)
 
@@ -16,13 +17,13 @@ ApplianceList createApplianceList() {
 }
 
 
-void addApplianceToList(ApplianceList* a_list, Appliance* a) {
-    a_list->appliances[sizeof(Appliance)*a_list->size] = *a;
+void addApplianceToList(ApplianceList* a_list, Appliance a) {
+    a_list->appliances[a_list->size] = a;
     a_list->size += 1;
 }
 
 Appliance* getApplianceFromList(ApplianceList* a_list, size_t index) {
-    return &a_list->appliances[sizeof(Appliance) * index];
+    return &a_list->appliances[index];
 }
 
 void clearApplianceList(ApplianceList* a_list) { a_list->size = 0; }

@@ -26,7 +26,7 @@ typedef struct{
 
 ApplianceList createApplianceList();
 
-void addApplianceToList(ApplianceList* a_list, Appliance* a);
+void addApplianceToList(ApplianceList* a_list, Appliance a);
 
 Appliance* getApplianceFromList(ApplianceList* a_list, size_t index);
 

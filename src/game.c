@@ -35,6 +35,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
     TileMap tileMap = createTileMap();
 
     ApplianceList applianceList = createApplianceList();
+
     loadMap(map_filename, &tileMap, &collider_list, &applianceList, &cable, &player);
     printf("N colliders = %zu\n", collider_list.size);
     printf("N tiles = %zu\n", tileMap.size);
@@ -136,13 +137,14 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
+    bool areAllConnected = areAllAppliancesConnected(&applianceList);
     UnloadRenderTexture(WorldRenderTexture);
     destroyPlayer(&player);
     destroyCable(&cable);
     destroyGameColliderList(&collider_list);
     destroyGameTileMap(&tileMap);
     destroyApplianceList(&applianceList);
-    if (areAllAppliancesConnected(&applianceList)) {
+    if (areAllConnected) {
         return nextScreen;
     }
     else return QUIT_GAME;
