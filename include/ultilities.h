@@ -45,16 +45,16 @@ static inline void drawMessage(RenderMessage* message, Vector2 position) {
 
 
 typedef enum {
-SELECTED_PLAY_LEVEL1,
-SELECTED_MENU_SCREEN,
-SELECTED_TITLE_SCREEN,
-SELECTED_QUIT,
-SELECTED_CONTROLS,
-SELECTED_CREDITS,
-} SCREEN_SELECTION;
+LEVEL_1,
+MENU_SCREEN,
+TITLE_SCREEN,
+QUIT_GAME,
+CONTROLS_SCREEN,
+CREDITS_SCREEN,
+} SCREEN;
 
 
-static inline SCREEN_SELECTION showTitleScreen() {
+static inline SCREEN showTitleScreen() {
     const float title_screen_duration = 2.0f;
     const int MaxFrames = 2 * 60;
     size_t frameNumber = 0;
@@ -79,15 +79,15 @@ static inline SCREEN_SELECTION showTitleScreen() {
         EndDrawing();
     }
     UnloadTexture(titleScreen);
-    if (WindowShouldClose()) return SELECTED_QUIT;
-    return SELECTED_MENU_SCREEN;
+    if (WindowShouldClose()) return QUIT_GAME;
+    return MENU_SCREEN;
 }
 
 static inline void drawTextInsideRectangle(Rectangle rectangle, char* text, int fontSize, Color color) {
     DrawText(text, rectangle.x + rectangle.width/2.0f - MeasureText(text, 20)/2.0f, rectangle.y + (rectangle.height-fontSize)/2.0f, fontSize, color);
 }
-static inline SCREEN_SELECTION showMenuScreen() {
-    SCREEN_SELECTION selection;
+static inline SCREEN showMenuScreen() {
+    SCREEN current_screen;
     size_t frameNumber = 0;
     // Menu screen
     //size_t centerx = GetScreenWidth()/2.0;     NOT
@@ -126,7 +126,7 @@ static inline SCREEN_SELECTION showMenuScreen() {
         if(CheckCollisionPointRec(GetMousePosition(), buttonPlay)) {
             buttonColPlay = RED;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                selection = SELECTED_PLAY_LEVEL1;
+                current_screen = LEVEL_1;
                 break;
             }
         }
@@ -134,7 +134,7 @@ static inline SCREEN_SELECTION showMenuScreen() {
         if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl)) {
             buttonColCtrl = RED;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                selection = SELECTED_CONTROLS;
+                current_screen = CONTROLS_SCREEN;
                 break;
             }
         }
@@ -143,7 +143,7 @@ static inline SCREEN_SELECTION showMenuScreen() {
         if(CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
             buttonColQuit = RED;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                selection = SELECTED_QUIT;
+                current_screen = QUIT_GAME;
                 break;
             }
         }
@@ -176,9 +176,9 @@ static inline SCREEN_SELECTION showMenuScreen() {
     UnloadTexture(menuScreen);
     if (WindowShouldClose()) {
         printf(":/\n");
-        return SELECTED_QUIT;
+        return QUIT_GAME;
     };
-    return selection;
+    return current_screen;
 }
 
 
@@ -251,9 +251,9 @@ static inline bool renderVictoryScreen(ApplianceList* a_list) {
     return true;
 }
 
-static inline SCREEN_SELECTION showCreditsScreen() {
+static inline SCREEN showCreditsScreen() {
     // Title screen
-    SCREEN_SELECTION selection = SELECTED_QUIT;
+    SCREEN current_screen = QUIT_GAME;
     SetTargetFPS(60);
     Texture2D creditsScreen = LoadTexture("assets/sprites/credits.png");
 
@@ -277,7 +277,7 @@ static inline SCREEN_SELECTION showCreditsScreen() {
             if (CheckCollisionPointRec(GetMousePosition(), buttonMenu)) {
                 DrawRectangleRec(buttonMenu, RED);
                 if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                    selection = SELECTED_MENU_SCREEN;
+                    current_screen = MENU_SCREEN;
                     break;
                 }
             }
@@ -289,7 +289,7 @@ static inline SCREEN_SELECTION showCreditsScreen() {
             if (CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
                 DrawRectangleRec(buttonQuit, RED);
                 if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                    selection = SELECTED_QUIT;
+                    current_screen = QUIT_GAME;
                     break;
                 }
             }
@@ -301,7 +301,7 @@ static inline SCREEN_SELECTION showCreditsScreen() {
         EndDrawing();
     }
     UnloadTexture(creditsScreen);
-    return selection;
+    return current_screen;
 }
 
 #endif // ULTILITIES_H_

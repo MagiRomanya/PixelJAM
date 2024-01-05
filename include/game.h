@@ -16,6 +16,6 @@ HAT_TYPE GetPlayerHat();
 
 void SetNextPlayerHat();
 
-SCREEN_SELECTION runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN_SELECTION next_selection);
+SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN nextScreen);
 
 #endif // GAME_H_

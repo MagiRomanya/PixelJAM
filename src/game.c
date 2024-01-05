@@ -20,8 +20,8 @@ void SetNextPlayerHat() {
     playerHat = (playerHat+1) % 2;
 }
 
-SCREEN_SELECTION runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN_SELECTION next_selection) {
-    SCREEN_SELECTION selection = SELECTED_QUIT;
+SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN nextScreen) {
+    SCREEN currentScreen = QUIT_GAME;
     GameColliderList collider_list = createGameColliderList();
 
     Player player = createPlayer();
@@ -143,7 +143,7 @@ SCREEN_SELECTION runLevel(char* map_filename, float maxCableLength, int maxAncho
     destroyGameTileMap(&tileMap);
     destroyApplianceList(&applianceList);
     if (areAllAppliancesConnected(&applianceList)) {
-        return next_selection;
+        return nextScreen;
     }
-    else return SELECTED_QUIT;
+    else return QUIT_GAME;
 }
