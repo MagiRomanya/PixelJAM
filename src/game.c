@@ -307,7 +307,7 @@ SCREEN showMenuScreen() {
         // Rectangle buttonPlay = {centerx - buttonWidth/2.0, centerx - buttonWidth/2.0};
 
         size_t centerx = GetScreenWidth()/2.0;
-        size_t centery = GetScreenHeight()/2.0;
+        size_t centery = GetScreenHeight()*0.75f;
         Rectangle buttonPlay = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 - 2.0*buttonHeight, buttonWidth, buttonHeight};
         Rectangle buttonCtrl = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
         Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
@@ -345,10 +345,6 @@ SCREEN showMenuScreen() {
             ClearBackground(WHITE);
             const float time = frameNumber * GetFrameTime();
             DrawTexturePro(menuScreen, gameTitleSourceRec, gameTitleDestRec, gameTitlePosition, 0, WHITE);
-            // Flying appliances
-            /* Vector2 appliancePosition = Vector2Add((Vector2){0,0}, Vector2MultiplyS(100*time, (Vector2){-1,-1})); */
-            /* const float applianceRotation = 0; */
-            /* DrawTexturePro(getSpriteFromID(SPRITE_BLENDER_OFF_ID), applianceSourceRec, applianceDestRec, appliancePosition, applianceRotation, WHITE); */
 
             // Buttons
             DrawRectangleRec(buttonPlay, buttonColPlay);
@@ -365,7 +361,6 @@ SCREEN showMenuScreen() {
     UnloadSound(menuMusicTrack);
     UnloadTexture(menuScreen);
     if (WindowShouldClose()) {
-        printf(":/\n");
         return QUIT_GAME;
     };
     return currentScreen;
@@ -443,8 +438,8 @@ SCREEN showControlsScreen() {
             Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
             DrawTexturePro(creditsScreen, source, destination, (Vector2){0}, 0, WHITE);
 
-            size_t centerx = GetScreenWidth() * 0.6f;
-            size_t centery = GetScreenHeight() * 0.6;
+            size_t centerx = GetScreenWidth() * 0.8f;
+            size_t centery = GetScreenHeight() * 0.8f;
             size_t buttonHeight = 50;
             size_t buttonWidth = 200;
             Rectangle buttonMenu = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
