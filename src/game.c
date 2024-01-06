@@ -241,3 +241,240 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
     }
     else return QUIT_GAME;
 }
+
+SCREEN showTitleScreen() {
+    const float animation_screen_duration = 4.0f;
+    const float title_screen_duration = 5.0f;
+    const int MaxFrames = 5 * 60;
+    size_t frameNumber = 0;
+    // Title screen
+    Texture2D titleScreen = LoadTexture("assets/sprites/titlescreen.png");
+    SetTargetFPS(60);
+    PlaySound(getSoundTrackFromID(SOUND_TRACK_INTRO_EFFECT_ID));
+    while (!WindowShouldClose()) {
+        frameNumber++;
+        float titleTime = frameNumber*GetFrameTime();
+        if (frameNumber == MaxFrames / 4) PlaySound(getSoundTrackFromID(SOUND_TRACK_PTERODACTYL_ID));
+        if (MaxFrames < frameNumber) break;
+        BeginDrawing();
+        {
+            ClearBackground(BLACK);
+            Rectangle source = {0, 0, 1920, 1080};
+            Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+            float effect = (titleTime*titleTime) / (animation_screen_duration*animation_screen_duration);
+	    if(frameNumber/60.0 > animation_screen_duration)
+		    effect = 0.0;
+	    Color color = {255.0, 255.0, 255.0, 255.0*effect};
+
+	    DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
+        }
+        EndDrawing();
+    }
+    UnloadTexture(titleScreen);
+    if (WindowShouldClose()) return QUIT_GAME;
+    return MENU_SCREEN;
+}
+
+
+SCREEN showMenuScreen() {
+    SCREEN currentScreen;
+    size_t frameNumber = 0;
+    // Menu screen
+    //size_t centerx = GetScreenWidth()/2.0;     NOT
+    //size_t centery = GetScreenHeigth()/2.0;    HERE
+    Color buttonColPlay = GRAY;
+    Color buttonColCtrl = GRAY;
+    Color buttonColQuit = GRAY;
+
+    Sound menuMusicTrack = LoadSound("assets/sound/menu-music.wav");
+
+    size_t buttonHeight = 50;
+    size_t buttonWidth = 200;
+    Texture2D menuScreen = LoadTexture("assets/sprites/game-title.png");
+
+    PlaySound(menuMusicTrack);
+    SetTargetFPS(60);
+    while (!WindowShouldClose()) {
+        ClearBackground(BLACK);
+        const Rectangle gameTitleSourceRec = {0, 0, 128, 128};
+        const float gameTitleWidth = GetScreenWidth() / 3.0f;
+        const Vector2 gameTitlePosition = {-gameTitleWidth, 0};
+        const Rectangle gameTitleDestRec = {0,0, gameTitleWidth, gameTitleWidth};
+
+        const Rectangle applianceSourceRec = {0,0,32,32};
+        const float applianceWidth = gameTitleWidth * 0.5f;
+        const Rectangle applianceDestRec = {0,0,applianceWidth, applianceWidth};
+        // Rectangle buttonPlay = {centerx - buttonWidth/2.0, centerx - buttonWidth/2.0};
+
+        size_t centerx = GetScreenWidth()/2.0;
+        size_t centery = GetScreenHeight()/2.0;
+        Rectangle buttonPlay = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 - 2.0*buttonHeight, buttonWidth, buttonHeight};
+        Rectangle buttonCtrl = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
+        Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
+
+
+        if(CheckCollisionPointRec(GetMousePosition(), buttonPlay)) {
+            buttonColPlay = RED;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                currentScreen = LEVEL_1;
+                break;
+            }
+        }
+        else  buttonColPlay = GRAY;
+        if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl)) {
+            buttonColCtrl = RED;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                currentScreen = CONTROLS_SCREEN;
+                break;
+            }
+        }
+        else
+            buttonColCtrl = GRAY;
+        if(CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
+            buttonColQuit = RED;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                currentScreen = QUIT_GAME;
+                break;
+            }
+        }
+        else
+            buttonColQuit = GRAY;
+
+        BeginDrawing();
+        {
+            ClearBackground(WHITE);
+            const float time = frameNumber * GetFrameTime();
+            DrawTexturePro(menuScreen, gameTitleSourceRec, gameTitleDestRec, gameTitlePosition, 0, WHITE);
+            // Flying appliances
+            /* Vector2 appliancePosition = Vector2Add((Vector2){0,0}, Vector2MultiplyS(100*time, (Vector2){-1,-1})); */
+            /* const float applianceRotation = 0; */
+            /* DrawTexturePro(getSpriteFromID(SPRITE_BLENDER_OFF_ID), applianceSourceRec, applianceDestRec, appliancePosition, applianceRotation, WHITE); */
+
+            // Buttons
+            DrawRectangleRec(buttonPlay, buttonColPlay);
+            drawTextInsideRectangle(buttonPlay, "Play Game", 20, WHITE);
+            DrawRectangleRec(buttonCtrl, buttonColCtrl);
+            drawTextInsideRectangle(buttonCtrl, "Controls", 20, WHITE);
+            DrawRectangleRec(buttonQuit, buttonColQuit);
+            drawTextInsideRectangle(buttonQuit, "Quit Game", 20, WHITE);
+            frameNumber++;
+        }
+        EndDrawing();
+    }
+    StopSound(menuMusicTrack);
+    UnloadSound(menuMusicTrack);
+    UnloadTexture(menuScreen);
+    if (WindowShouldClose()) {
+        printf(":/\n");
+        return QUIT_GAME;
+    };
+    return currentScreen;
+}
+
+
+SCREEN showCreditsScreen() {
+    // Title screen
+    SCREEN currentScreen = QUIT_GAME;
+    SetTargetFPS(60);
+    Texture2D creditsScreen = LoadTexture("assets/sprites/credits.png");
+
+    while (!WindowShouldClose()) {
+        if (GetRandomValue(0, 1000) == 1) {
+            PlaySound(getSoundTrackFromID(SOUND_TRACK_PTERODACTYL_ID));
+        }
+        BeginDrawing();
+        {
+            ClearBackground(BLACK);
+            Rectangle source = {0, 0, 1920, 1080};
+            Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+            DrawTexturePro(creditsScreen, source, destination, (Vector2){0}, 0, WHITE);
+
+            size_t centerx = GetScreenWidth() * 0.6f;
+            size_t centery = GetScreenHeight() * 0.6;
+            size_t buttonHeight = 50;
+            size_t buttonWidth = 200;
+            Rectangle buttonMenu = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
+            Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
+            if (CheckCollisionPointRec(GetMousePosition(), buttonMenu)) {
+                DrawRectangleRec(buttonMenu, RED);
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                    currentScreen = MENU_SCREEN;
+                    break;
+                }
+            }
+            else {
+                DrawRectangleRec(buttonMenu, GRAY);
+            }
+            drawTextInsideRectangle(buttonMenu, "Back to menu", 20, WHITE);
+
+            if (CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
+                DrawRectangleRec(buttonQuit, RED);
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                    currentScreen = QUIT_GAME;
+                    break;
+                }
+            }
+            else {
+                DrawRectangleRec(buttonQuit, GRAY);
+            }
+            drawTextInsideRectangle(buttonQuit, "Quit", 20, WHITE);
+        }
+        EndDrawing();
+    }
+    UnloadTexture(creditsScreen);
+    return currentScreen;
+}
+
+
+SCREEN showControlsScreen() {
+    // Title screen
+    SCREEN currentScreen = QUIT_GAME;
+    SetTargetFPS(60);
+    Texture2D creditsScreen = LoadTexture("assets/sprites/controls.png");
+
+    while (!WindowShouldClose()) {
+        if (GetRandomValue(0, 1000) == 1) {
+            PlaySound(getSoundTrackFromID(SOUND_TRACK_PTERODACTYL_ID));
+        }
+        BeginDrawing();
+        {
+            ClearBackground(BLACK);
+            Rectangle source = {0, 0, 1920, 1080};
+            Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
+            DrawTexturePro(creditsScreen, source, destination, (Vector2){0}, 0, WHITE);
+
+            size_t centerx = GetScreenWidth() * 0.6f;
+            size_t centery = GetScreenHeight() * 0.6;
+            size_t buttonHeight = 50;
+            size_t buttonWidth = 200;
+            Rectangle buttonMenu = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
+            Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
+            if (CheckCollisionPointRec(GetMousePosition(), buttonMenu)) {
+                DrawRectangleRec(buttonMenu, RED);
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                    currentScreen = MENU_SCREEN;
+                    break;
+                }
+            }
+            else {
+                DrawRectangleRec(buttonMenu, GRAY);
+            }
+            drawTextInsideRectangle(buttonMenu, "Back to menu", 20, WHITE);
+
+            if (CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
+                DrawRectangleRec(buttonQuit, RED);
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                    currentScreen = QUIT_GAME;
+                    break;
+                }
+            }
+            else {
+                DrawRectangleRec(buttonQuit, GRAY);
+            }
+            drawTextInsideRectangle(buttonQuit, "Quit", 20, WHITE);
+        }
+        EndDrawing();
+    }
+    UnloadTexture(creditsScreen);
+    return currentScreen;
+}

@@ -2,7 +2,6 @@
 #include "game.h"
 #include "raylib.h"
 #include "sprite_manager.h"
-#include "ultilities.h"
 
 int main(void)
 {
