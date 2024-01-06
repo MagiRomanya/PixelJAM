@@ -82,7 +82,7 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
                 case BLENDER:
                     PlaySound(getSoundTrackFromID(SOUND_TRACK_BLENDER_ID));
                     break;
-                case TV:
+                case TELEVISION:
                     PlaySound(getSoundTrackFromID(SOUND_TRACK_TELEVISION_ID));
                     break;
             }

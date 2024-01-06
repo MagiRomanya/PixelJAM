@@ -27,33 +27,29 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
                     addTileToMap(t_map, SPRITE_STONE_BRICK_TILE_ID, i*16, j*16);
                 }
                 else if (pixel.g) {
+                    Vector2 position = {16*i, 16*j};
                     switch (pixel.g) {
                         case 255:
                         {
                             playerInitialPositionFound = true;
-                            cable->anchors[0].position = (Vector2){i*16, j*16};
+                            cable->anchors[0].position = position;
                             player->position = (Vector2){i*16, j*16 - 16};
+                            player->hatPosition = position;
                             break;
                         }
                         case 32:
                         {
-                            // 16 x 19
-                            Appliance washingMachine = { .type = WASHING_MACHINE, .hit_box = (Rectangle) {i*16 - 8, j*16 - 3 - 8, 16 + 2*8, 19 + 2*8}, .connected = false, .animationStage = 1};
-                            addApplianceToList(a_list, washingMachine);
+                            addApplianceToList(a_list, createAppliance(WASHING_MACHINE, position));
                             break;
                         }
                         case 64:
                         {
-                            // 23 x 21
-                            Appliance blender = { .type = BLENDER, .hit_box = (Rectangle) {i*16 - 8, j*16 -5 - 8, 23 + 2*8, 21 + 2*8}, .connected = false, .animationStage = 1};
-                            addApplianceToList(a_list, blender);
+                            addApplianceToList(a_list, createAppliance(BLENDER, position));
                             break;
                         }
                         case 92:
                         {
-                            // 13 x 20
-                            Appliance television = { .type = TV, .hit_box = (Rectangle) {i*16 - 8, j*16 - 4 - 8, 13 + 2*8, 20 + 2*8}, .connected = false, .animationStage = 1};
-                            addApplianceToList(a_list, television);
+                            addApplianceToList(a_list, createAppliance(TELEVISION, position));
                             break;
                         }
                         default:

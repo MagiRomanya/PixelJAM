@@ -364,7 +364,7 @@ SCREEN showMenuScreen() {
             const float time = frameNumber * GetFrameTime();
 
             drawOscilatingAppliance(SPRITE_WASHING_MACHINE_OFF_ID,
-                                    (Vector2){screenWidth * 0.3f, screenHeight * 0.6f},
+                                    (Vector2){screenWidth * 0.2f, screenHeight * 0.6f},
                                     (Vector2){screenWidth * 0.2f, screenHeight * 0.1f},
                                     (Vector2){0.0f, 90.0f},
                                     (Vector2){0.04f, 0.04f});

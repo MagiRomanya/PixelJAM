@@ -6,7 +6,31 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#define APPLIANCE_LIST_CAPACITY 10*sizeof(Appliance)
+#define APPLIANCE_LIST_CAPACITY 20*sizeof(Appliance)
+
+Appliance createAppliance(ApplianceType type, Vector2 position) {
+    Appliance a = {0};
+    a.type = type;
+    switch (type) {
+        case WASHING_MACHINE:
+            // 16 x 19
+            a.hit_box = (Rectangle){position.x - 8, position.y - 3 - 8, 16 + 2*8, 19 + 2*8};
+            break;
+        case BLENDER:
+            // 23 x 21
+            a.hit_box = (Rectangle){position.x - 8, position.y -5 - 8, 23 + 2*8, 21 + 2*8};
+            break;
+        case TELEVISION:
+            // 13 x 20
+            a.hit_box = (Rectangle){position.x - 8, position.y - 4 - 8, 13 + 2*8, 20 + 2*8};
+            break;
+    }
+    a.connected = false;
+    a.animationStage = 1;
+    a.animationFrameCount = 0;
+    a.animationCurrentFrame = 0;
+    return a;
+}
 
 ApplianceList createApplianceList() {
     ApplianceList a_list;
@@ -40,11 +64,9 @@ void renderAppliances(ApplianceList* a_list) {
             {
 
                 if (a->connected) {
-                    static int frameCounter = 0;
-                    static int currentFrame = 0;
                     const int animationFrames = 23;
 
-                    renderAnimation(getSpriteFromID(SPRITE_WASHING_MACHINE_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &frameCounter, &currentFrame);
+                    renderAnimation(getSpriteFromID(SPRITE_WASHING_MACHINE_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
                 } else {
                     DrawTexture(getSpriteFromID(SPRITE_WASHING_MACHINE_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
@@ -52,17 +74,15 @@ void renderAppliances(ApplianceList* a_list) {
             }
             case BLENDER:
             {
-                static int frameCounter = 0;
-                static int currentFrame = 0;
                 const int stage1frames = 20;
                 const int stage2frames = 8;
                 if (a->connected) {
                     if (a->animationStage == 1) {
-                        renderAnimation(getSpriteFromID(SPRITE_BLENDER_ON_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage1frames, 6, &frameCounter, &currentFrame);
-                        if (currentFrame == stage1frames-1) a->animationStage = 2;
+                        renderAnimation(getSpriteFromID(SPRITE_BLENDER_ON_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage1frames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
+                        if (a->animationCurrentFrame == stage1frames-1) a->animationStage = 2;
                     }
                     else {
-                        renderAnimation(getSpriteFromID(SPRITE_BLENDER_ON_STAGE2_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage2frames, 6, &frameCounter, &currentFrame);
+                        renderAnimation(getSpriteFromID(SPRITE_BLENDER_ON_STAGE2_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage2frames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
                     }
                 } else {
                     if (a->animationStage == 1) {
@@ -74,13 +94,11 @@ void renderAppliances(ApplianceList* a_list) {
                 }
                 break;
             }
-            case TV:
+            case TELEVISION:
             {
                 if (a->connected) {
-                    static int frameCounter = 0;
-                    static int currentFrame = 0;
                     int animationFrames = 27;
-                    renderAnimation(getSpriteFromID(SPRITE_TELEVISION_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &frameCounter, &currentFrame);
+                    renderAnimation(getSpriteFromID(SPRITE_TELEVISION_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
                 } else {
                     DrawTexture(getSpriteFromID(SPRITE_TELEVISION_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }

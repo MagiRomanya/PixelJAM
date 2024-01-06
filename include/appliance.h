@@ -9,7 +9,7 @@
 typedef enum {
     WASHING_MACHINE,
     BLENDER,
-    TV
+    TELEVISION
 } ApplianceType;
 
 typedef struct {
@@ -17,6 +17,8 @@ typedef struct {
     Rectangle hit_box;
     bool connected;
     int animationStage;
+    int animationFrameCount;
+    int animationCurrentFrame;
 } Appliance;
 
 typedef struct{
@@ -24,6 +26,8 @@ typedef struct{
     size_t size;
     size_t capacity;
 } ApplianceList;
+
+Appliance createAppliance(ApplianceType type, Vector2 position);
 
 ApplianceList createApplianceList();
 
