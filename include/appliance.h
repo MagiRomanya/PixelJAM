@@ -39,6 +39,4 @@ void renderAppliances(ApplianceList* a_list);
 
 bool areAllAppliancesConnected(ApplianceList* a_list);
 
-void resetBlenderAnimation();
-
 #endif
