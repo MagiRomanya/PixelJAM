@@ -121,7 +121,10 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
 
     ApplianceList applianceList = createApplianceList();
 
+    unsigned long frameCounter = 0;
+
     loadMap(map_filename, &tileMap, &collider_list, &applianceList, &cable, &player);
+
     printf("N colliders = %zu\n", collider_list.size);
     printf("N tiles = %zu\n", tileMap.size);
 
@@ -163,7 +166,9 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
             }
         }
 
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        bool canPlaceAnchor = !areAllAppliancesConnected(&applianceList) && frameCounter > 3;
+        frameCounter++;
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && canPlaceAnchor) {
             PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, &applianceList, computePlayerHandPosition(&player));
             switch (result) {
                 case ANCHOR_SUCCESS:
@@ -236,6 +241,9 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
     destroyGameColliderList(&collider_list);
     destroyGameTileMap(&tileMap);
     destroyApplianceList(&applianceList);
+
+    stopAppliancesSounds();
+
     if (areAllConnected) {
         return nextScreen;
     }
@@ -279,9 +287,6 @@ SCREEN showTitleScreen() {
 SCREEN showMenuScreen() {
     SCREEN currentScreen;
     size_t frameNumber = 0;
-    // Menu screen
-    //size_t centerx = GetScreenWidth()/2.0;     NOT
-    //size_t centery = GetScreenHeigth()/2.0;    HERE
     Color buttonColPlay = GRAY;
     Color buttonColCtrl = GRAY;
     Color buttonColQuit = GRAY;
@@ -300,11 +305,6 @@ SCREEN showMenuScreen() {
         const float gameTitleWidth = GetScreenWidth() / 3.0f;
         const Vector2 gameTitlePosition = {-gameTitleWidth, 0};
         const Rectangle gameTitleDestRec = {0,0, gameTitleWidth, gameTitleWidth};
-
-        const Rectangle applianceSourceRec = {0,0,32,32};
-        const float applianceWidth = gameTitleWidth * 0.5f;
-        const Rectangle applianceDestRec = {0,0,applianceWidth, applianceWidth};
-        // Rectangle buttonPlay = {centerx - buttonWidth/2.0, centerx - buttonWidth/2.0};
 
         size_t centerx = GetScreenWidth()/2.0;
         size_t centery = GetScreenHeight()*0.75f;

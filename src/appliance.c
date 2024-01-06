@@ -59,7 +59,6 @@ void renderAppliances(ApplianceList* a_list) {
                 if (a->connected) {
                     if (a->animationStage == 1) {
                         renderAnimation(getSpriteFromID(SPRITE_BLENDER_ON_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage1frames, 6, &frameCounter, &currentFrame);
-                        printf("currentFrame = %i\n", currentFrame);
                         if (currentFrame == stage1frames-1) a->animationStage = 2;
                     }
                     else {

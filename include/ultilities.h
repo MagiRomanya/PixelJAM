@@ -118,4 +118,10 @@ static inline bool renderVictoryScreen(ApplianceList* a_list) {
     return true;
 }
 
+static inline void stopAppliancesSounds() {
+    if (IsSoundPlaying(getSoundTrackFromID(SOUND_TRACK_WASHING_MACHINE_ID))) StopSound(getSoundTrackFromID(SOUND_TRACK_WASHING_MACHINE_ID));
+    if (IsSoundPlaying(getSoundTrackFromID(SOUND_TRACK_BLENDER_ID))) StopSound(getSoundTrackFromID(SOUND_TRACK_BLENDER_ID));
+    if (IsSoundPlaying(getSoundTrackFromID(SOUND_TRACK_TELEVISION_ID))) StopSound(getSoundTrackFromID(SOUND_TRACK_TELEVISION_ID));
+}
+
 #endif // ULTILITIES_H_
