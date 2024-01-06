@@ -122,6 +122,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
     ApplianceList applianceList = createApplianceList();
 
     unsigned long frameCounter = 0;
+    const int backgroundID = GetRandomValue(SPRITE_DIAMONDS_BACKGROUND_ID, SPRITE_HEARTS_BACKGROUND_ID);
 
     loadMap(map_filename, &tileMap, &collider_list, &applianceList, &cable, &player);
 
@@ -204,7 +205,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
                 Rectangle sourceBackground = {0,0,128,128};
                 Rectangle destBackground = {0,0,128*10,128*10};
                 Vector2 origin = {300, 300};
-                DrawTextureTiled(getSpriteFromID(SPRITE_SIMPLE_BACKGROUND_ID), sourceBackground, destBackground, origin, 0, 1.0f, WHITE);
+                DrawTextureTiled(getSpriteFromID(backgroundID), sourceBackground, destBackground, origin, 0, 1.0f, WHITE);
 
                 updatePlayerMovement(&player, &cable, &collider_list);
                 renderTileMap(&tileMap);

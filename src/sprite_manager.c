@@ -38,7 +38,10 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_BRICK_BACKGROUND_ID] = LoadTexture("assets/sprites/brick-background.png");
     assetsContainer.sprites[SPRITE_FLOWER_BACKGROUND_ID] = LoadTexture("assets/sprites/flower-background.png");
     assetsContainer.sprites[SPRITE_THOUGHT_CLOUD_ID] = LoadTexture("assets/sprites/thought-cloud.png");
-    assetsContainer.sprites[SPRITE_SIMPLE_BACKGROUND_ID] = LoadTexture("assets/sprites/simple-background.png");
+    assetsContainer.sprites[SPRITE_DIAMONDS_BACKGROUND_ID] = LoadTexture("assets/sprites/diamonds-background.png");
+    assetsContainer.sprites[SPRITE_CLUBS_BACKGROUND_ID] = LoadTexture("assets/sprites/clubs-background.png");
+    assetsContainer.sprites[SPRITE_SPADES_BACKGROUND_ID] = LoadTexture("assets/sprites/spades-background.png");
+    assetsContainer.sprites[SPRITE_HEARTS_BACKGROUND_ID] = LoadTexture("assets/sprites/hearts-background.png");
 
 
     // Tiles
@@ -88,7 +91,10 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_BRICK_BACKGROUND_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_FLOWER_BACKGROUND_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_THOUGHT_CLOUD_ID]);
-    UnloadTexture(assetsContainer.sprites[SPRITE_SIMPLE_BACKGROUND_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_DIAMONDS_BACKGROUND_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_SPADES_BACKGROUND_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_CLUBS_BACKGROUND_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_HEARTS_BACKGROUND_ID]);
 
     UnloadTexture(assetsContainer.sprites[SPRITE_BRICK_TILE_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_STONE_BRICK_TILE_ID]);
