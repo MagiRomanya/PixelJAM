@@ -36,17 +36,35 @@ static inline void addMessageToBeRendered(RenderMessage* rmessage, const char* m
     rmessage->ticks = 0;
 }
 
+static inline void drawTextInsideRectangle(Rectangle rectangle, char* text, int fontSize, Color color) {
+    DrawText(text, rectangle.x + rectangle.width/2.0f - MeasureText(text, fontSize)/2.0f, rectangle.y + (rectangle.height-fontSize)/2.0f, fontSize, color);
+}
+
 static inline void drawMessage(RenderMessage* message, Vector2 position) {
     message->ticks++;
     if (message->ticks > message->lifetime) return;
+    const float progress = ((float)message->ticks) /((float)message->lifetime);
     const float MESSAGE_FONT_SIZE = GetScreenWidth()* 0.01;
-    DrawText(message->message, position.x, position.y, MESSAGE_FONT_SIZE, RED);
-}
-
-
-
-static inline void drawTextInsideRectangle(Rectangle rectangle, char* text, int fontSize, Color color) {
-    DrawText(text, rectangle.x + rectangle.width/2.0f - MeasureText(text, 20)/2.0f, rectangle.y + (rectangle.height-fontSize)/2.0f, fontSize, color);
+    float virtualRatio = getVirtualRatio();
+    Texture2D cloud = getSpriteFromID(SPRITE_THOUGHT_CLOUD_ID);
+    Rectangle source = {0,0,cloud.width,cloud.height};
+    Rectangle dest = {0,0,cloud.width*virtualRatio,cloud.height*virtualRatio};
+    Vector2 offset = {0, virtualRatio*20};
+    Vector2 origin = Vector2Add(Vector2Negate(position), offset);
+    const float fadeTime = 0.2f;
+    float t = progress / 0.2f;
+    if (progress <= fadeTime) {
+        t = progress / fadeTime;
+    }
+    if (progress > fadeTime) t = 1.0f;
+    if (progress > 1.0f - fadeTime) {
+        t = (1.0f - progress) / fadeTime;
+    }
+    Color textColor = {0,0,0, 255*t};
+    Color cloudColor = {255,255,255, 255*t};
+    DrawTexturePro(cloud, source, dest, origin, 0, cloudColor);
+    Rectangle textRectangle = {dest.x - origin.x, dest.y - origin.y, dest.width, dest.height};
+    drawTextInsideRectangle(textRectangle, message->message, MESSAGE_FONT_SIZE, textColor);
 }
 
 static inline void renderCollisionCapsules(GameColliderList* c_list) {
@@ -110,7 +128,7 @@ static inline bool renderVictoryScreen(ApplianceList* a_list) {
         Rectangle continueButtonRec = {buttonPositionX, buttonPositionY, buttonWidth, buttonHeight};
         DrawRectangleRec(continueButtonRec, DARKGREEN);
         const float continueSize = buttonWidth/5.f;
-        DrawText("Continue", buttonPositionX + buttonWidth/2.0f - MeasureText("Continue", continueSize)/2.0, buttonPositionY + buttonHeight*0.2f, continueSize, BLUE);
+        DrawText("Continue", buttonPositionX + buttonWidth/2.0f - MeasureText("Continue", continueSize)/2.0, buttonPositionY + buttonHeight*0.2f, continueSize, BLACK);
 
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             if (CheckCollisionPointRec(GetMousePosition(), continueButtonRec)) return false;

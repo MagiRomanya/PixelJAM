@@ -170,17 +170,18 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
         frameCounter++;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && canPlaceAnchor) {
             PLACE_ANCHOR_RESULT result = tryCreateAnchor(&cable, &collider_list, &applianceList, computePlayerHandPosition(&player));
+            const float messageDuration = 2;
             switch (result) {
                 case ANCHOR_SUCCESS:
                     break;
                 case ANCHOR_NOT_ENOUGH_ANCHORS:
-                    addMessageToBeRendered(&rmessage, "Ran out of staples!", 5);
+                    addMessageToBeRendered(&rmessage, "Ran out of staples!", messageDuration);
                     break;
                 case ANCHOR_NOT_ENOUGH_LENGTH:
-                    addMessageToBeRendered(&rmessage, "Ran out of cable! :(", 5);
+                    addMessageToBeRendered(&rmessage, "Ran out of cable! :(", messageDuration);
                     break;
                 case ANCHOR_OBSTRUDED_PATH:
-                    addMessageToBeRendered(&rmessage, "Something is obstructing the path!", 5);
+                    addMessageToBeRendered(&rmessage, "Something is obstructing the path!", messageDuration);
                     break;
             }
         }
@@ -203,7 +204,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
                 Rectangle sourceBackground = {0,0,128,128};
                 Rectangle destBackground = {0,0,128*10,128*10};
                 Vector2 origin = {300, 300};
-                DrawTextureTiled(getSpriteFromID(SPRITE_BRICK_BACKGROUND_ID), sourceBackground, destBackground, origin, 0, 1.0f, WHITE);
+                DrawTextureTiled(getSpriteFromID(SPRITE_SIMPLE_BACKGROUND_ID), sourceBackground, destBackground, origin, 0, 1.0f, WHITE);
 
                 updatePlayerMovement(&player, &cable, &collider_list);
                 renderTileMap(&tileMap);

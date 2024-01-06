@@ -35,8 +35,10 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_POINTY_HAT_ID] = LoadTexture("assets/sprites/pointy-hat.png");
     assetsContainer.sprites[SPRITE_POINTY_HATL_ID] = LoadTexture("assets/sprites/pointy-hatL.png");
     assetsContainer.sprites[SPRITE_TOP_HAT_ID] = LoadTexture("assets/sprites/top-hat.png");
-    assetsContainer.sprites[SPRITE_BRICK_TILE_ID] = LoadTexture("assets/sprites/tile-brick.png");
     assetsContainer.sprites[SPRITE_BRICK_BACKGROUND_ID] = LoadTexture("assets/sprites/brick-background.png");
+    assetsContainer.sprites[SPRITE_FLOWER_BACKGROUND_ID] = LoadTexture("assets/sprites/flower-background.png");
+    assetsContainer.sprites[SPRITE_THOUGHT_CLOUD_ID] = LoadTexture("assets/sprites/thought-cloud.png");
+    assetsContainer.sprites[SPRITE_SIMPLE_BACKGROUND_ID] = LoadTexture("assets/sprites/simple-background.png");
 
 
     // Tiles
@@ -45,6 +47,8 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_KITCHEN_TILE_2_ID] = LoadTexture("assets/sprites/BALDOSA_FLORES_2.png");
     assetsContainer.sprites[SPRITE_KITCHEN_TILE_3_ID] = LoadTexture("assets/sprites/BALDOSA_FLORES_3.png");
     assetsContainer.sprites[SPRITE_KITCHEN_TILE_4_ID] = LoadTexture("assets/sprites/BALDOSA_FLORES_4.png");
+    assetsContainer.sprites[SPRITE_BRICK_TILE_ID] = LoadTexture("assets/sprites/tile-brick.png");
+    assetsContainer.sprites[SPRITE_STONE_BRICK_TILE_ID] = LoadTexture("assets/sprites/tile-stone-brick.png");
 
     // Music
     assetsContainer.tracks[SOUND_TRACK_STAPLE_ID] = LoadSound("assets/sound/staple.mp3");
@@ -82,8 +86,12 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_POINTY_HATL_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_TOP_HAT_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_BRICK_BACKGROUND_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_FLOWER_BACKGROUND_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_THOUGHT_CLOUD_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_SIMPLE_BACKGROUND_ID]);
 
     UnloadTexture(assetsContainer.sprites[SPRITE_BRICK_TILE_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_STONE_BRICK_TILE_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_1_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_2_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_3_ID]);

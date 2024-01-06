@@ -20,7 +20,7 @@ int main(void)
     // Game screens
     //--------------------------------------------------------------------------------------
     SCREEN currentScreen = TITLE_SCREEN;
-    /* currentScreen = LEVEL_1; */
+    currentScreen = LEVEL_1;
 
     while (currentScreen != QUIT_GAME) {
         switch (currentScreen) {

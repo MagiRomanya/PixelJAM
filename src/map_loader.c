@@ -24,7 +24,7 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
             // Place sprites
             if (pixel.a != 0) {
                 if (pixel.b) {
-                    addTileToMap(t_map, SPRITE_BRICK_TILE_ID, i*16, j*16);
+                    addTileToMap(t_map, SPRITE_STONE_BRICK_TILE_ID, i*16, j*16);
                 }
                 else if (pixel.g) {
                     switch (pixel.g) {
