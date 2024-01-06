@@ -18,5 +18,13 @@ PixelPerfectData computePixelPerfectData(Vector2 cameraTarget);
 
 float getVirtualRatio();
 
+static inline Rectangle getVirtualScreenRectangle() {
+    return (Rectangle){0,0,getVirtualScreenWidth(), getVirtualScreenHeight()};
+}
+
+static inline Rectangle getScreenRectangle() {
+    return (Rectangle){0,0,GetScreenWidth(), GetScreenHeight()};
+}
+
 
 #endif // PIXEL_PERFECT_H_

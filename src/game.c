@@ -274,11 +274,11 @@ SCREEN showTitleScreen() {
             Rectangle source = {0, 0, 1920, 1080};
             Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
             float effect = (titleTime*titleTime) / (animation_screen_duration*animation_screen_duration);
-	    if(frameNumber/60.0 > animation_screen_duration)
-		    effect = 0.0;
-	    Color color = {255.0, 255.0, 255.0, 255.0*effect};
+            if(frameNumber/60.0 > animation_screen_duration)
+                effect = 0.0;
+            Color color = {255.0, 255.0, 255.0, 255.0*effect};
 
-	    DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
+            DrawTexturePro(titleScreen, source, destination, (Vector2){0}, 0, color);
         }
         EndDrawing();
     }
@@ -312,6 +312,7 @@ SCREEN showMenuScreen() {
     size_t buttonHeight = 50;
     size_t buttonWidth = 200;
     Texture2D menuScreen = LoadTexture("assets/sprites/game-title.png");
+    RenderTexture2D bgRenderTexture = LoadRenderTexture(getVirtualScreenWidth(), getVirtualScreenHeight());
 
     PlaySound(menuMusicTrack);
     SetTargetFPS(60);
@@ -358,22 +359,41 @@ SCREEN showMenuScreen() {
         else
             buttonColQuit = GRAY;
 
+        BeginTextureMode(bgRenderTexture);
+        {
+            ClearBackground(WHITE);
+            Texture2D bg = getSpriteFromID(SPRITE_HEARTS_BACKGROUND_ID);
+            Rectangle source = {0,0,bg.width, bg.height};
+            Rectangle dest = {0,0, screenWidth, screenHeight};
+            const float speed = frameNumber % bg.width;
+            Vector2 origin = {speed, speed};
+            DrawTextureTiled(bg, source, dest, origin, 0, 1, WHITE);
+        }
+
+        EndTextureMode();
         BeginDrawing();
         {
             ClearBackground(GOLD);
+            DrawTexturePro(bgRenderTexture.texture, getVirtualScreenRectangle(), getScreenRectangle(), (Vector2){0.0f}, 0, WHITE);
             const float time = frameNumber * GetFrameTime();
 
             drawOscilatingAppliance(SPRITE_WASHING_MACHINE_OFF_ID,
                                     (Vector2){screenWidth * 0.2f, screenHeight * 0.6f},
                                     (Vector2){screenWidth * 0.2f, screenHeight * 0.1f},
                                     (Vector2){0.0f, 90.0f},
-                                    (Vector2){0.04f, 0.04f});
+                                    (Vector2){0.02f, 0.02f});
 
             drawOscilatingAppliance(SPRITE_TELEVISION_OFF_ID,
                                     (Vector2){screenWidth * 0.8f, screenHeight * 0.3f},
                                     (Vector2){screenWidth * 0.1f, screenHeight * 0.2f},
                                     (Vector2){0.0f, 90.0f},
-                                    (Vector2){0.02f, 0.06f});
+                                    (Vector2){0.01f, 0.03f});
+
+            drawOscilatingAppliance(SPRITE_BLENDER_OFF_STAGE1_ID,
+                                    (Vector2){screenWidth * 0.8f, screenHeight * 0.8f},
+                                    (Vector2){screenWidth * 0.14f, screenHeight * 0.1f},
+                                    (Vector2){0.0f, 180.0f},
+                                    (Vector2){0.02f, 0.01f});
 
             DrawTexturePro(menuScreen, gameTitleSourceRec, gameTitleDestRec, gameTitlePosition, 0, WHITE);
 
@@ -389,6 +409,7 @@ SCREEN showMenuScreen() {
         EndDrawing();
     }
     StopSound(menuMusicTrack);
+    UnloadRenderTexture(bgRenderTexture);
     UnloadSound(menuMusicTrack);
     UnloadTexture(menuScreen);
     if (WindowShouldClose()) {
