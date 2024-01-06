@@ -25,7 +25,8 @@ Welcome to Plug JAM, a 2D platformer game written in C using the Raylib library.
 - **Right click** Remove cable.
 - **G key** Cycle through available player hats 🤠.
 
-## Download and build 😄: :
+## Download and build ⚙️⚒️:
+Requires to have a c compiler, git and cmake installed and in the `PATH`.
 ```sh
 git clone --recursive https://github.com/MagiRomanya/PixelJAM24.git
 cd PixelJAM24
