@@ -223,6 +223,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
             drawMessage(&rmessage, (Vector2){screenWidth*0.5, 0.45*screenHeight});
             renderCableLengthUI(&cable, &player);
             renderAnchorsLeftUI(&cable);
+            /* DrawFPS(50, 50); */
             if (!renderVictoryScreen(&applianceList)) break;
         }
         EndDrawing();

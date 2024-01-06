@@ -56,18 +56,17 @@ void renderAppliances(ApplianceList* a_list) {
                 static int currentFrame = 0;
                 const int stage1frames = 20;
                 const int stage2frames = 8;
-                static int blenderStage = 1;
                 if (a->connected) {
-                    if (blenderStage == 1) {
+                    if (a->animationStage == 1) {
                         renderAnimation(getSpriteFromID(SPRITE_BLENDER_ON_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage1frames, 6, &frameCounter, &currentFrame);
                         printf("currentFrame = %i\n", currentFrame);
-                        if (currentFrame == stage1frames-1) blenderStage = 2;
+                        if (currentFrame == stage1frames-1) a->animationStage = 2;
                     }
                     else {
                         renderAnimation(getSpriteFromID(SPRITE_BLENDER_ON_STAGE2_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage2frames, 6, &frameCounter, &currentFrame);
                     }
                 } else {
-                    if (blenderStage == 1) {
+                    if (a->animationStage == 1) {
                         DrawTexture(getSpriteFromID(SPRITE_BLENDER_OFF_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                     }
                     else {

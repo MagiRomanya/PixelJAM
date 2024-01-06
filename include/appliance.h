@@ -16,6 +16,7 @@ typedef struct {
     ApplianceType type;
     Rectangle hit_box;
     bool connected;
+    int animationStage;
 } Appliance;
 
 typedef struct{
@@ -37,5 +38,7 @@ void destroyApplianceList(ApplianceList* a_list);
 void renderAppliances(ApplianceList* a_list);
 
 bool areAllAppliancesConnected(ApplianceList* a_list);
+
+void resetBlenderAnimation();
 
 #endif
