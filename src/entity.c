@@ -47,12 +47,12 @@ void addTileToMap(TileMap* t_map, int sprite_id, int tile_x, int tile_y) {
     Tile t;
     t.SpriteID = sprite_id;
     t.Position = (Vector2){tile_x, tile_y};
-    t_map->tiles[sizeof(Tile)*t_map->size] = t;
+    t_map->tiles[t_map->size] = t;
     t_map->size += 1;
 }
 
 Tile* getTileFromMap(TileMap* t_map, size_t index) {
-    return &t_map->tiles[sizeof(Tile) * index];
+    return &t_map->tiles[index];
 }
 
 void clearTileMap(TileMap* t_map) { t_map->size = 0; }

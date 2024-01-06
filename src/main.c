@@ -20,7 +20,7 @@ int main(void)
     // Game screens
     //--------------------------------------------------------------------------------------
     SCREEN currentScreen = TITLE_SCREEN;
-    currentScreen = LEVEL_3;
+    /* currentScreen = LEVEL_3; */
 
     while (currentScreen != QUIT_GAME) {
         switch (currentScreen) {
@@ -42,7 +42,7 @@ int main(void)
                 break;
             case LEVEL_3:
                 /* SetPlayerHat(KING_HAT); */
-                currentScreen = runLevel("assets/maps/level3.png", 1300.0f, 1, CREDITS_SCREEN);
+                currentScreen = runLevel("assets/maps/level3.png", 1300.0f, 2, CREDITS_SCREEN);
                 break;
             case CREDITS_SCREEN:
                 currentScreen = showCreditsScreen();
