@@ -22,6 +22,7 @@ void SetNextPlayerHat();
 typedef enum {
 LEVEL_1,
 LEVEL_2,
+LEVEL_3,
 MENU_SCREEN,
 TITLE_SCREEN,
 QUIT_GAME,

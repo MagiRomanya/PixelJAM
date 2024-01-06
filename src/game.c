@@ -9,6 +9,7 @@
 #include "raymath.h"
 #include "sprite_manager.h"
 #include "ultilities.h"
+#include <stddef.h>
 
 
 static HAT_TYPE playerHat = IMPORTANT_HAT;

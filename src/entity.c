@@ -9,6 +9,7 @@
 #include "ultilities.h"
 
 #define GAME_COLLIDER_LIST_CAPACITY 1e3*sizeof(GameCollider)
+#define GAME_TILE_MAP_CAPACITY 1e4*sizeof(Tile)
 
 GameColliderList createGameColliderList() {
     GameColliderList c_list;
@@ -36,7 +37,7 @@ void destroyGameColliderList(GameColliderList* c_list) {
 TileMap createTileMap() {
     TileMap t_map;
     t_map.size = 0;
-    t_map.capacity = GAME_COLLIDER_LIST_CAPACITY;
+    t_map.capacity = GAME_TILE_MAP_CAPACITY;
     t_map.tiles = malloc(t_map.capacity);
     return t_map;
 }
