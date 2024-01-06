@@ -9,6 +9,7 @@
 #include "raymath.h"
 #include "sprite_manager.h"
 #include "ultilities.h"
+#include <math.h>
 #include <stddef.h>
 
 
@@ -286,6 +287,18 @@ SCREEN showTitleScreen() {
     return MENU_SCREEN;
 }
 
+void drawOscilatingAppliance(int textureID, Vector2 position, Vector2 amplitude, Vector2 phase, Vector2 frequency) {
+    static int counter = 0;
+    Texture2D sprite = getSpriteFromID(textureID);
+    const float virtualRatio = getVirtualRatio();
+    Rectangle source = {0,0, sprite.width, sprite.height};
+    Rectangle dest = {0,0, sprite.width*virtualRatio, sprite.height*virtualRatio};
+    Vector2 displacement = Vector2Multiply(amplitude, (Vector2) {sinf(((float) counter)*frequency.x + phase.x), sinf(((float) counter)*frequency.y + phase.y)});
+    Vector2 pos = Vector2Add(position, displacement);
+    DrawTexturePro(sprite, source, dest, Vector2Negate(pos), 0, WHITE);
+    counter++;
+}
+
 
 SCREEN showMenuScreen() {
     SCREEN currentScreen;
@@ -309,8 +322,10 @@ SCREEN showMenuScreen() {
         const Vector2 gameTitlePosition = {-gameTitleWidth, 0};
         const Rectangle gameTitleDestRec = {0,0, gameTitleWidth, gameTitleWidth};
 
-        size_t centerx = GetScreenWidth()/2.0;
-        size_t centery = GetScreenHeight()*0.75f;
+        int screenWidth = GetScreenWidth();
+        int screenHeight = GetScreenHeight();
+        size_t centerx =screenWidth/2.0;
+        size_t centery = screenHeight * 0.6f;
         Rectangle buttonPlay = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 - 2.0*buttonHeight, buttonWidth, buttonHeight};
         Rectangle buttonCtrl = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
         Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
@@ -345,8 +360,21 @@ SCREEN showMenuScreen() {
 
         BeginDrawing();
         {
-            ClearBackground(WHITE);
+            ClearBackground(GOLD);
             const float time = frameNumber * GetFrameTime();
+
+            drawOscilatingAppliance(SPRITE_WASHING_MACHINE_OFF_ID,
+                                    (Vector2){screenWidth * 0.3f, screenHeight * 0.6f},
+                                    (Vector2){screenWidth * 0.2f, screenHeight * 0.1f},
+                                    (Vector2){0.0f, 90.0f},
+                                    (Vector2){0.04f, 0.04f});
+
+            drawOscilatingAppliance(SPRITE_TELEVISION_OFF_ID,
+                                    (Vector2){screenWidth * 0.8f, screenHeight * 0.3f},
+                                    (Vector2){screenWidth * 0.1f, screenHeight * 0.2f},
+                                    (Vector2){0.0f, 90.0f},
+                                    (Vector2){0.02f, 0.06f});
+
             DrawTexturePro(menuScreen, gameTitleSourceRec, gameTitleDestRec, gameTitlePosition, 0, WHITE);
 
             // Buttons
