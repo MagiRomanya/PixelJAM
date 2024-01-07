@@ -191,7 +191,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
         if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
             tryRemoveLastAnchor(&cable, &applianceList, Vector2Add(player.position, (Vector2){16,16}));
         }
-	// Draw
+        // Draw
         //----------------------------------------------------------------------------------
         Vector2 cameraPosition = Vector2Add(player.position, (Vector2){-getVirtualScreenWidth()/2.0 + 16,-0.5*getVirtualScreenHeight()});
         PixelPerfectData pp_data = computePixelPerfectData(cameraPosition);

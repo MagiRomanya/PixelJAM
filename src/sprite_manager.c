@@ -43,6 +43,8 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_SPADES_BACKGROUND_ID] = LoadTexture("assets/sprites/spades-background.png");
     assetsContainer.sprites[SPRITE_HEARTS_BACKGROUND_ID] = LoadTexture("assets/sprites/hearts-background.png");
     assetsContainer.sprites[SPRITE_POKER_BACKGROUND_ID] = LoadTexture("assets/sprites/poker-background.png");
+    assetsContainer.sprites[SPRITE_CONTROLS_INGAME_ID] = LoadTexture("assets/sprites/controls-ingame.png");
+
 
 
     // Tiles
@@ -97,6 +99,7 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_CLUBS_BACKGROUND_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_HEARTS_BACKGROUND_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_POKER_BACKGROUND_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_CONTROLS_INGAME_ID]);
 
     UnloadTexture(assetsContainer.sprites[SPRITE_BRICK_TILE_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_STONE_BRICK_TILE_ID]);

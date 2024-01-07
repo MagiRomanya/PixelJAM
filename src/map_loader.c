@@ -22,12 +22,12 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
         for (int i = 0; i < map_width; i++) {
             Color pixel = pixels[j * map_width + i];
             // Place sprites
+            Vector2 position = {16*i, 16*j};
             if (pixel.a != 0) {
                 if (pixel.b) {
-                    addTileToMap(t_map, SPRITE_STONE_BRICK_TILE_ID, i*16, j*16);
+                    addTileToMap(t_map, SPRITE_STONE_BRICK_TILE_ID, position.x, position.y);
                 }
                 else if (pixel.g) {
-                    Vector2 position = {16*i, 16*j};
                     switch (pixel.g) {
                         case 255:
                         {
@@ -35,6 +35,8 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
                             cable->anchors[0].position = position;
                             player->position = (Vector2){i*16, j*16 - 16};
                             player->hatPosition = position;
+                            // Control screen
+                            addTileToMap(t_map, SPRITE_CONTROLS_INGAME_ID, position.x - 64, position.y - 50);
                             break;
                         }
                         case 32:
