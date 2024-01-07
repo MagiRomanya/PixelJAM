@@ -20,7 +20,6 @@ int main(void)
     // Game screens
     //--------------------------------------------------------------------------------------
     SCREEN currentScreen = TITLE_SCREEN;
-    currentScreen = MENU_SCREEN;
 
     while (currentScreen != QUIT_GAME) {
         switch (currentScreen) {
@@ -40,7 +39,6 @@ int main(void)
                 break;
             case LEVEL_3:
                 SetPlayerHat(KING_HAT);
-                //currentScreen = runLevel("assets/maps/level3.png", 900.0f, 1, LEVEL_3, LEVEL_4);
                 currentScreen = runLevel("assets/maps/level3.png", 1000.0f, 0, LEVEL_3, LEVEL_4);
                 break;
             case LEVEL_4:

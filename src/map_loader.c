@@ -41,7 +41,7 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
                             player->position = (Vector2){i*16, j*16 - 16};
                             player->hatPosition = position;
                             // Control screen
-                            addTileToMap(t_map, SPRITE_CONTROLS_INGAME_ID, position.x - 64, position.y - 50);
+                            addTileToMap(t_map, SPRITE_CONTROLS_INGAME_ID, position.x - 150, position.y - 50);
                             break;
                         }
                         case 32:
