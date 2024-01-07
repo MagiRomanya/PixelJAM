@@ -203,10 +203,11 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
             BeginMode2D(pp_data.worldCamera);
             {
 
-                Rectangle sourceBackground = {0,0,128,128};
+                Texture2D bg = getSpriteFromID(backgroundID);
+                Rectangle sourceBackground = {0,0,bg.width,bg.height};
                 Rectangle destBackground = {0,0,128*10,128*10};
                 Vector2 origin = {300, 300};
-                DrawTextureTiled(getSpriteFromID(backgroundID), sourceBackground, destBackground, origin, 0, 1.0f, WHITE);
+                DrawTextureTiled(bg, sourceBackground, destBackground, origin, 0, 1.0f, WHITE);
 
                 updatePlayerMovement(&player, &cable, &collider_list);
                 renderTileMap(&tileMap);

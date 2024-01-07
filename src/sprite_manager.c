@@ -46,8 +46,6 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_CONTROLS_INGAME_ID] = LoadTexture("assets/sprites/controls-ingame.png");
     assetsContainer.sprites[SPRITE_WOOD_BACKGROUND_ID] = LoadTexture("assets/sprites/wood-background.png");
 
-
-
     // Tiles
     assetsContainer.sprites[0] = LoadTexture("assets/sprites/tile-test.png");
     assetsContainer.sprites[SPRITE_KITCHEN_TILE_1_ID] = LoadTexture("assets/sprites/BALDOSA_FLORES_1.png");
