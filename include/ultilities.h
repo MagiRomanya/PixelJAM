@@ -96,9 +96,8 @@ static inline void renderAnchorsLeftUI(Cable* cable) {
     Rectangle sourceRec = {0.0f, 0.0f, anchorTexture.width, anchorTexture.height};
     const float virtualRatio = getVirtualRatio();
     Rectangle destRec = {0, 0, anchorTexture.width*virtualRatio, anchorTexture.height*virtualRatio};
-    Vector2 origin = {-(16.0 + 32.0)*virtualRatio, -anchorTexture.height*virtualRatio/2.0f};
+    Vector2 origin = {-(anchorTexture.width/ 4.0f + 32.0)*virtualRatio, -anchorTexture.height*virtualRatio/4.0f};
     const int remainingAnchors = cable->nMaxAnchors - cable->nAnchors;
-    printf("remainingAnchors = %i\n", remainingAnchors);
     for (size_t i = 0; i < remainingAnchors; i++) {
         const float frameOffset = 4 * virtualRatio * i;
         Vector2 frameOrigin = Vector2Add(origin, (Vector2){-frameOffset, 0.0f} );

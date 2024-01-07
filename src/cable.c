@@ -17,7 +17,7 @@ Cable createCable(Vector2 initialAnchor, size_t maxAnchors, float maxLength) {
     cable.nMaxAnchors = maxAnchors+1;
     cable.nAnchors = 1;
     cable.anchors = malloc(sizeof(Anchor) * (maxAnchors + 30));
-    cable.anchors[0] = (Anchor){initialAnchor, true};
+    cable.anchors[0] = (Anchor){initialAnchor, SPRITE_ANCHOR_ID, true};
     return cable;
 }
 
@@ -68,6 +68,7 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
     Anchor* lastAnchor = cableGetLastAnchor(cable);
     float cableLength = computeCableLength(cable);
     float newFragmentLength = Vector2Distance(position, lastAnchor->position);
+    const int anchorSpriteID = SPRITE_ANCHOR_ID;
     if (cableLength + newFragmentLength >= cable->maxLength) {
         PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
         return ANCHOR_NOT_ENOUGH_LENGTH;
@@ -101,7 +102,7 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
             cable->nMaxAnchors++;
             cable->nConnectedAppliances++;
             Vector2 applianceCenter = {a->hit_box.x + a->hit_box.width/2.0f, a->hit_box.y + a->hit_box.height/2.0f};
-            cable->anchors[cable->nAnchors] = (Anchor){applianceCenter, false};
+            cable->anchors[cable->nAnchors] = (Anchor){applianceCenter, anchorSpriteID, false};
             cable->nAnchors++;
             break;
         }
@@ -115,7 +116,7 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
         }
 
         // Place normal anchor
-        cable->anchors[cable->nAnchors] = (Anchor){position, true};
+        cable->anchors[cable->nAnchors] = (Anchor){position, anchorSpriteID, true};
         cable->nAnchors++;
     }
 
@@ -169,9 +170,8 @@ void drawCable(Cable* cable, Player* player, GameColliderList* c_list) {
     for (size_t i = 0; i < cable->nAnchors; i++) {
         Anchor a = cable->anchors[i];
         if (!a.visible) continue;
-        Texture2D anchorTexture = getSpriteFromID(SPRITE_ANCHOR_ID);
+        Texture2D anchorTexture = getSpriteFromID(a.spriteID);
         const int half_width = anchorTexture.width / 2.0f;
-        /* Rectangle rect = {a.position.x-half_width, a.position.y-half_width, 2*half_width, 2*half_width}; */
         DrawTexture(anchorTexture, a.position.x-half_width, a.position.y-half_width, WHITE);
     }
 };
