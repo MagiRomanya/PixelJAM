@@ -12,6 +12,7 @@ typedef enum {
     TELEVISION,
     LAMP,
     CLOCK,
+    SWITCH,
 } ApplianceType;
 
 typedef struct {

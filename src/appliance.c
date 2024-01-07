@@ -140,6 +140,24 @@ void renderAppliances(ApplianceList* a_list) {
                 }
                 break;
             }
+            case SWITCH:
+            {
+                if (a->connected) {
+                    if (a->animationStage == 1) {
+                        const int stage1frames = 21;
+                        renderAnimation(getSpriteFromID(SPRITE_SWITCH_ON_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage1frames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
+                        if (a->animationCurrentFrame == stage1frames-1) a->animationStage = 2;
+                    }
+                    else {
+                        const int stage2frames = 9;
+                        renderAnimation(getSpriteFromID(SPRITE_SWITCH_ON_STAGE2_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage2frames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
+                    }
+                }
+                else {
+                    DrawTexture(getSpriteFromID(SPRITE_SWITCH_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
+                }
+                break;
+            }
         }
     }
 }
