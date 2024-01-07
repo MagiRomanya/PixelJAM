@@ -41,13 +41,24 @@ bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_
     for (size_t i = 0; i < c_list->size; i++) {
         GameCollider* collider = getGameColliderFromList(c_list, i);
         Vector2 padding = {0, 0};
-        /* printf("criterion = %f\n", Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).x); */
-        if (Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).x != 0) padding = (Vector2){-8,0};
-        if (Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).y != 0) padding = (Vector2){0,-8};
-        Vector2 x3 = Vector2Add(padding, collider->capsule_collider.x1);
-        Vector2 x4 = Vector2Subtract(collider->capsule_collider.x2, padding);
-        if (do_segments_intersect(x1, x2, x3, x4)) {
-            /* DrawLineV(x3, x4, BLUE); */
+        Vector2 offset = {0, 0};
+        if (Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).x != 0) {
+            padding = (Vector2){-8,0};
+            offset = (Vector2){0, 8};
+        }
+        if (Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).y != 0) {
+            padding = (Vector2){0, -8};
+            offset = (Vector2){8, 0};
+        }
+        /* Vector2 x3 = Vector2Add(padding, collider->capsule_collider.x1); */
+        /* Vector2 x4 = Vector2Subtract(collider->capsule_collider.x2, padding); */
+        Vector2 x3 = Vector2Add(Vector2Add(padding, offset), collider->capsule_collider.x1);
+        Vector2 x4 = Vector2Subtract(collider->capsule_collider.x2, Vector2Subtract(padding, offset));
+        Vector2 x5 = Vector2Add(Vector2Subtract(padding, offset), collider->capsule_collider.x1);
+        Vector2 x6 = Vector2Subtract(collider->capsule_collider.x2, Vector2Add(padding, offset));
+        DrawLineV(x3, x4, BLUE);
+        DrawLineV(x5, x6, BLUE);
+        if (do_segments_intersect(x1, x2, x3, x4) ||do_segments_intersect(x1, x2, x5, x6)) {
             collide = true;
             break;
         }
