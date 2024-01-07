@@ -1,9 +1,9 @@
+#include <stdio.h>
 #include "map_loader.h"
 #include "entity.h"
 #include "raylib.h"
 #include "sprite_manager.h"
 #include "appliance.h"
-#include <stdio.h>
 
 void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, ApplianceList *a_list, Cable *cable, Player *player) {
     Image image = LoadImage(filename);
@@ -15,7 +15,8 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
     int x1, x2, y;
     const int capsuleRadius = 8;
 
-    bool playerInitialPositionFound = false;
+    bool playerInitialPositionFound = false;    
+    int floor = GetRandomValue(8,12);
 
     // Read color value from each pixel
     for (int j = 0; j < map_height; j++) {
@@ -24,8 +25,12 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
             // Place sprites
             Vector2 position = {16*i, 16*j};
             if (pixel.a != 0) {
-                if (pixel.b) {
-                    addTileToMap(t_map, SPRITE_STONE_BRICK_TILE_ID, position.x, position.y);
+                if (pixel.r == 100) {
+                    int wall = GetRandomValue(1,5);
+                    addTileToMap(t_map, wall, position.x, position.y);
+                }
+                else if (pixel.r == 255) {
+                    addTileToMap(t_map, floor, position.x, position.y);
                 }
                 else if (pixel.g) {
                     switch (pixel.g) {
