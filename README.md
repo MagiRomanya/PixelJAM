@@ -6,7 +6,7 @@ Welcome to Plug JAM, a 2D platformer game written in C using the Raylib library.
 ## Features 🔌
 
 - **Platformer Gameplay:** Navigate through various levels filled with platforms, obstacles, challenges, and hats!
-- **Puzzle Solving:** Connect appliances to power strategically, managing limited cable and staples, to navigate obstacles and complete each level efficiently.
+- **Puzzle Solving:** Connect appliances, strategically managing limited cable and staples, to navigate obstacles and complete each level efficiently.
 - **Raylib Graphics:** Enjoy smooth and visually appealing graphics powered by the Raylib library.
 - **Level Design:** Encounter diverse levels with increasing difficulty as you progress.
 
