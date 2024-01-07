@@ -212,7 +212,6 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
                 updatePlayerMovement(&player, &cable, &collider_list);
                 renderTileMap(&tileMap);
                 // renderCollisionCapsules(&collider_list);
-                // printf("Player position = {%f, %f}\n", player.position.x, player.position.y);
                 drawCable(&cable, &player, &collider_list);
                 renderAppliances(&applianceList);
                 /* renderCapsule(playerComputeCollider(&player)); */
@@ -312,7 +311,6 @@ SCREEN showMenuScreen() {
     size_t buttonHeight = 50;
     size_t buttonWidth = 200;
     Texture2D menuScreen = LoadTexture("assets/sprites/game-title.png");
-    RenderTexture2D bgRenderTexture = LoadRenderTexture(getVirtualScreenWidth(), getVirtualScreenHeight());
 
     PlaySound(menuMusicTrack);
     SetTargetFPS(60);
@@ -359,22 +357,28 @@ SCREEN showMenuScreen() {
         else
             buttonColQuit = GRAY;
 
-        BeginTextureMode(bgRenderTexture);
-        {
-            ClearBackground(WHITE);
-            Texture2D bg = getSpriteFromID(SPRITE_HEARTS_BACKGROUND_ID);
-            Rectangle source = {0,0,bg.width, bg.height};
-            Rectangle dest = {0,0, screenWidth, screenHeight};
-            const float speed = frameNumber % bg.width;
-            Vector2 origin = {speed, speed};
-            DrawTextureTiled(bg, source, dest, origin, 0, 1, WHITE);
-        }
-
-        EndTextureMode();
         BeginDrawing();
         {
             ClearBackground(GOLD);
-            DrawTexturePro(bgRenderTexture.texture, getVirtualScreenRectangle(), getScreenRectangle(), (Vector2){0.0f}, 0, WHITE);
+
+            {
+                Texture2D bg = getSpriteFromID(SPRITE_POKER_BACKGROUND_ID);
+                const float virtualRatio = getVirtualRatio();
+                Rectangle bgSource = {0,0, bg.width, bg.height};
+                Rectangle bgDest = {0, 0, bg.width*virtualRatio, bg.height*virtualRatio};
+                const float speedX = fmod(frameNumber * 0.6f, bg.width);
+                const float speedY = fmod(frameNumber * 0.6f, bg.height);
+                Vector2 bgOrigin = {-128 + speedX, -128 - speedY};
+                Vector2 imageGrid = {4,4};
+                /* DrawTexturePro(bg, bgSource, bgDest, bgOrigin, 0, WHITE); */
+                for (size_t i = 0; i < imageGrid.x; i++) {
+                    for (size_t j = 0; j < imageGrid.y; j++) {
+                        Vector2 offset = {bg.width * i + bgOrigin.x, bg.height * j + bgOrigin.y};
+                        DrawTexturePro(bg, bgSource, bgDest, Vector2MultiplyS(-virtualRatio,offset), 0, WHITE);
+                    }
+                }
+            }
+
             const float time = frameNumber * GetFrameTime();
 
             drawOscilatingAppliance(SPRITE_WASHING_MACHINE_OFF_ID,
@@ -409,7 +413,6 @@ SCREEN showMenuScreen() {
         EndDrawing();
     }
     StopSound(menuMusicTrack);
-    UnloadRenderTexture(bgRenderTexture);
     UnloadSound(menuMusicTrack);
     UnloadTexture(menuScreen);
     if (WindowShouldClose()) {
