@@ -52,8 +52,14 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_KITCHEN_TILE_2_ID] = LoadTexture("assets/sprites/BALDOSA_FLORES_2.png");
     assetsContainer.sprites[SPRITE_KITCHEN_TILE_3_ID] = LoadTexture("assets/sprites/BALDOSA_FLORES_3.png");
     assetsContainer.sprites[SPRITE_KITCHEN_TILE_4_ID] = LoadTexture("assets/sprites/BALDOSA_FLORES_4.png");
+    assetsContainer.sprites[SPRITE_KITCHEN_TILE_5_ID] = LoadTexture("assets/sprites/BALDOSA.png");
     assetsContainer.sprites[SPRITE_BRICK_TILE_ID] = LoadTexture("assets/sprites/tile-brick.png");
     assetsContainer.sprites[SPRITE_STONE_BRICK_TILE_ID] = LoadTexture("assets/sprites/tile-stone-brick.png");
+    assetsContainer.sprites[SPRITE_AZUL_TILE_1_ID] = LoadTexture("assets/sprites/azul-tile-1.png");
+    assetsContainer.sprites[SPRITE_AZUL_TILE_2_ID] = LoadTexture("assets/sprites/azul-tile-2.png");
+    assetsContainer.sprites[SPRITE_WOODEN_TILE_1_ID] = LoadTexture("assets/sprites/wood-floor-1.png");
+    assetsContainer.sprites[SPRITE_WOODEN_TILE_2_ID] = LoadTexture("assets/sprites/wood-floor-2.png");
+    assetsContainer.sprites[SPRITE_WOODEN_TILE_3_ID] = LoadTexture("assets/sprites/wood-floor-3.png");
 
     // Music
     assetsContainer.tracks[SOUND_TRACK_STAPLE_ID] = LoadSound("assets/sound/staple.mp3");
@@ -107,6 +113,13 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_2_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_3_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_4_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_KITCHEN_TILE_5_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_AZUL_TILE_1_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_AZUL_TILE_2_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_WOODEN_TILE_1_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_WOODEN_TILE_2_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_WOODEN_TILE_3_ID]);
+
 
     // Sounds and music
     UnloadSound(assetsContainer.tracks[SOUND_TRACK_STAPLE_ID]);
