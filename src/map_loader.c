@@ -65,6 +65,11 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
                             addApplianceToList(a_list, createAppliance(LAMP, position));
                             break;
                         }
+                        case 160:
+                        {
+                            addApplianceToList(a_list, createAppliance(CLOCK, position));
+                            break;
+                        }
                         default:
                             break;
                     }
