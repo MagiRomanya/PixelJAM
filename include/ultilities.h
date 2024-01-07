@@ -91,14 +91,19 @@ static inline void renderCableLengthUI(Cable* cable, Player* player) {
 }
 
 static inline void renderAnchorsLeftUI(Cable* cable) {
-    const float oWidth = 16.0f;
-    Rectangle sourceRec = {0.0f, 0.0f, oWidth, oWidth};
+    Texture2D anchorTexture = getSpriteFromID(SPRITE_ANCHOR_ID);
+    const float oWidth = anchorTexture.width;
+    Rectangle sourceRec = {0.0f, 0.0f, anchorTexture.width, anchorTexture.height};
     const float virtualRatio = getVirtualRatio();
-    const float width = oWidth*virtualRatio;
-    Rectangle destRec = {0, 0, width, width};
-    Vector2 origin = {-(16.0 + 32.0)*virtualRatio, -width};
-    DrawTexturePro(getSpriteFromID(SPRITE_ANCHOR_ID), sourceRec, destRec, origin, 0, GRAY);
-    DrawText(TextFormat("%i", cable->nMaxAnchors - cable->nAnchors), -origin.x + virtualRatio*4, -origin.y, width*0.9, GOLD);
+    Rectangle destRec = {0, 0, anchorTexture.width*virtualRatio, anchorTexture.height*virtualRatio};
+    Vector2 origin = {-(16.0 + 32.0)*virtualRatio, -anchorTexture.height*virtualRatio/2.0f};
+    const int remainingAnchors = cable->nMaxAnchors - cable->nAnchors;
+    printf("remainingAnchors = %i\n", remainingAnchors);
+    for (size_t i = 0; i < remainingAnchors; i++) {
+        const float frameOffset = 4 * virtualRatio * i;
+        Vector2 frameOrigin = Vector2Add(origin, (Vector2){-frameOffset, 0.0f} );
+        DrawTexturePro(getSpriteFromID(SPRITE_ANCHOR_ID), sourceRec, destRec, frameOrigin, 0, GRAY);
+    }
 }
 
 static inline void renderAnimation(Texture2D texture, int x, int y, int nFrames, int frameSpeed, int* frameCounter, int* currentFrame) {

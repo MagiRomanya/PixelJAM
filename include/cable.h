@@ -8,6 +8,7 @@
 
 typedef struct {
     Vector2 position;
+    size_t spriteID;
     bool visible;
 } Anchor;
 

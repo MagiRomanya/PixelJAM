@@ -169,9 +169,9 @@ void drawCable(Cable* cable, Player* player, GameColliderList* c_list) {
     for (size_t i = 0; i < cable->nAnchors; i++) {
         Anchor a = cable->anchors[i];
         if (!a.visible) continue;
-        const int half_width = 8;
-        Rectangle rect = {a.position.x-half_width, a.position.y-half_width, 2*half_width, 2*half_width};
         Texture2D anchorTexture = getSpriteFromID(SPRITE_ANCHOR_ID);
+        const int half_width = anchorTexture.width / 2.0f;
+        /* Rectangle rect = {a.position.x-half_width, a.position.y-half_width, 2*half_width, 2*half_width}; */
         DrawTexture(anchorTexture, a.position.x-half_width, a.position.y-half_width, WHITE);
     }
 };

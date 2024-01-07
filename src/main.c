@@ -10,7 +10,7 @@ int main(void)
     const int initialScreenWidth = 800;
     const int initialScreenHeight = 450; // 16:9
     InitWindow(initialScreenWidth, initialScreenHeight, "PixelJAM 24");
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
+    SetWindowState(FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_MAXIMIZED);
     InitAudioDevice();
     initializeAssets();
 
