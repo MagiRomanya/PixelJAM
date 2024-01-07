@@ -119,8 +119,9 @@ static inline bool renderVictoryScreen(ApplianceList* a_list) {
     const int screenHeight = GetScreenHeight();
     if (areAllAppliancesConnected(a_list)) {
         const float fontSize = screenHeight/5.0f;
-        const Vector2 textPosition = {screenWidth/4.0f, screenHeight/2.0f};
-        DrawText("VICTORY!", textPosition.x, textPosition.y, fontSize, DARKGREEN);
+        const Vector2 textPosition = {screenWidth/2.0f, screenHeight/2.0f};
+        const char* victoryMessage = "All connected!";
+        DrawText(victoryMessage, textPosition.x - MeasureText(victoryMessage, fontSize) /2.0f, textPosition.y, fontSize, DARKGREEN);
         const float buttonWidth = screenWidth / 10.0f;
         const float buttonHeight = screenHeight / 20.0f;
         const float buttonPositionX = screenWidth/2.0f - buttonWidth/2.0f;

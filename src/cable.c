@@ -43,6 +43,7 @@ bool computeLastSegmentIntersection(Vector2 x1, Vector2 x2, GameColliderList* c_
         Vector2 padding = {0, 0};
         /* printf("criterion = %f\n", Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).x); */
         if (Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).x != 0) padding = (Vector2){-8,0};
+        if (Vector2Subtract(collider->capsule_collider.x1, collider->capsule_collider.x2).y != 0) padding = (Vector2){0,-8};
         Vector2 x3 = Vector2Add(padding, collider->capsule_collider.x1);
         Vector2 x4 = Vector2Subtract(collider->capsule_collider.x2, padding);
         if (do_segments_intersect(x1, x2, x3, x4)) {
@@ -150,6 +151,8 @@ void drawCable(Cable* cable, Player* player, GameColliderList* c_list) {
     // Last cable (red if not)
     Vector2 lastAnchorPos = cableGetLastAnchor(cable)->position;
     bool collided = computeLastSegmentIntersection(computePlayerHandPosition(player), lastAnchorPos, c_list);
+    float cableLength = computeCableLength(cable) + Vector2Distance(computePlayerHandPosition(player), lastAnchorPos);
+    if (cableLength > cable->maxLength) cableColor = RED;
     if (collided) cableColor = RED;
     DrawLineV(lastAnchorPos, computePlayerHandPosition(player), cableColor);
 

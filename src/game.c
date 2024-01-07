@@ -245,16 +245,20 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
             currentScreen = LEVEL_1;
             break;
         }
-        if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_TWO)){
+        else if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_TWO)){
             currentScreen = LEVEL_2;
             break;
         }
-        if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_THREE)){
+        else if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_THREE)){
             currentScreen = LEVEL_3;
             break;
         }
-        if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_FOUR)){
+        else if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_FOUR)){
             currentScreen = LEVEL_4;
+            break;
+        }
+        else if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_FIVE)){
+            currentScreen = LEVEL_5;
             break;
         }
     }
