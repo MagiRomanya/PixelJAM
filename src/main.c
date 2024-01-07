@@ -43,7 +43,11 @@ int main(void)
                 break;
             case LEVEL_3:
                 SetPlayerHat(KING_HAT);
-                currentScreen = runLevel("assets/maps/level3.png", 1300.0f, 1, CREDITS_SCREEN);
+                currentScreen = runLevel("assets/maps/level3.png", 1300.0f, 1, LEVEL_4);
+                break;
+            case LEVEL_4:
+                SetPlayerHat(SAFETY_HAT);
+                currentScreen = runLevel("assets/maps/level4.png", 700.0f, 3, CREDITS_SCREEN);
                 break;
             case CREDITS_SCREEN:
                 currentScreen = showCreditsScreen();

@@ -248,6 +248,10 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
             currentScreen = LEVEL_3;
             break;
         }
+        if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_FOUR)){
+            currentScreen = LEVEL_4;
+            break;
+        }
     }
     bool areAllConnected = areAllAppliancesConnected(&applianceList);
     UnloadRenderTexture(WorldRenderTexture);
@@ -325,9 +329,9 @@ SCREEN showMenuScreen() {
     size_t buttonWidth = 200;
     Texture2D menuScreen = LoadTexture("assets/sprites/game-title.png");
 
-    PlaySound(menuMusicTrack);
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
+        if (!IsSoundPlaying(menuMusicTrack)) PlaySound(menuMusicTrack);
         ClearBackground(BLACK);
         const Rectangle gameTitleSourceRec = {0, 0, 128, 128};
         const float gameTitleWidth = GetScreenWidth() / 3.0f;

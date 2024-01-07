@@ -23,6 +23,7 @@ typedef enum {
 LEVEL_1,
 LEVEL_2,
 LEVEL_3,
+LEVEL_4,
 MENU_SCREEN,
 TITLE_SCREEN,
 QUIT_GAME,
@@ -37,7 +38,6 @@ SCREEN showMenuScreen();
 SCREEN showCreditsScreen();
 
 SCREEN showControlsScreen();
-
 
 SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN nextScreen);
 
