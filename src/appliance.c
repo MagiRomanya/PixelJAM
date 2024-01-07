@@ -26,7 +26,7 @@ Appliance createAppliance(ApplianceType type, Vector2 position) {
             break;
         case LAMP:
             // 24 x 28
-            a.hit_box = (Rectangle){position.x - 8, position.y,0,0, 2*8};
+            a.hit_box = (Rectangle){position.x - 8, position.y - 12 - 8, 24 + 2*8, 28 + 2*8};
             break;
     }
     a.connected = false;
