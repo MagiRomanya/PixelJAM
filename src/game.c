@@ -324,7 +324,7 @@ SCREEN showMenuScreen() {
         int screenWidth = GetScreenWidth();
         int screenHeight = GetScreenHeight();
         size_t centerx =screenWidth/2.0;
-        size_t centery = screenHeight * 0.6f;
+        size_t centery = screenHeight * 0.66f;
         Rectangle buttonPlay = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 - 2.0*buttonHeight, buttonWidth, buttonHeight};
         Rectangle buttonCtrl = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
         Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
