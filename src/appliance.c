@@ -28,6 +28,10 @@ Appliance createAppliance(ApplianceType type, Vector2 position) {
             // 24 x 28
             a.hit_box = (Rectangle){position.x - 8, position.y - 12 - 8, 24 + 2*8, 28 + 2*8};
             break;
+        case CLOCK:
+            // 33x33
+            a.hit_box = (Rectangle){position.x - 8, position.y - 17 - 8, 33 + 2*8, 33 + 2*8+16};
+            break;
     }
     a.connected = false;
     a.animationStage = 1;
@@ -122,6 +126,17 @@ void renderAppliances(ApplianceList* a_list) {
                 }
                 else {
                     DrawTexture(getSpriteFromID(SPRITE_LAMP_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
+                }
+                break;
+            }
+            case CLOCK:
+            {
+                if (a->connected) {
+                    int animationFrames = 8;
+                        renderAnimation(getSpriteFromID(SPRITE_CLOCK_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
+                }
+                else {
+                    DrawTexture(getSpriteFromID(SPRITE_CLOCK_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
                 break;
             }
