@@ -97,7 +97,7 @@ void computePlayerWorldCollisions(Player* player, GameColliderList* clist) {
                 const float normal_aligned_to_vertical = Vector2DotProduct(collision.normal, (Vector2){0.0,-1.0});
                 const float verticallity_threshold = 0.85f;
                 if (verticallity_threshold < normal_aligned_to_vertical) player->grounded = true;
-                if (!player->grounded) player->canDoubleJump = false;
+                // if (!player->grounded) player->canDoubleJump = false;
                 // printf("Collision point = {%f, %f}\n", collision.normal.x, collision.normal.y);
 
                 // collision response
