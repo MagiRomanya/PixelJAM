@@ -17,7 +17,7 @@ Cable createCable(Vector2 initialAnchor, size_t maxAnchors, float maxLength) {
     cable.nMaxAnchors = maxAnchors+1;
     cable.nAnchors = 1;
     cable.anchors = malloc(sizeof(Anchor) * (maxAnchors + 30));
-    cable.anchors[0] = (Anchor){initialAnchor, SPRITE_ANCHOR_ID, true};
+    cable.anchors[0] = (Anchor){initialAnchor, SPRITE_ANCHOR1_ID, true};
     return cable;
 }
 
@@ -68,7 +68,7 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
     Anchor* lastAnchor = cableGetLastAnchor(cable);
     float cableLength = computeCableLength(cable);
     float newFragmentLength = Vector2Distance(position, lastAnchor->position);
-    const int anchorSpriteID = SPRITE_ANCHOR_ID;
+    const int anchorSpriteID = GetRandomValue(SPRITE_ANCHOR1_ID, SPRITE_ANCHOR3_ID);
     if (cableLength + newFragmentLength >= cable->maxLength) {
         PlaySound(getSoundTrackFromID(SOUND_TRACK_ERROR_EFFECT_ID));
         return ANCHOR_NOT_ENOUGH_LENGTH;

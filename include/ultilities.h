@@ -91,7 +91,7 @@ static inline void renderCableLengthUI(Cable* cable, Player* player) {
 }
 
 static inline void renderAnchorsLeftUI(Cable* cable) {
-    Texture2D anchorTexture = getSpriteFromID(SPRITE_ANCHOR_ID);
+    Texture2D anchorTexture = getSpriteFromID(SPRITE_ANCHOR2_ID);
     const float oWidth = anchorTexture.width;
     Rectangle sourceRec = {0.0f, 0.0f, anchorTexture.width, anchorTexture.height};
     const float virtualRatio = getVirtualRatio();
@@ -101,7 +101,7 @@ static inline void renderAnchorsLeftUI(Cable* cable) {
     for (size_t i = 0; i < remainingAnchors; i++) {
         const float frameOffset = 4 * virtualRatio * i;
         Vector2 frameOrigin = Vector2Add(origin, (Vector2){-frameOffset, 0.0f} );
-        DrawTexturePro(getSpriteFromID(SPRITE_ANCHOR_ID), sourceRec, destRec, frameOrigin, 0, GRAY);
+        DrawTexturePro(anchorTexture, sourceRec, destRec, frameOrigin, 0, GRAY);
     }
 }
 
