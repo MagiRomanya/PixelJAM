@@ -124,7 +124,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
     ApplianceList applianceList = createApplianceList();
 
     unsigned long frameCounter = 0;
-    const int backgroundID = GetRandomValue(SPRITE_DIAMONDS_BACKGROUND_ID, SPRITE_HEARTS_BACKGROUND_ID);
+    const int backgroundID = SPRITE_WOOD_BACKGROUND_ID;
 
     loadMap(map_filename, &tileMap, &collider_list, &applianceList, &cable, &player);
 
