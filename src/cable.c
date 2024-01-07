@@ -140,6 +140,7 @@ bool tryRemoveLastAnchor(Cable* cable, ApplianceList* a_list, Vector2 position) 
             Appliance* a = getApplianceFromList(a_list, i);
             if (a->connected && CheckCollisionPointRec(anchor->position, a->hit_box)) {
                 a->connected = false;
+                a->animationStage = 1;
                 cable->nConnectedAppliances--;
                 cable->nMaxAnchors--;
             }
