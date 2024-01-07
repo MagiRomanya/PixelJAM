@@ -330,7 +330,7 @@ SCREEN showMenuScreen() {
     SCREEN currentScreen;
     size_t frameNumber = 0;
     Color buttonColPlay = GRAY;
-    Color buttonColCtrl = GRAY;
+    Color buttonColCredits = GRAY;
     Color buttonColQuit = GRAY;
 
     Sound menuMusicTrack = LoadSound("assets/sound/menu-music.wav");
@@ -353,7 +353,7 @@ SCREEN showMenuScreen() {
         size_t centerx =screenWidth/2.0;
         size_t centery = screenHeight * 0.66f;
         Rectangle buttonPlay = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 - 2.0*buttonHeight, buttonWidth, buttonHeight};
-        Rectangle buttonCtrl = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
+        Rectangle buttonCredits = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
         Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
 
 
@@ -365,15 +365,15 @@ SCREEN showMenuScreen() {
             }
         }
         else  buttonColPlay = GRAY;
-        if(CheckCollisionPointRec(GetMousePosition(), buttonCtrl)) {
-            buttonColCtrl = RED;
+        if(CheckCollisionPointRec(GetMousePosition(), buttonCredits)) {
+            buttonColCredits = RED;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                currentScreen = CONTROLS_SCREEN;
+                currentScreen = CREDITS_SCREEN;
                 break;
             }
         }
         else
-            buttonColCtrl = GRAY;
+            buttonColCredits = GRAY;
         if(CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
             buttonColQuit = RED;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -431,8 +431,8 @@ SCREEN showMenuScreen() {
             // Buttons
             DrawRectangleRec(buttonPlay, buttonColPlay);
             drawTextInsideRectangle(buttonPlay, "Play Game", 20, WHITE);
-            DrawRectangleRec(buttonCtrl, buttonColCtrl);
-            drawTextInsideRectangle(buttonCtrl, "Controls", 20, WHITE);
+            DrawRectangleRec(buttonCredits, buttonColCredits);
+            drawTextInsideRectangle(buttonCredits, "Credits", 20, WHITE);
             DrawRectangleRec(buttonQuit, buttonColQuit);
             drawTextInsideRectangle(buttonQuit, "Quit Game", 20, WHITE);
             frameNumber++;
@@ -468,60 +468,6 @@ SCREEN showCreditsScreen() {
 
             size_t centerx = GetScreenWidth() * 0.6f;
             size_t centery = GetScreenHeight() * 0.6;
-            size_t buttonHeight = 50;
-            size_t buttonWidth = 200;
-            Rectangle buttonMenu = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};
-            Rectangle buttonQuit = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0 + 2.0* buttonHeight, buttonWidth, buttonHeight};
-            if (CheckCollisionPointRec(GetMousePosition(), buttonMenu)) {
-                DrawRectangleRec(buttonMenu, RED);
-                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                    currentScreen = MENU_SCREEN;
-                    break;
-                }
-            }
-            else {
-                DrawRectangleRec(buttonMenu, GRAY);
-            }
-            drawTextInsideRectangle(buttonMenu, "Back to menu", 20, WHITE);
-
-            if (CheckCollisionPointRec(GetMousePosition(), buttonQuit)) {
-                DrawRectangleRec(buttonQuit, RED);
-                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                    currentScreen = QUIT_GAME;
-                    break;
-                }
-            }
-            else {
-                DrawRectangleRec(buttonQuit, GRAY);
-            }
-            drawTextInsideRectangle(buttonQuit, "Quit", 20, WHITE);
-        }
-        EndDrawing();
-    }
-    UnloadTexture(creditsScreen);
-    return currentScreen;
-}
-
-
-SCREEN showControlsScreen() {
-    // Title screen
-    SCREEN currentScreen = QUIT_GAME;
-    SetTargetFPS(60);
-    Texture2D creditsScreen = LoadTexture("assets/sprites/controls.png");
-
-    while (!WindowShouldClose()) {
-        if (GetRandomValue(0, 1000) == 1) {
-            PlaySound(getSoundTrackFromID(SOUND_TRACK_PTERODACTYL_ID));
-        }
-        BeginDrawing();
-        {
-            ClearBackground(BLACK);
-            Rectangle source = {0, 0, 1920, 1080};
-            Rectangle destination = {0,0,GetScreenWidth(), GetScreenHeight()};
-            DrawTexturePro(creditsScreen, source, destination, (Vector2){0}, 0, WHITE);
-
-            size_t centerx = GetScreenWidth() * 0.8f;
-            size_t centery = GetScreenHeight() * 0.8f;
             size_t buttonHeight = 50;
             size_t buttonWidth = 200;
             Rectangle buttonMenu = {centerx - buttonWidth/2.0, centery - buttonHeight/2.0, buttonWidth, buttonHeight};

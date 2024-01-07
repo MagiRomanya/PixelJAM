@@ -30,9 +30,6 @@ int main(void)
             case MENU_SCREEN:
                 currentScreen = showMenuScreen();
                 break;
-            case CONTROLS_SCREEN:
-                currentScreen = showControlsScreen();
-                break;
             case LEVEL_1:
                 SetPlayerHat(IMPORTANT_HAT);
                 currentScreen = runLevel("assets/maps/level1.png", 1000.0f, 0, LEVEL_1, LEVEL_2);
