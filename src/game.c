@@ -107,7 +107,7 @@ void DrawTextureTiled(Texture2D texture, Rectangle source, Rectangle dest, Vecto
     }
 }
 
-SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN nextScreen) {
+SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN levelScreen, SCREEN nextScreen) {
     SCREEN currentScreen = QUIT_GAME;
     GameColliderList collider_list = createGameColliderList();
 
@@ -235,6 +235,11 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
         }
         EndDrawing();
         //----------------------------------------------------------------------------------
+        // Restart level button
+        if (IsKeyDown(KEY_R)) {
+            currentScreen = levelScreen;
+            break;
+        }
         //Jump to an specific level (TESTING)
         if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_ONE)){
             currentScreen = LEVEL_1;
