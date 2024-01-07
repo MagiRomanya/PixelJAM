@@ -191,8 +191,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
         if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
             tryRemoveLastAnchor(&cable, &applianceList, Vector2Add(player.position, (Vector2){16,16}));
         }
-
-        // Draw
+	// Draw
         //----------------------------------------------------------------------------------
         Vector2 cameraPosition = Vector2Add(player.position, (Vector2){-getVirtualScreenWidth()/2.0 + 16,-0.5*getVirtualScreenHeight()});
         PixelPerfectData pp_data = computePixelPerfectData(cameraPosition);
@@ -236,6 +235,16 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
         }
         EndDrawing();
         //----------------------------------------------------------------------------------
+	//Jump to an specific level (TESTING)
+        if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_ONE)){
+            return LEVEL_1;
+        }
+        if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_TWO)){
+            return LEVEL_2;
+        }
+        if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_THREE)){
+            return LEVEL_3;
+        }
     }
     bool areAllConnected = areAllAppliancesConnected(&applianceList);
     UnloadRenderTexture(WorldRenderTexture);
@@ -251,7 +260,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
         return nextScreen;
     }
     else return QUIT_GAME;
-}
+    }
 
 SCREEN showTitleScreen() {
     const float animation_screen_duration = 4.0f;
