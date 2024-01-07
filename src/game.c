@@ -235,15 +235,18 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
         }
         EndDrawing();
         //----------------------------------------------------------------------------------
-	//Jump to an specific level (TESTING)
+        //Jump to an specific level (TESTING)
         if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_ONE)){
-            return LEVEL_1;
+            currentScreen = LEVEL_1;
+            break;
         }
         if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_TWO)){
-            return LEVEL_2;
+            currentScreen = LEVEL_2;
+            break;
         }
         if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_THREE)){
-            return LEVEL_3;
+            currentScreen = LEVEL_3;
+            break;
         }
     }
     bool areAllConnected = areAllAppliancesConnected(&applianceList);
@@ -259,7 +262,8 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
     if (areAllConnected) {
         return nextScreen;
     }
-    else return QUIT_GAME;
+    else if (WindowShouldClose()) return QUIT_GAME;
+    else return currentScreen;
     }
 
 SCREEN showTitleScreen() {
