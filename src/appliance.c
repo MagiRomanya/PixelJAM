@@ -24,6 +24,10 @@ Appliance createAppliance(ApplianceType type, Vector2 position) {
             // 13 x 20
             a.hit_box = (Rectangle){position.x - 8, position.y - 4 - 8, 13 + 2*8, 20 + 2*8};
             break;
+        case LAMP:
+            // 24 x 28
+            a.hit_box = (Rectangle){position.x - 8, position.y,0,0, 2*8};
+            break;
     }
     a.connected = false;
     a.animationStage = 1;
@@ -101,6 +105,23 @@ void renderAppliances(ApplianceList* a_list) {
                     renderAnimation(getSpriteFromID(SPRITE_TELEVISION_ON_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
                 } else {
                     DrawTexture(getSpriteFromID(SPRITE_TELEVISION_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
+                }
+                break;
+            }
+            case LAMP:
+            {
+                if (a->connected) {
+                    if (a->animationStage == 1) {
+                        int animationFrames = 10;
+                        renderAnimation(getSpriteFromID(SPRITE_LAMP_ON_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, animationFrames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
+                        if (a->animationCurrentFrame == animationFrames-1) a->animationStage = 2;
+                    }
+                    else {
+                        DrawTexture(getSpriteFromID(SPRITE_LAMP_ON_STAGE2_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
+                    }
+                }
+                else {
+                    DrawTexture(getSpriteFromID(SPRITE_LAMP_OFF_ID), a->hit_box.x + 8, a->hit_box.y + 8, WHITE);
                 }
                 break;
             }

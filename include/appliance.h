@@ -9,7 +9,8 @@
 typedef enum {
     WASHING_MACHINE,
     BLENDER,
-    TELEVISION
+    TELEVISION,
+    LAMP
 } ApplianceType;
 
 typedef struct {
