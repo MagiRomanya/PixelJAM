@@ -273,6 +273,10 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
             currentScreen = LEVEL_7;
             break;
         }
+        else if(IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_EIGHT)){
+            currentScreen = LEVEL_8;
+            break;
+        }
     }
     UnloadRenderTexture(WorldRenderTexture);
     destroyPlayer(&player);

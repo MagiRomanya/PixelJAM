@@ -81,10 +81,13 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
         return ANCHOR_OBSTRUDED_PATH;
     }
 
+
     // Check if we can connect appliance
     bool connectToAppliance = false;
     for (size_t i = 0; i < a_list->size; i++) {
         Appliance* a = getApplianceFromList(a_list, i);
+        Vector2 applianceCenter = {a->hit_box.x + a->hit_box.width/2.0f, a->hit_box.y + a->hit_box.height/2.0f};
+        /* if (computeLastSegmentIntersection(lastAnchor->position, applianceCenter, c_list)) return ANCHOR_OBSTRUDED_PATH; */
         if (!a->connected && CheckCollisionPointRec(position, a->hit_box)) {
             switch (a->type) {
                 case WASHING_MACHINE:
@@ -96,12 +99,14 @@ PLACE_ANCHOR_RESULT tryCreateAnchor(Cable* cable, GameColliderList* c_list, Appl
                 case TELEVISION:
                     PlaySound(getSoundTrackFromID(SOUND_TRACK_TELEVISION_ID));
                     break;
+                case LAMP:
+                    /* PlaySound(getSoundTrackFromID(SOUND_TRACK_TELEVISION_ID)); */
+                    break;
             }
             connectToAppliance = true;
             a->connected = true;
             cable->nMaxAnchors++;
             cable->nConnectedAppliances++;
-            Vector2 applianceCenter = {a->hit_box.x + a->hit_box.width/2.0f, a->hit_box.y + a->hit_box.height/2.0f};
             cable->anchors[cable->nAnchors] = (Anchor){applianceCenter, anchorSpriteID, false};
             cable->nAnchors++;
             break;

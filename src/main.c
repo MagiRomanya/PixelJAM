@@ -48,16 +48,20 @@ int main(void)
                 currentScreen = runLevel("assets/maps/level4.png", 850.0f, 3, LEVEL_4, LEVEL_5);
                 break;
             case LEVEL_5:
-                SetPlayerHat(TOP_HAT);
+                SetPlayerHat(CHEF_HAT);
                 currentScreen = runLevel("assets/maps/level5.png", 1300.0f, 2, LEVEL_5, LEVEL_6);
                 break;
             case LEVEL_6:
-                SetPlayerHat(TOP_HAT);
+                SetPlayerHat(IMPORTANT_HAT);
                 currentScreen = runLevel("assets/maps/level6.png", 850.0f, 4, LEVEL_6, LEVEL_7);
                 break;
             case LEVEL_7:
-                SetPlayerHat(TOP_HAT);
-                currentScreen = runLevel("assets/maps/level7.png", 850.0f, 6, LEVEL_7, CREDITS_SCREEN);
+                SetPlayerHat(POINTY_HAT);
+                currentScreen = runLevel("assets/maps/level7.png", 850.0f, 6, LEVEL_7, LEVEL_8);
+                break;
+            case LEVEL_8:
+                SetPlayerHat(SAFETY_HAT);
+                currentScreen = runLevel("assets/maps/level8.png", 1500.0f, 1, LEVEL_8, CREDITS_SCREEN);
                 break;
             case CREDITS_SCREEN:
                 currentScreen = showCreditsScreen();
