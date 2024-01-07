@@ -15,7 +15,6 @@ static AssetsContainer assetsContainer;
 
 void initializeAssets() {
     // Sprites
-    assetsContainer.sprites[SPRITE_ANCHOR_ID] = LoadTexture("assets/sprites/anchor.png");
     assetsContainer.sprites[SPRITE_IMPORTANT_HAT_ID] = LoadTexture("assets/sprites/important-hat.png");
     assetsContainer.sprites[SPRITE_IMPORTANT_HATL_ID] = LoadTexture("assets/sprites/important-hatL.png");
     assetsContainer.sprites[SPRITE_SAFETY_HAT_ID] = LoadTexture("assets/sprites/safety-hat.png");
@@ -45,6 +44,9 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_POKER_BACKGROUND_ID] = LoadTexture("assets/sprites/poker-background.png");
     assetsContainer.sprites[SPRITE_CONTROLS_INGAME_ID] = LoadTexture("assets/sprites/controls-ingame.png");
     assetsContainer.sprites[SPRITE_WOOD_BACKGROUND_ID] = LoadTexture("assets/sprites/wood-background.png");
+    assetsContainer.sprites[SPRITE_ANCHOR1_ID] = LoadTexture("assets/sprites/anchor1.png");
+    assetsContainer.sprites[SPRITE_ANCHOR2_ID] = LoadTexture("assets/sprites/anchor2.png");
+    assetsContainer.sprites[SPRITE_ANCHOR3_ID] = LoadTexture("assets/sprites/anchor3.png");
 
     // Tiles
     assetsContainer.sprites[0] = LoadTexture("assets/sprites/tile-test.png");
@@ -76,7 +78,9 @@ void initializeAssets() {
 void destroyAssets() {
     // Sprites
     UnloadTexture(assetsContainer.sprites[0]);
-    UnloadTexture(assetsContainer.sprites[SPRITE_ANCHOR_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_ANCHOR1_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_ANCHOR2_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_ANCHOR3_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_IMPORTANT_HAT_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_IMPORTANT_HATL_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_SAFETY_HAT_ID]);
