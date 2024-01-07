@@ -59,6 +59,12 @@ void loadMap(char *filename , TileMap *t_map, GameColliderList *colliders, Appli
                             addApplianceToList(a_list, createAppliance(TELEVISION, position));
                             break;
                         }
+
+                        case 128:
+                        {
+                            addApplianceToList(a_list, createAppliance(LAMP, position));
+                            break;
+                        }
                         default:
                             break;
                     }
