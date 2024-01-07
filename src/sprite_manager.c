@@ -52,6 +52,9 @@ void initializeAssets() {
     assetsContainer.sprites[SPRITE_LAMP_ON_STAGE2_ID] = LoadTexture("assets/sprites/lamp-on-stage-2.png");
     assetsContainer.sprites[SPRITE_CLOCK_ON_ID] = LoadTexture("assets/sprites/clock-on.png");
     assetsContainer.sprites[SPRITE_CLOCK_OFF_ID] = LoadTexture("assets/sprites/clock-off.png");
+    assetsContainer.sprites[SPRITE_SWITCH_OFF_ID] = LoadTexture("assets/sprites/lamp-off.png");
+    assetsContainer.sprites[SPRITE_SWITCH_ON_STAGE1_ID] = LoadTexture("assets/sprites/lamp-on-stage-1.png");
+    assetsContainer.sprites[SPRITE_SWITCH_ON_STAGE2_ID] = LoadTexture("assets/sprites/lamp-on-stage-2.png");
 
     // Tiles
     assetsContainer.sprites[0] = LoadTexture("assets/sprites/tile-test.png");
@@ -120,6 +123,9 @@ void destroyAssets() {
     UnloadTexture(assetsContainer.sprites[SPRITE_LAMP_ON_STAGE2_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_CLOCK_OFF_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_CLOCK_ON_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_SWITCH_OFF_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_SWITCH_ON_STAGE1_ID]);
+    UnloadTexture(assetsContainer.sprites[SPRITE_SWITCH_ON_STAGE2_ID]);
 
     UnloadTexture(assetsContainer.sprites[SPRITE_BRICK_TILE_ID]);
     UnloadTexture(assetsContainer.sprites[SPRITE_STONE_BRICK_TILE_ID]);
