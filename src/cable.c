@@ -118,12 +118,15 @@ bool tryRemoveLastAnchor(Cable* cable, ApplianceList* a_list, Vector2 position) 
     Anchor* anchor = cableGetLastAnchor(cable);
     if (Vector2Distance(position, anchor->position) > ANCHOR_REMOVE_DISTANCE) return false; // To far away
 
-    for (size_t i = 0; i < a_list->size; i++) {
-        Appliance* a = getApplianceFromList(a_list, i);
-        if (a->connected && CheckCollisionPointRec(anchor->position, a->hit_box)) {
-            a->connected = false;
-            cable->nConnectedAppliances--;
-            cable->nMaxAnchors--;
+    // A non visible anchor means that is connected to an appliance
+    if (!anchor->visible) {
+        for (size_t i = 0; i < a_list->size; i++) {
+            Appliance* a = getApplianceFromList(a_list, i);
+            if (a->connected && CheckCollisionPointRec(anchor->position, a->hit_box)) {
+                a->connected = false;
+                cable->nConnectedAppliances--;
+                cable->nMaxAnchors--;
+            }
         }
     }
     cable->nAnchors--;
