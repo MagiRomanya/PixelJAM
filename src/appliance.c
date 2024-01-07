@@ -32,6 +32,10 @@ Appliance createAppliance(ApplianceType type, Vector2 position) {
             // 33x33
             a.hit_box = (Rectangle){position.x - 8, position.y - 17 - 8, 33 + 2*8, 33 + 2*8+16};
             break;
+        case SWITCH:
+            // 31x15
+            a.hit_box = (Rectangle){position.x - 8, position.y + 1 - 8, 31 + 2*8, 15 + 2*8};
+            break;
     }
     a.connected = false;
     a.animationStage = 1;
@@ -144,12 +148,12 @@ void renderAppliances(ApplianceList* a_list) {
             {
                 if (a->connected) {
                     if (a->animationStage == 1) {
-                        const int stage1frames = 21;
+                        const int stage1frames = 20;
                         renderAnimation(getSpriteFromID(SPRITE_SWITCH_ON_STAGE1_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage1frames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
                         if (a->animationCurrentFrame == stage1frames-1) a->animationStage = 2;
                     }
                     else {
-                        const int stage2frames = 9;
+                        const int stage2frames = 8;
                         renderAnimation(getSpriteFromID(SPRITE_SWITCH_ON_STAGE2_ID), a->hit_box.x + 8, a->hit_box.y + 8, stage2frames, 6, &a->animationFrameCount, &a->animationCurrentFrame);
                     }
                 }
