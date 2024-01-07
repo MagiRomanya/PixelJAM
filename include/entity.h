@@ -41,9 +41,11 @@ struct Player {
 
     // Render
     Texture2D spriteIdle;
-    Texture2D spriteRun;
     Texture2D spriteIdleL;
+    Texture2D spriteRun;
     Texture2D spriteRunL;
+    Texture2D spriteJump;
+    Texture2D spriteJumpL;
 
     // Input
     Vector2 input_vector;

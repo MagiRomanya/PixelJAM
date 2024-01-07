@@ -67,6 +67,8 @@ Player createPlayer() {
     player.spriteRun = LoadTexture("assets/sprites/player-run.png");
     player.spriteIdleL = LoadTexture("assets/sprites/player-idleL.png");
     player.spriteRunL = LoadTexture("assets/sprites/player-runL.png");
+    player.spriteJump = LoadTexture("assets/sprites/player-jump.png");
+    player.spriteJumpL = LoadTexture("assets/sprites/player-jumpL.png");
     player.facing_direction = 1.0f;
     player.mass = 1.0f;
 
@@ -146,7 +148,15 @@ void renderPlayer(Player* player) {
     handPosition.y -= toolSprite.height/2.0f;
     DrawTextureV(toolSprite, handPosition, WHITE);
     const float velThreshold = 2.0f;
-    if (fabsf(player->velocity.x) < velThreshold) {
+    if (!player->grounded) {
+        if (player->facing_direction > 0) {
+            DrawTexture(player->spriteJump, player->position.x, player->position.y, WHITE);
+        }
+        else {
+            DrawTexture(player->spriteJumpL, player->position.x, player->position.y, WHITE);
+        }
+    }
+    else if (fabsf(player->velocity.x) < velThreshold) {
         // IDLE
         if (player->facing_direction > 0) {
             DrawTexture(player->spriteIdle, player->position.x, player->position.y, WHITE);
@@ -170,10 +180,13 @@ void renderPlayer(Player* player) {
 
 void destroyPlayer(Player* player) {
     UnloadTexture(player->spriteIdle);
-    UnloadTexture(player->spriteRun);
-
     UnloadTexture(player->spriteIdleL);
+
+    UnloadTexture(player->spriteRun);
     UnloadTexture(player->spriteRunL);
+
+    UnloadTexture(player->spriteJump);
+    UnloadTexture(player->spriteJumpL);
 }
 
 void playerFrameReset(Player* player) {
