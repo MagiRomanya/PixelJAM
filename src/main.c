@@ -44,7 +44,7 @@ int main(void)
                 break;
             case LEVEL_4:
                 SetPlayerHat(SAFETY_HAT);
-                currentScreen = runLevel("assets/maps/level4.png", 850.0f, 4, LEVEL_4, LEVEL_5);
+                currentScreen = runLevel("assets/maps/level4.png", 850.0f, 6, LEVEL_4, LEVEL_5);
                 break;
             case LEVEL_5:
                 SetPlayerHat(TOP_HAT);

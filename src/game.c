@@ -232,7 +232,10 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
             renderCableLengthUI(&cable, &player);
             renderAnchorsLeftUI(&cable);
             /* DrawFPS(50, 50); */
-            if (!renderVictoryScreen(&applianceList)) break;
+            if (!renderVictoryScreen(&applianceList)) {
+                currentScreen = nextScreen;
+                break;
+            }
         }
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -263,7 +266,6 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
             break;
         }
     }
-    bool areAllConnected = areAllAppliancesConnected(&applianceList);
     UnloadRenderTexture(WorldRenderTexture);
     destroyPlayer(&player);
     destroyCable(&cable);
@@ -273,10 +275,7 @@ SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN
 
     stopAppliancesSounds();
 
-    if (areAllConnected) {
-        return nextScreen;
-    }
-    else if (WindowShouldClose()) return QUIT_GAME;
+    if (WindowShouldClose()) return QUIT_GAME;
     else return currentScreen;
     }
 

@@ -37,7 +37,6 @@ SCREEN showMenuScreen();
 
 SCREEN showCreditsScreen();
 
-
 SCREEN runLevel(char* map_filename, float maxCableLength, int maxAnchors, SCREEN levelScreen, SCREEN nextScreen);
 
 #endif // GAME_H_
