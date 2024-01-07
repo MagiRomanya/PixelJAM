@@ -86,7 +86,7 @@ static inline void renderCableLengthUI(Cable* cable, Player* player) {
     const float remainingCable = (cable->maxLength - cableLength) / cable->maxLength;
     Rectangle cableLengthProgress = {8*virtualRatio + paddingA, 8*virtualRatio +paddingA, remainingCable * (width -2*paddingA), width -paddingB};
     /* DrawRectangleRec(cableLengthBackgound, RED); */
-    DrawRectangleRec(cableLengthProgress, GRAY);
+    DrawRectangleRec(cableLengthProgress, GOLD);
     DrawTexturePro(getSpriteFromID(SPRITE_CABLE_LENGTH_ID), sourceRec, destRec, (Vector2){-8*virtualRatio,-8*virtualRatio}, 0, WHITE);
 }
 
